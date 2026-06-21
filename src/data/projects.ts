@@ -21,6 +21,7 @@ export const projects: Project[] = [
     },
     technologies: ["react", "typescript", "tailwindcss", "vite"],
     githubUrl: "https://github.com/dierodfer/CatchTheKiller",
+    liveUrl: "https://dierodfer.github.io/CatchTheKiller/",
     icon: "catchthekiller.png",
   },
   {
@@ -32,6 +33,7 @@ export const projects: Project[] = [
     },
     technologies: ["react", "javascript", "supabase", "tailwindcss", "vite"],
     githubUrl: "https://github.com/dierodfer/ArenaQuiz",
+    liveUrl: "https://dierodfer.github.io/ArenaQuiz/",
     icon: "arenaquiz.svg",
   },
   {
@@ -43,6 +45,7 @@ export const projects: Project[] = [
     },
     technologies: ["react", "typescript", "vite"],
     githubUrl: "https://github.com/dierodfer/queeens",
+    liveUrl: "https://dierodfer.github.io/queeens/",
     icon: "queeens.png",
   },
   {
@@ -79,5 +82,6 @@ export const projects: Project[] = [
     },
     technologies: ["angular", "typescript", "firebase", "pwa", "openlayers"],
     githubUrl: "https://github.com/dierodfer/planificador-tareas-agronomo",
+    liveUrl: "https://angular-222712.web.app",
   },
 ];
