@@ -32,6 +32,7 @@ export const projects: Project[] = [
     },
     technologies: ["react", "javascript", "supabase", "tailwindcss", "vite"],
     githubUrl: "https://github.com/dierodfer/ArenaQuiz",
+    icon: "arenaquiz.svg",
   },
   {
     id: "queeens",
@@ -76,7 +77,7 @@ export const projects: Project[] = [
       en: "Task planner tailored for agronomy management and field scheduling.",
       es: "Planificador de tareas para gestión agrónoma y programación de campo.",
     },
-    technologies: ["typescript"],
+    technologies: ["angular", "typescript", "firebase", "pwa", "openlayers"],
     githubUrl: "https://github.com/dierodfer/planificador-tareas-agronomo",
   },
 ];

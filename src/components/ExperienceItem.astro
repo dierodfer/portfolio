@@ -13,8 +13,8 @@ const { entry, lang, stagger } = Astro.props;
 ---
 
 <div
-  class:list={["timeline-item", "filter-match", "animate-on-scroll", `stagger-${stagger}`]}
-  data-technologies={entry.technologies.join(",")}
+  id={`exp-${entry.id}`}
+  class:list={["timeline-item", "flashable", "animate-on-scroll", `stagger-${stagger}`]}
 >
   <span class="timeline-period font-mono">{entry.period[lang]}</span>
   <h3 class="timeline-company">

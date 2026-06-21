@@ -1,42 +1,74 @@
 ---
-// Cross-section filter: clicking a technology chip highlights the matching
-// projects and experience entries and dims the rest. Click again to clear.
+// Skills popover controller: clicking a skill chip opens a panel listing the
+// projects and experience entries that use it; selecting one scrolls to it.
+// One popover open at a time; closes on outside click, Escape, or selection.
 ---
 
 <script>
-  const chips = document.querySelectorAll<HTMLButtonElement>(".tech-chip[data-tech-id]");
-  // Every element that declares which technologies it uses.
-  const filterables = document.querySelectorAll<HTMLElement>("[data-technologies]");
+  const skills = Array.from(
+    document.querySelectorAll<HTMLElement>(".skill.is-linked"),
+  );
 
-  let active: string | null = null;
+  let openSkill: HTMLElement | null = null;
 
-  function apply(techId: string | null) {
-    // Toggle chip active state
-    chips.forEach((chip) =>
-      chip.classList.toggle("tech-active", chip.dataset.techId === techId),
-    );
-
-    filterables.forEach((el) => {
-      if (!techId) {
-        el.classList.remove("filtered-out");
-        return;
-      }
-      const techs = (el.dataset.technologies ?? "").split(",");
-      el.classList.toggle("filtered-out", !techs.includes(techId));
-    });
+  function close(skill: HTMLElement | null) {
+    if (!skill) return;
+    skill.classList.remove("open", "flip-right");
+    skill
+      .querySelector<HTMLButtonElement>(".skill-chip")
+      ?.setAttribute("aria-expanded", "false");
+    if (openSkill === skill) openSkill = null;
   }
 
-  chips.forEach((chip) => {
-    chip.addEventListener("click", () => {
-      const id = chip.dataset.techId ?? null;
-      active = active === id ? null : id;
-      apply(active);
+  function open(skill: HTMLElement) {
+    if (openSkill && openSkill !== skill) close(openSkill);
+    skill.classList.add("open");
+    skill
+      .querySelector<HTMLButtonElement>(".skill-chip")
+      ?.setAttribute("aria-expanded", "true");
+    openSkill = skill;
 
-      // When a filter activates, gently scroll to the projects section.
-      if (active) {
-        const target = document.getElementById("proyectos");
-        target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Flip the panel to the right edge if it would overflow the viewport.
+    const pop = skill.querySelector<HTMLElement>(".skill-pop");
+    if (pop) {
+      skill.classList.remove("flip-right");
+      const rect = pop.getBoundingClientRect();
+      if (rect.right > window.innerWidth - 12) {
+        skill.classList.add("flip-right");
+      }
+    }
+  }
+
+  skills.forEach((skill) => {
+    const chip = skill.querySelector<HTMLButtonElement>(".skill-chip");
+    chip?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (skill.classList.contains("open")) {
+        close(skill);
+      } else {
+        open(skill);
       }
     });
+
+    // Selecting a related item closes the popover; the href handles navigation.
+    skill.querySelectorAll<HTMLAnchorElement>(".pop-item").forEach((item) => {
+      item.addEventListener("click", () => close(skill));
+    });
+  });
+
+  // Click outside closes the open popover.
+  document.addEventListener("click", (e) => {
+    if (openSkill && !openSkill.contains(e.target as Node)) {
+      close(openSkill);
+    }
+  });
+
+  // Escape closes and returns focus to the chip.
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && openSkill) {
+      const chip = openSkill.querySelector<HTMLButtonElement>(".skill-chip");
+      close(openSkill);
+      chip?.focus();
+    }
   });
 </script>
