@@ -1,9 +1,9 @@
 {
   "nav": {
-    "projects": "Projects",
-    "technologies": "Skills",
+    "home": "Home",
     "experience": "Experience",
-    "contact": "Contact"
+    "technologies": "Skills",
+    "projects": "Projects"
   },
   "hero": {
     "greeting": "Hi, I'm",
@@ -17,9 +17,7 @@
     "technologiesTitle": "Skills",
     "technologiesHint": "Tap a skill to see where I've used it",
     "experienceTag": "Career",
-    "experienceTitle": "Experience",
-    "contactTag": "Let's talk",
-    "contactTitle": "Contact"
+    "experienceTitle": "Experience"
   },
   "projects": {
     "liveDemo": "Live demo",
@@ -33,10 +31,6 @@
     "emailLabel": "Email",
     "githubLabel": "GitHub",
     "linkedinLabel": "LinkedIn"
-  },
-  "footer": {
-    "builtWith": "Built with Astro",
-    "designedBy": "Designed & developed by"
   },
   "a11y": {
     "skipToContent": "Skip to content"

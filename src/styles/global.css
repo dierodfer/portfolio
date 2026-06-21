@@ -63,9 +63,22 @@ ol {
 /* ===== Base ===== */
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
   transition:
     background-color 0.4s ease,
     color 0.4s ease;
+}
+
+/* ===== Full-page scroll-snap sections ===== */
+main > section {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding: 5rem 0 3rem;
+  position: relative;
 }
 
 body {
@@ -261,11 +274,23 @@ main:focus-visible {
     opacity: 1;
     transition: none;
   }
+  /* Snapping changes scroll feel — disable when motion is reduced */
+  html {
+    scroll-snap-type: none;
+  }
 }
 
-/* ===== Grain off on mobile (perf) ===== */
+/* ===== Mobile: normal flow instead of forced snapping ===== */
 @media (max-width: 768px) {
   .grain::before {
     display: none;
+  }
+  html {
+    scroll-snap-type: none;
+  }
+  main > section {
+    min-height: auto;
+    display: block;
+    padding: 4.5rem 0 2rem;
   }
 }

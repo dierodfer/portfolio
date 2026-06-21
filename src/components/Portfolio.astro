@@ -2,15 +2,13 @@
 import type { Lang } from "../i18n/i18n";
 import { t } from "../i18n/i18n";
 import Layout from "../layouts/Layout.astro";
-import Navbar from "./Navbar.astro";
+import FloatingControls from "./FloatingControls.astro";
+import SectionNav from "./SectionNav.astro";
 import ScrollProgress from "./ScrollProgress.astro";
 import Hero from "./Hero.astro";
-import SectionDivider from "./SectionDivider.astro";
 import Projects from "./Projects.astro";
 import Technologies from "./Technologies.astro";
 import Experience from "./Experience.astro";
-import Contact from "./Contact.astro";
-import Footer from "./Footer.astro";
 import TechFilter from "./TechFilter.astro";
 
 interface Props {
@@ -23,18 +21,13 @@ const { lang } = Astro.props;
 <Layout lang={lang}>
   <a href="#main" class="skip-link">{t("a11y.skipToContent", lang)}</a>
   <ScrollProgress />
-  <Navbar lang={lang} />
+  <FloatingControls lang={lang} />
+  <SectionNav lang={lang} />
   <main id="main" tabindex="-1">
     <Hero lang={lang} />
-    <SectionDivider />
     <Experience lang={lang} />
-    <SectionDivider />
     <Technologies lang={lang} />
-    <SectionDivider />
     <Projects lang={lang} />
-    <SectionDivider />
-    <Contact lang={lang} />
   </main>
-  <Footer lang={lang} />
   <TechFilter />
 </Layout>

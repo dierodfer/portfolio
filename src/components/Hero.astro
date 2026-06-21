@@ -26,29 +26,48 @@ const { lang } = Astro.props;
     <p class="hero-tagline hero-anim" style="animation-delay:0.65s">
       {personal.tagline[lang]}
     </p>
-    <div class="hero-ctas hero-anim" style="animation-delay:0.8s">
-      <a href="#contacto" class="btn btn-primary"
-        >{t("hero.ctaContact", lang)}</a
-      >
+
+    <div class="hero-actions hero-anim" style="animation-delay:0.8s">
+      <a href={`mailto:${personal.email}`} class="btn btn-primary">
+        <Icon name="mail" size={16} />
+        {t("hero.ctaContact", lang)}
+      </a>
       <a
         href={personal.github}
         target="_blank"
         rel="noopener"
         class="btn btn-secondary"
+        aria-label={t("contact.githubLabel", lang)}
       >
         <Icon name="github" size={16} />
         {t("hero.ctaGithub", lang)}
       </a>
+      <a
+        href={personal.linkedin}
+        target="_blank"
+        rel="noopener"
+        class="btn btn-secondary"
+        aria-label={t("contact.linkedinLabel", lang)}
+      >
+        <Icon name="linkedin" size={16} />
+        {t("contact.linkedinLabel", lang)}
+      </a>
     </div>
+
+    <a
+      href={`mailto:${personal.email}`}
+      class="hero-email font-mono hero-anim"
+      style="animation-delay:0.95s"
+    >
+      {personal.email}
+    </a>
   </div>
 </section>
 
 <style>
   .hero {
     position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
+    width: 100%;
     overflow: hidden;
   }
   .hero-bg {
@@ -66,7 +85,7 @@ const { lang } = Astro.props;
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
-    padding: 6rem 2rem 2rem;
+    padding: 0 2rem;
   }
   .hero-greeting {
     color: var(--color-accent);
@@ -93,10 +112,11 @@ const { lang } = Astro.props;
     line-height: 1.7;
     margin-bottom: 2.5rem;
   }
-  .hero-ctas {
+  .hero-actions {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    margin-bottom: 1.75rem;
   }
   .btn {
     display: inline-flex;
@@ -129,5 +149,15 @@ const { lang } = Astro.props;
   .btn-secondary:hover {
     border-color: var(--color-accent);
     transform: translateY(-2px);
+  }
+  .hero-email {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.02em;
+    transition: color 0.3s;
+  }
+  .hero-email:hover {
+    color: var(--color-accent-lighter);
   }
 </style>

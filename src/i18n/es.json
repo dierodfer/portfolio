@@ -1,9 +1,9 @@
 {
   "nav": {
-    "projects": "Proyectos",
-    "technologies": "Habilidades",
+    "home": "Inicio",
     "experience": "Experiencia",
-    "contact": "Contacto"
+    "technologies": "Habilidades",
+    "projects": "Proyectos"
   },
   "hero": {
     "greeting": "Hola, soy",
@@ -17,9 +17,7 @@
     "technologiesTitle": "Habilidades",
     "technologiesHint": "Pulsa una habilidad para ver dónde la he usado",
     "experienceTag": "Trayectoria",
-    "experienceTitle": "Experiencia",
-    "contactTag": "Hablemos",
-    "contactTitle": "Contacto"
+    "experienceTitle": "Experiencia"
   },
   "projects": {
     "liveDemo": "Ver app",
@@ -33,10 +31,6 @@
     "emailLabel": "Email",
     "githubLabel": "GitHub",
     "linkedinLabel": "LinkedIn"
-  },
-  "footer": {
-    "builtWith": "Hecho con Astro",
-    "designedBy": "Diseñado y desarrollado por"
   },
   "a11y": {
     "skipToContent": "Saltar al contenido"
