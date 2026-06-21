@@ -66,6 +66,8 @@ export const technologies: TechCategory[] = [
 export const extraTech: TechItem[] = [
   { id: "wails", name: "Wails", icon: "wails.svg" },
   { id: "boltdb", name: "BoltDB", icon: "boltdb.svg" },
+  { id: "windows", name: "Windows", icon: "windows.svg" },
+  { id: "macos", name: "macOS", icon: "macos.svg" },
 ];
 
 /** Flat lookup of every tech by id, for rendering icons in projects/experience. */

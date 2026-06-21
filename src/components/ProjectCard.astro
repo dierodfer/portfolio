@@ -14,6 +14,7 @@ interface Props {
 const { project, lang, stagger } = Astro.props;
 const link = project.liveUrl ?? project.githubUrl;
 const hasIcon = !!project.icon;
+const hasPlatforms = !!project.platforms?.length;
 ---
 
 <article
@@ -49,6 +50,11 @@ const hasIcon = !!project.icon;
       <div class="card-tech">
         {project.technologies.map((id) => <TechIcon id={id} size={20} mini />)}
       </div>
+      {hasPlatforms && (
+        <div class="card-platforms">
+          {project.platforms!.map((id) => <TechIcon id={id} size={16} />)}
+        </div>
+      )}
     </div>
 
     <span class="card-cta font-mono">{t("projects.viewProject", lang)} →</span>
@@ -162,6 +168,21 @@ const hasIcon = !!project.icon;
     gap: 0.6rem;
     align-items: center;
   }
+  .card-platforms {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    margin-top: 0.6rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    width: fit-content;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+  }
+  .project-card:hover .card-platforms { opacity: 1; }
+
   .card-cta {
     font-size: 0.75rem;
     color: var(--color-accent);

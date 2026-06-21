@@ -5,6 +5,7 @@ export interface Project {
   title: Localized;
   description: Localized;
   technologies: string[]; // tech ids, cross-referenced with technologies.ts
+  platforms?: string[]; // platform tech ids shown as badges (e.g. windows, macos, linux)
   githubUrl?: string;
   liveUrl?: string;
   icon?: string; // filename in public/icons/projects/
@@ -44,16 +45,6 @@ export const projects: Project[] = [
     icon: "queeens.png",
   },
   {
-    id: "comicstore",
-    title: { en: "Comic Store", es: "Tienda de Cómics" },
-    description: {
-      en: "A beautiful comic store front with an engaging, responsive interface.",
-      es: "Una atractiva tienda de cómics con una interfaz responsive y cuidada.",
-    },
-    technologies: ["react", "javascript", "tailwindcss", "vite"],
-    githubUrl: "https://github.com/dierodfer/beautiful-comic-store",
-  },
-  {
     id: "desktasks",
     title: { en: "Desk Tasks", es: "Desk Tasks" },
     description: {
@@ -61,6 +52,7 @@ export const projects: Project[] = [
       es: "Gestor de tareas de escritorio ligero con edición inline. Productividad sin distracciones.",
     },
     technologies: ["go", "wails", "react", "typescript", "boltdb"],
+    platforms: ["windows", "macos", "linux"],
     githubUrl: "https://github.com/dierodfer/desk-tasks",
     icon: "desktasks.png",
   },
