@@ -1,25 +1,35 @@
 # Portfolio — Diego Rodríguez Fernández
 
-Personal developer portfolio built with [Astro](https://astro.build) and
-[Tailwind CSS v4](https://tailwindcss.com). Single-page, bilingual (EN/ES),
-with dark/light mode and an interactive technology filter that highlights the
-projects and experience where each technology was used.
+[![Astro](https://img.shields.io/badge/Astro-6-bc52ee?logo=astro&logoColor=white)](https://astro.build)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![CSS](https://img.shields.io/badge/CSS-Native-1572b6?logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-222?logo=githubpages&logoColor=white)](https://dierodfer.github.io/portfolio/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+Personal developer portfolio — single-page, bilingual (EN/ES), with dark/light
+mode and an interactive technology filter that highlights the projects and
+experience where each technology was used.
+
+> **Live:** [dierodfer.github.io/portfolio](https://dierodfer.github.io/portfolio/)
 
 ## Features
 
-- **Bento-grid projects** with featured layouts
+- **Bento-grid projects** with featured layouts (2×2, 2×1, 1×1)
 - **Icon-only technology stack** — click any technology to filter projects and experience
 - **Bilingual** — English (default) at `/portfolio/`, Spanish at `/portfolio/es/`
 - **Dark / light mode** with persisted preference
 - **Scroll-reveal animations**, glassmorphic navbar, grain texture, scroll progress bar
-- **Zero runtime dependencies** beyond Astro + Tailwind; static output
+- **Zero runtime dependencies** — single dependency (`astro`), pure CSS styling
 
 ## Tech stack
 
-- Astro 5 (static output)
-- Tailwind CSS v4 (via `@tailwindcss/vite`)
-- TypeScript
-- Technology icons from [Devicon](https://devicon.dev) (stored locally in `public/icons/tech/`)
+| Technology | Purpose |
+| --- | --- |
+| [Astro 6](https://astro.build) | Static site generation, zero JS by default |
+| [TypeScript](https://www.typescriptlang.org) | Type-safe data models and helpers |
+| CSS native | Custom properties, scoped styles, keyframes, IntersectionObserver |
+| [Devicon](https://devicon.dev) | Technology SVG icons (stored locally) |
+| [GitHub Actions](https://docs.github.com/en/actions) | CI/CD deploy to GitHub Pages |
 
 ## Development
 
