@@ -22,7 +22,8 @@
     "contactTitle": "Contacto"
   },
   "projects": {
-    "viewProject": "Ver proyecto",
+    "liveDemo": "Ver app",
+    "sourceCode": "Código fuente",
     "present": "Actualidad"
   },
   "experience": {

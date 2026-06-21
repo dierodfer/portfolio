@@ -22,7 +22,8 @@
     "contactTitle": "Contact"
   },
   "projects": {
-    "viewProject": "View project",
+    "liveDemo": "Live demo",
+    "sourceCode": "Source code",
     "present": "Present"
   },
   "experience": {

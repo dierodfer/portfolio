@@ -41,7 +41,7 @@ export const experience: ExperienceEntry[] = [
         es: "Streaming de eventos con Kafka y desarrollo asistido por IA (Claude Code, Codex).",
       },
     ],
-    technologies: ["java", "spring", "azure", "kubernetes", "kafka", "typescript"],
+    technologies: ["java", "spring", "react", "kafka", "azure", "kubernetes", "postgresql"],
   },
   {
     id: "capgemini-roche",
@@ -71,7 +71,7 @@ export const experience: ExperienceEntry[] = [
         es: "Desarrollo y gestión de Kubernetes.",
       },
     ],
-    technologies: ["aws", "terraform", "githubactions", "kubernetes", "docker", "git"],
+    technologies: ["go", "java", "aws", "kubernetes", "docker", "terraform", "linux", "githubactions", "git"],
   },
   {
     id: "capgemini-mercadona",
@@ -127,7 +127,7 @@ export const experience: ExperienceEntry[] = [
         es: "Desarrollo de consumers/producers de Kafka, APIs y micro-frontends.",
       },
     ],
-    technologies: ["aws", "java", "kafka", "javascript"],
+    technologies: ["java", "spring", "angular", "aws", "kafka"],
   },
   {
     id: "konecta",
@@ -152,7 +152,7 @@ export const experience: ExperienceEntry[] = [
         es: "Generación de informes personalizados.",
       },
     ],
-    technologies: ["jquery", "javascript", "java"],
+    technologies: ["java", "spring", "jquery", "javascript"],
   },
   {
     id: "everis",
@@ -169,6 +169,6 @@ export const experience: ExperienceEntry[] = [
         es: "Desarrollo de frontend y servicios REST API para un portal web sobre Drupal.",
       },
     ],
-    technologies: ["jquery", "angular", "javascript", "css"],
+    technologies: ["jquery", "angular", "spring", "java"],
   },
 ];

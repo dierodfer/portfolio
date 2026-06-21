@@ -155,6 +155,15 @@ function relatedFor(id: string) {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 2.5rem;
+    overflow: visible;
+  }
+  .tech-category {
+    overflow: visible;
+  }
+  /* After scroll-reveal completes, remove the transform so the category
+     no longer creates a stacking context that traps popover z-index. */
+  .tech-category.visible {
+    transform: none;
   }
   .tech-cat-title {
     font-size: 0.7rem;
