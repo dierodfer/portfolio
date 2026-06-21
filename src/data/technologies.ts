@@ -81,3 +81,12 @@ export const techById: Record<string, TechItem> = Object.fromEntries(
     item,
   ]),
 );
+
+export function assertTechIds(ids: string[], context: string): void {
+  if (!import.meta.env.DEV) return;
+  for (const id of ids) {
+    if (!techById[id]) {
+      console.warn(`[tech] Unknown tech id "${id}" in ${context}`);
+    }
+  }
+}

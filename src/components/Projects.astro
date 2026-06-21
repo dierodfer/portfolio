@@ -2,6 +2,7 @@
 import type { Lang } from "../i18n/i18n";
 import { t } from "../i18n/i18n";
 import { projects } from "../data/projects";
+import Section from "./Section.astro";
 import ProjectCard from "./ProjectCard.astro";
 
 interface Props {
@@ -11,42 +12,17 @@ interface Props {
 const { lang } = Astro.props;
 ---
 
-<section id="proyectos" class="section">
-  <div class="container">
-    <p class="section-tag font-mono animate-on-scroll">{t("sections.projectsTag", lang)}</p>
-    <h2 class="section-heading animate-on-scroll">{t("sections.projectsTitle", lang)}</h2>
-
-    <div class="bento-grid">
-      {
-        projects.map((project, i) => (
-          <ProjectCard project={project} lang={lang} stagger={(i % 6) + 1} />
-        ))
-      }
-    </div>
+<Section id="proyectos" tag={t("sections.projectsTag", lang)} title={t("sections.projectsTitle", lang)}>
+  <div class="bento-grid">
+    {
+      projects.map((project, i) => (
+        <ProjectCard project={project} lang={lang} stagger={(i % 6) + 1} />
+      ))
+    }
   </div>
-</section>
+</Section>
 
 <style>
-  .section { padding: 2rem 0; }
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-  .section-tag {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--color-accent);
-    margin-bottom: 0.5rem;
-  }
-  .section-heading {
-    font-size: 2.25rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-bottom: 3rem;
-  }
   .bento-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import type { Lang } from "../i18n/i18n";
+import { langPath, defaultLang } from "../i18n/i18n";
 import { personal } from "../data/personal";
 import { withBase } from "../lib/paths";
 
@@ -13,6 +14,23 @@ interface Props {
 const { lang, title, description } = Astro.props;
 const pageTitle = title ?? `${personal.name} — ${personal.role[lang]}`;
 const pageDesc = description ?? personal.tagline[lang];
+
+const base = import.meta.env.BASE_URL;
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "";
+const canonicalPath = langPath(lang, base);
+const canonicalUrl = `${siteUrl}${canonicalPath}`;
+const alternateLang = lang === "en" ? "es" : "en";
+const alternateUrl = `${siteUrl}${langPath(alternateLang as Lang, base)}`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: personal.name,
+  jobTitle: personal.role[defaultLang],
+  url: `${siteUrl}${langPath(defaultLang, base)}`,
+  sameAs: [personal.github, personal.linkedin],
+  email: personal.email,
+};
 ---
 
 <!doctype html>
@@ -24,11 +42,26 @@ const pageDesc = description ?? personal.tagline[lang];
     <title>{pageTitle}</title>
     <meta name="description" content={pageDesc} />
 
+    <!-- Canonical + hreflang -->
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang={lang} href={canonicalUrl} />
+    <link rel="alternate" hreflang={alternateLang} href={alternateUrl} />
+    <link rel="alternate" hreflang="x-default" href={`${siteUrl}${langPath(defaultLang, base)}`} />
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDesc} />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={lang === "en" ? "en_US" : "es_ES"} />
+    <meta property="og:locale:alternate" content={lang === "en" ? "es_ES" : "en_US"} />
+    <meta property="og:site_name" content={personal.name} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDesc} />
+
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -53,10 +86,8 @@ const pageDesc = description ?? personal.tagline[lang];
 
     <!-- Reveal body + scroll animations -->
     <script>
-      // Fade in the page once parsed
       requestAnimationFrame(() => document.body.classList.add("loaded"));
 
-      // Scroll-reveal via IntersectionObserver (cross-browser)
       const reveal = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {

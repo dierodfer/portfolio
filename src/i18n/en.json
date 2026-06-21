@@ -23,14 +23,9 @@
   },
   "projects": {
     "liveDemo": "Live demo",
-    "sourceCode": "Source code",
-    "present": "Present"
-  },
-  "experience": {
-    "present": "Present"
+    "sourceCode": "Source code"
   },
   "skills": {
-    "usedIn": "Used in",
     "project": "Project",
     "experience": "Experience"
   },
