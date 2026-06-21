@@ -8,17 +8,28 @@ export const defaultLang: Lang = "en";
 
 const dictionaries = { en, es } as const;
 
-type FlatKeys<T, Prefix extends string = ""> = T extends Record<string, unknown>
-  ? { [K in keyof T & string]: FlatKeys<T[K], Prefix extends "" ? K : `${Prefix}.${K}`> }[keyof T & string]
-  : Prefix;
+type FlatKeys<T, Prefix extends string = ""> =
+  T extends Record<string, unknown>
+    ? {
+        [K in keyof T & string]: FlatKeys<
+          T[K],
+          Prefix extends "" ? K : `${Prefix}.${K}`
+        >;
+      }[keyof T & string]
+    : Prefix;
 
 export type TranslationKey = FlatKeys<typeof en>;
+
+/** Keys available under the "nav" namespace, for type-safe navigation data. */
+export type NavKey = keyof typeof en.nav;
 
 if (import.meta.env.DEV) {
   const flatKeys = (obj: Record<string, unknown>, prefix = ""): string[] =>
     Object.entries(obj).flatMap(([k, v]) => {
       const key = prefix ? `${prefix}.${k}` : k;
-      return typeof v === "object" && v ? flatKeys(v as Record<string, unknown>, key) : [key];
+      return typeof v === "object" && v
+        ? flatKeys(v as Record<string, unknown>, key)
+        : [key];
     });
   const enKeys = flatKeys(en).sort().join(",");
   const esKeys = flatKeys(es).sort().join(",");

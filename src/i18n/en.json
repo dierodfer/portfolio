@@ -37,5 +37,8 @@
   "footer": {
     "builtWith": "Built with Astro",
     "designedBy": "Designed & developed by"
+  },
+  "a11y": {
+    "skipToContent": "Skip to content"
   }
 }

@@ -12,7 +12,12 @@ interface Props {
 const { lang } = Astro.props;
 ---
 
-<Section id="experiencia" tag={t("sections.experienceTag", lang)} title={t("sections.experienceTitle", lang)} narrow>
+<Section
+  id="experiencia"
+  tag={t("sections.experienceTag", lang)}
+  title={t("sections.experienceTitle", lang)}
+  narrow
+>
   <div class="timeline">
     {
       experience.map((entry, i) => (

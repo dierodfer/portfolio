@@ -27,8 +27,15 @@ const { lang } = Astro.props;
       {personal.tagline[lang]}
     </p>
     <div class="hero-ctas hero-anim" style="animation-delay:0.8s">
-      <a href="#contacto" class="btn btn-primary">{t("hero.ctaContact", lang)}</a>
-      <a href={personal.github} target="_blank" rel="noopener" class="btn btn-secondary">
+      <a href="#contacto" class="btn btn-primary"
+        >{t("hero.ctaContact", lang)}</a
+      >
+      <a
+        href={personal.github}
+        target="_blank"
+        rel="noopener"
+        class="btn btn-secondary"
+      >
         <Icon name="github" size={16} />
         {t("hero.ctaGithub", lang)}
       </a>
@@ -100,7 +107,10 @@ const { lang } = Astro.props;
     font-size: 0.9rem;
     font-weight: 600;
     text-decoration: none;
-    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    transition:
+      transform 0.3s,
+      box-shadow 0.3s,
+      border-color 0.3s;
   }
   .btn-primary {
     background: var(--color-text);

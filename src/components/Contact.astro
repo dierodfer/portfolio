@@ -36,7 +36,11 @@ const links = [
 ];
 ---
 
-<Section id="contacto" tag={t("sections.contactTag", lang)} title={t("sections.contactTitle", lang)}>
+<Section
+  id="contacto"
+  tag={t("sections.contactTag", lang)}
+  title={t("sections.contactTitle", lang)}
+>
   <div class="contact-grid">
     {
       links.map((l, i) => (
@@ -74,7 +78,10 @@ const links = [
     background: var(--color-bg-card);
     text-decoration: none;
     color: var(--color-text);
-    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    transition:
+      transform 0.3s,
+      border-color 0.3s,
+      box-shadow 0.3s;
   }
   .contact-card:hover {
     transform: translateY(-4px);
@@ -101,6 +108,8 @@ const links = [
     color: var(--color-text-secondary);
   }
   @media (max-width: 768px) {
-    .contact-grid { grid-template-columns: 1fr; }
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

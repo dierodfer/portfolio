@@ -21,17 +21,24 @@ const hasGithub = !!project.githubUrl;
 
 <article
   id={`project-${project.id}`}
-  class:list={["project-card", "flashable", "animate-on-scroll", `stagger-${stagger}`]}
+  class:list={[
+    "project-card",
+    "flashable",
+    "animate-on-scroll",
+    `stagger-${stagger}`,
+  ]}
 >
-  {hasIcon && (
-    <img
-      src={withBase(`icons/projects/${project.icon}`)}
-      alt=""
-      class="card-bg-icon"
-      aria-hidden="true"
-      loading="lazy"
-    />
-  )}
+  {
+    hasIcon && (
+      <img
+        src={withBase(`icons/projects/${project.icon}`)}
+        alt=""
+        class="card-bg-icon"
+        aria-hidden="true"
+        loading="lazy"
+      />
+    )
+  }
 
   <div class="card-body">
     <h3 class="card-title">{project.title[lang]}</h3>
@@ -39,26 +46,44 @@ const hasGithub = !!project.githubUrl;
     <div class="card-tech">
       {project.technologies.map((id) => <TechIcon id={id} size={20} mini />)}
     </div>
-    {hasPlatforms && (
-      <div class="card-platforms">
-        {project.platforms!.map((id) => <TechIcon id={id} size={16} />)}
-      </div>
-    )}
+    {
+      hasPlatforms && (
+        <div class="card-platforms">
+          {project.platforms!.map((id) => (
+            <TechIcon id={id} size={16} />
+          ))}
+        </div>
+      )
+    }
   </div>
 
   <div class="card-actions">
-    {hasLive && (
-      <a href={project.liveUrl} target="_blank" rel="noopener" class="card-btn card-btn-primary">
-        <Icon name="external" size={15} />
-        <span>{t("projects.liveDemo", lang)}</span>
-      </a>
-    )}
-    {hasGithub && (
-      <a href={project.githubUrl} target="_blank" rel="noopener" class="card-btn card-btn-secondary">
-        <Icon name="github" size={15} />
-        <span>{t("projects.sourceCode", lang)}</span>
-      </a>
-    )}
+    {
+      hasLive && (
+        <a
+          href={project.liveUrl}
+          target="_blank"
+          rel="noopener"
+          class="card-btn card-btn-primary"
+        >
+          <Icon name="external" size={15} />
+          <span>{t("projects.liveDemo", lang)}</span>
+        </a>
+      )
+    }
+    {
+      hasGithub && (
+        <a
+          href={project.githubUrl}
+          target="_blank"
+          rel="noopener"
+          class="card-btn card-btn-secondary"
+        >
+          <Icon name="github" size={15} />
+          <span>{t("projects.sourceCode", lang)}</span>
+        </a>
+      )
+    }
   </div>
 </article>
 
@@ -88,7 +113,9 @@ const hasGithub = !!project.githubUrl;
     transition: opacity 0.4s;
     pointer-events: none;
   }
-  .project-card:hover::before { opacity: 1; }
+  .project-card:hover::before {
+    opacity: 1;
+  }
   .project-card:hover {
     border-color: var(--color-accent-light);
     transform: translateY(-4px);
@@ -109,7 +136,9 @@ const hasGithub = !!project.githubUrl;
     pointer-events: none;
     z-index: 0;
     filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.25));
-    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    transition:
+      opacity 0.45s ease,
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     -webkit-mask-image: linear-gradient(to left, #000 55%, transparent 100%);
     mask-image: linear-gradient(to left, #000 55%, transparent 100%);
   }
@@ -130,7 +159,9 @@ const hasGithub = !!project.githubUrl;
     margin-bottom: 0.5rem;
     transition: color 0.3s;
   }
-  .project-card:hover .card-title { color: var(--color-accent-lighter); }
+  .project-card:hover .card-title {
+    color: var(--color-accent-lighter);
+  }
 
   .card-desc {
     font-size: 0.875rem;
@@ -157,7 +188,9 @@ const hasGithub = !!project.githubUrl;
     opacity: 0.7;
     transition: opacity 0.3s;
   }
-  .project-card:hover .card-platforms { opacity: 1; }
+  .project-card:hover .card-platforms {
+    opacity: 1;
+  }
 
   /* ===== Action buttons ===== */
   .card-actions {
@@ -168,9 +201,12 @@ const hasGithub = !!project.githubUrl;
     z-index: 2;
     opacity: 0;
     transform: translateY(6px);
-    transition: opacity 0.3s, transform 0.3s;
+    transition:
+      opacity 0.3s,
+      transform 0.3s;
   }
-  .project-card:hover .card-actions {
+  .project-card:hover .card-actions,
+  .project-card:focus-within .card-actions {
     opacity: 1;
     transform: translateY(0);
   }
@@ -184,7 +220,10 @@ const hasGithub = !!project.githubUrl;
     font-size: 0.78rem;
     font-weight: 600;
     text-decoration: none;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    transition:
+      background 0.2s,
+      color 0.2s,
+      box-shadow 0.2s;
     white-space: nowrap;
   }
 
@@ -209,8 +248,15 @@ const hasGithub = !!project.githubUrl;
   }
 
   @media (max-width: 768px) {
-    .project-card { min-height: 200px; }
-    .card-bg-icon { opacity: 0.14; }
-    .card-actions { opacity: 1; transform: none; }
+    .project-card {
+      min-height: 200px;
+    }
+    .card-bg-icon {
+      opacity: 0.14;
+    }
+    .card-actions {
+      opacity: 1;
+      transform: none;
+    }
   }
 </style>

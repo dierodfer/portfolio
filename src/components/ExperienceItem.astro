@@ -10,33 +10,45 @@ interface Props {
 }
 
 const { entry, lang, stagger } = Astro.props;
-const allTechs = [...new Set(entry.roles.flatMap((r) => r.technologies))];
 const multiRole = entry.roles.length > 1;
 ---
 
 <div
   id={`exp-${entry.id}`}
-  class:list={["timeline-item", "flashable", "animate-on-scroll", `stagger-${stagger}`]}
+  class:list={[
+    "timeline-item",
+    "flashable",
+    "animate-on-scroll",
+    `stagger-${stagger}`,
+  ]}
 >
   <h3 class="timeline-company">{entry.company}</h3>
 
   <div class:list={["timeline-roles", multiRole && "has-subroles"]}>
-    {entry.roles.map((role, i) => (
-      <div class:list={["role-block", i > 0 && "role-subsequent"]}>
-        <span class="timeline-period font-mono">{role.period[lang]}</span>
-        <p class="timeline-role">
-          {role.role[lang]}
-          {role.client && <span class="timeline-client"> · {role.client}</span>}
-        </p>
-        <p class="timeline-location">{role.location[lang]}</p>
-        <ul class="timeline-desc">
-          {role.description.map((d) => <li>{d[lang]}</li>)}
-        </ul>
-        <div class="timeline-tech">
-          {role.technologies.map((id) => <TechIcon id={id} size={20} mini />)}
+    {
+      entry.roles.map((role, i) => (
+        <div class:list={["role-block", i > 0 && "role-subsequent"]}>
+          <span class="timeline-period font-mono">{role.period[lang]}</span>
+          <p class="timeline-role">
+            {role.role[lang]}
+            {role.client && (
+              <span class="timeline-client"> · {role.client}</span>
+            )}
+          </p>
+          <p class="timeline-location">{role.location[lang]}</p>
+          <ul class="timeline-desc">
+            {role.description.map((d) => (
+              <li>{d[lang]}</li>
+            ))}
+          </ul>
+          <div class="timeline-tech">
+            {role.technologies.map((id) => (
+              <TechIcon id={id} size={20} mini />
+            ))}
+          </div>
         </div>
-      </div>
-    ))}
+      ))
+    }
   </div>
 </div>
 

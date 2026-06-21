@@ -1,5 +1,7 @@
+import type { NavKey } from "../i18n/i18n";
+
 export interface NavItem {
-  key: string; // i18n key under "nav"
+  key: NavKey; // i18n key under "nav"
   href: string; // section anchor
 }
 

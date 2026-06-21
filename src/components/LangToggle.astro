@@ -32,7 +32,9 @@ const aria = lang === "en" ? "Cambiar a español" : "Switch to English";
     font-weight: 500;
     text-decoration: none;
     letter-spacing: 0.05em;
-    transition: color 0.3s, border-color 0.3s;
+    transition:
+      color 0.3s,
+      border-color 0.3s;
   }
   .lang-toggle:hover {
     color: var(--color-text);
@@ -46,7 +48,10 @@ const aria = lang === "en" ? "Cambiar a español" : "Switch to English";
     link.addEventListener("click", () => {
       if (window.location.hash) {
         const href = link.getAttribute("href") ?? "";
-        link.setAttribute("href", href.replace(/#.*$/, "") + window.location.hash);
+        link.setAttribute(
+          "href",
+          href.replace(/#.*$/, "") + window.location.hash,
+        );
       }
     });
   });

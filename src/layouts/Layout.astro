@@ -46,7 +46,11 @@ const jsonLd = {
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang={lang} href={canonicalUrl} />
     <link rel="alternate" hreflang={alternateLang} href={alternateUrl} />
-    <link rel="alternate" hreflang="x-default" href={`${siteUrl}${langPath(defaultLang, base)}`} />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={`${siteUrl}${langPath(defaultLang, base)}`}
+    />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -54,14 +58,21 @@ const jsonLd = {
     <meta property="og:description" content={pageDesc} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:locale" content={lang === "en" ? "en_US" : "es_ES"} />
-    <meta property="og:locale:alternate" content={lang === "en" ? "es_ES" : "en_US"} />
+    <meta
+      property="og:locale:alternate"
+      content={lang === "en" ? "es_ES" : "en_US"}
+    />
     <meta property="og:site_name" content={personal.name} />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={pageDesc} />
 
     <!-- JSON-LD structured data -->
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(jsonLd)}
+    />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

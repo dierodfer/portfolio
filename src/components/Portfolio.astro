@@ -1,5 +1,6 @@
 ---
 import type { Lang } from "../i18n/i18n";
+import { t } from "../i18n/i18n";
 import Layout from "../layouts/Layout.astro";
 import Navbar from "./Navbar.astro";
 import ScrollProgress from "./ScrollProgress.astro";
@@ -20,9 +21,10 @@ const { lang } = Astro.props;
 ---
 
 <Layout lang={lang}>
+  <a href="#main" class="skip-link">{t("a11y.skipToContent", lang)}</a>
   <ScrollProgress />
   <Navbar lang={lang} />
-  <main>
+  <main id="main" tabindex="-1">
     <Hero lang={lang} />
     <SectionDivider />
     <Experience lang={lang} />

@@ -34,7 +34,10 @@ function relatedFor(id: string) {
   <div class="tech-grid">
     {
       technologies.map((cat, i) => (
-        <div class="tech-category animate-on-scroll" class:list={[`stagger-${(i % 7) + 1}`]}>
+        <div
+          class="tech-category animate-on-scroll"
+          class:list={[`stagger-${(i % 7) + 1}`]}
+        >
           <h3 class="tech-cat-title font-mono">{cat.name[lang]}</h3>
           <div class="tech-items">
             {cat.items.map((item) => {
@@ -78,33 +81,56 @@ function relatedFor(id: string) {
                       </div>
                       <div class="pop-list">
                         {projs.map((p) => (
-                          <a class="pop-item" href={`#project-${p.id}`} role="menuitem">
+                          <a
+                            class="pop-item"
+                            href={`#project-${p.id}`}
+                            role="menuitem"
+                          >
                             <span class="pop-ico">
                               {p.icon ? (
-                                <img src={withBase(`icons/projects/${p.icon}`)} alt="" width="28" height="28" />
+                                <img
+                                  src={withBase(`icons/projects/${p.icon}`)}
+                                  alt=""
+                                  width="28"
+                                  height="28"
+                                />
                               ) : (
                                 <Icon name="grid" size={18} />
                               )}
                             </span>
                             <span class="pop-text">
                               <span class="pop-title">{p.title[lang]}</span>
-                              <span class="pop-meta">{t("skills.project", lang)}</span>
+                              <span class="pop-meta">
+                                {t("skills.project", lang)}
+                              </span>
                             </span>
-                            <span class="pop-arrow" aria-hidden="true">→</span>
+                            <span class="pop-arrow" aria-hidden="true">
+                              →
+                            </span>
                           </a>
                         ))}
                         {exps.map((e) => {
-                          const matchingRole = e.roles.find((r) => r.technologies.includes(item.id));
+                          const matchingRole = e.roles.find((r) =>
+                            r.technologies.includes(item.id),
+                          );
                           return (
-                            <a class="pop-item" href={`#exp-${e.id}`} role="menuitem">
+                            <a
+                              class="pop-item"
+                              href={`#exp-${e.id}`}
+                              role="menuitem"
+                            >
                               <span class="pop-ico">
                                 <Icon name="briefcase" size={18} />
                               </span>
                               <span class="pop-text">
                                 <span class="pop-title">{e.company}</span>
-                                <span class="pop-meta">{matchingRole?.role[lang]}</span>
+                                <span class="pop-meta">
+                                  {matchingRole?.role[lang]}
+                                </span>
                               </span>
-                              <span class="pop-arrow" aria-hidden="true">→</span>
+                              <span class="pop-arrow" aria-hidden="true">
+                                →
+                              </span>
                             </a>
                           );
                         })}
@@ -165,7 +191,10 @@ function relatedFor(id: string) {
     border-radius: 12px;
     border: 1px solid var(--color-border);
     background: var(--color-bg-card);
-    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    transition:
+      transform 0.3s,
+      border-color 0.3s,
+      box-shadow 0.3s;
   }
   .skill.is-linked .skill-chip {
     cursor: pointer;
@@ -196,7 +225,9 @@ function relatedFor(id: string) {
     border-radius: 50%;
     background: var(--color-accent-light);
     opacity: 0.55;
-    transition: opacity 0.3s, transform 0.3s;
+    transition:
+      opacity 0.3s,
+      transform 0.3s;
   }
   .skill.is-linked .skill-chip:hover .skill-dot,
   .skill.open .skill-dot {
@@ -220,7 +251,10 @@ function relatedFor(id: string) {
     transform: translateY(8px) scale(0.97);
     transform-origin: top left;
     pointer-events: none;
-    transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.22s;
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0.22s;
     z-index: 41;
   }
   .skill.open .skill-pop {
@@ -296,7 +330,11 @@ function relatedFor(id: string) {
     color: var(--color-accent);
     overflow: hidden;
   }
-  .pop-ico img { width: 28px; height: 28px; object-fit: contain; }
+  .pop-ico img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+  }
   .pop-text {
     display: flex;
     flex-direction: column;
@@ -322,7 +360,9 @@ function relatedFor(id: string) {
     color: var(--color-accent);
     opacity: 0;
     transform: translateX(-4px);
-    transition: opacity 0.2s, transform 0.2s;
+    transition:
+      opacity 0.2s,
+      transform 0.2s;
   }
   .pop-item:hover .pop-arrow {
     opacity: 1;
@@ -330,15 +370,28 @@ function relatedFor(id: string) {
   }
 
   @media (max-width: 1024px) {
-    .tech-grid { grid-template-columns: repeat(2, 1fr); }
+    .tech-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
   @media (max-width: 560px) {
-    .tech-grid { grid-template-columns: 1fr; }
-    .skill-pop { width: 260px; }
+    .tech-grid {
+      grid-template-columns: 1fr;
+    }
+    .skill-pop {
+      width: 260px;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .skill-pop { transition: opacity 0.01s, visibility 0.01s; transform: none; }
-    .skill.open .skill-pop { transform: none; }
+    .skill-pop {
+      transition:
+        opacity 0.01s,
+        visibility 0.01s;
+      transform: none;
+    }
+    .skill.open .skill-pop {
+      transform: none;
+    }
   }
 </style>

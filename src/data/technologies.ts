@@ -48,7 +48,11 @@ export const technologies: TechCategory[] = [
       { id: "kubernetes", name: "Kubernetes", icon: "kubernetes.svg" },
       { id: "docker", name: "Docker", icon: "docker.svg" },
       { id: "terraform", name: "Terraform", icon: "terraform.svg" },
-      { id: "githubactions", name: "GitHub Actions", icon: "githubactions.svg" },
+      {
+        id: "githubactions",
+        name: "GitHub Actions",
+        icon: "githubactions.svg",
+      },
       { id: "git", name: "Git", icon: "git.svg" },
       { id: "linux", name: "Linux", icon: "linux.svg" },
     ],
