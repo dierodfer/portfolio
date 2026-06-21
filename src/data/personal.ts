@@ -12,8 +12,8 @@ export interface PersonalInfo {
 export const personal: PersonalInfo = {
   name: "Diego Rodríguez Fernández",
   role: {
-    en: "Technical Lead · Full Stack & Cloud",
-    es: "Technical Lead · Full Stack & Cloud",
+    en: "Software Engineer",
+    es: "Software Engineer",
   },
   tagline: {
     en: "Building and delivering solutions in cloud environments with a focus on microservices. Extensive experience in Java and Go within AWS ecosystems.",

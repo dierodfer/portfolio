@@ -1,6 +1,6 @@
 ---
 import { techById, assertTechIds } from "../data/technologies";
-import { withBase } from "../lib/paths";
+import { readTechSvg } from "../lib/icons";
 
 interface Props {
   id: string;
@@ -11,19 +11,38 @@ interface Props {
 const { id, size = 24, mini = false } = Astro.props;
 assertTechIds([id], `TechIcon(${id})`);
 const tech = techById[id];
+const svg = tech ? readTechSvg(tech) : "";
 ---
 
 {
   tech && (
-    <img
-      src={withBase(`icons/tech/${tech.icon}`)}
-      alt={tech.name}
+    <span
+      class:list={[
+        "tech-icon",
+        mini && "tech-mini",
+        tech.darkInvert && "tech-dark-invert",
+      ]}
       title={tech.name}
-      width={size}
-      height={size}
-      loading="lazy"
-      class:list={["tech-img", mini && "tech-mini"]}
+      role="img"
+      aria-label={tech.name}
       style={`width:${size}px;height:${size}px`}
+      set:html={svg}
     />
   )
 }
+
+<style>
+  .tech-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .tech-icon :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  :global(.dark) .tech-dark-invert :global(svg) {
+    filter: invert(0.85);
+  }
+</style>

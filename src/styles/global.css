@@ -80,6 +80,11 @@ main > section {
   padding: 5rem 0 3rem;
   position: relative;
 }
+main > section:last-child {
+  min-height: auto;
+  justify-content: start;
+  padding-bottom: 4rem;
+}
 
 body {
   background-color: var(--color-bg);

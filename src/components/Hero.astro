@@ -23,11 +23,7 @@ const { lang } = Astro.props;
     <p class="hero-role hero-anim" style="animation-delay:0.5s">
       {personal.role[lang]}
     </p>
-    <p class="hero-tagline hero-anim" style="animation-delay:0.65s">
-      {personal.tagline[lang]}
-    </p>
-
-    <div class="hero-actions hero-anim" style="animation-delay:0.8s">
+    <div class="hero-actions hero-anim" style="animation-delay:0.65s">
       <a href={`mailto:${personal.email}`} class="btn btn-primary">
         <Icon name="mail" size={16} />
         {t("hero.ctaContact", lang)}
@@ -54,13 +50,6 @@ const { lang } = Astro.props;
       </a>
     </div>
 
-    <a
-      href={`mailto:${personal.email}`}
-      class="hero-email font-mono hero-anim"
-      style="animation-delay:0.95s"
-    >
-      {personal.email}
-    </a>
   </div>
 </section>
 
@@ -105,13 +94,6 @@ const { lang } = Astro.props;
     color: var(--color-text-secondary);
     margin-bottom: 1.5rem;
   }
-  .hero-tagline {
-    max-width: 560px;
-    font-size: 1.1rem;
-    color: var(--color-text-secondary);
-    line-height: 1.7;
-    margin-bottom: 2.5rem;
-  }
   .hero-actions {
     display: flex;
     gap: 1rem;
@@ -149,15 +131,5 @@ const { lang } = Astro.props;
   .btn-secondary:hover {
     border-color: var(--color-accent);
     transform: translateY(-2px);
-  }
-  .hero-email {
-    display: inline-block;
-    font-size: 0.85rem;
-    color: var(--color-text-secondary);
-    letter-spacing: 0.02em;
-    transition: color 0.3s;
-  }
-  .hero-email:hover {
-    color: var(--color-accent-lighter);
   }
 </style>
