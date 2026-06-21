@@ -33,6 +33,7 @@ export const technologies: TechCategory[] = [
     name: { en: "Backend", es: "Backend" },
     items: [
       { id: "spring", name: "Spring Boot", icon: "spring.svg" },
+      { id: "postgresql", name: "PostgreSQL", icon: "postgresql.svg" },
       { id: "supabase", name: "Supabase", icon: "supabase.svg" },
       { id: "firebase", name: "Firebase", icon: "firebase.svg" },
       { id: "kafka", name: "Apache Kafka", icon: "kafka.svg" },
