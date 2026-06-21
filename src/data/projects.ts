@@ -76,7 +76,7 @@ export const projects: Project[] = [
       en: "Task planner tailored for agronomy management and field scheduling.",
       es: "Planificador de tareas para gestión agrónoma y programación de campo.",
     },
-    technologies: ["typescript"],
+    technologies: ["angular", "typescript", "firebase", "pwa", "openlayers"],
     githubUrl: "https://github.com/dierodfer/planificador-tareas-agronomo",
   },
 ];

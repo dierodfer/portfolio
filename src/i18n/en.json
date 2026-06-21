@@ -1,7 +1,7 @@
 {
   "nav": {
     "projects": "Projects",
-    "technologies": "Technologies",
+    "technologies": "Skills",
     "experience": "Experience",
     "contact": "Contact"
   },
@@ -13,9 +13,9 @@
   "sections": {
     "projectsTag": "Portfolio",
     "projectsTitle": "Featured projects",
-    "technologiesTag": "Skills",
-    "technologiesTitle": "Technologies",
-    "technologiesHint": "Click a technology to filter projects and experience",
+    "technologiesTag": "Toolbox",
+    "technologiesTitle": "Skills",
+    "technologiesHint": "Tap a skill to see where I've used it",
     "experienceTag": "Career",
     "experienceTitle": "Experience",
     "contactTag": "Let's talk",
@@ -28,9 +28,10 @@
   "experience": {
     "present": "Present"
   },
-  "filter": {
-    "active": "Filtering by",
-    "clear": "Clear filter"
+  "skills": {
+    "usedIn": "Used in",
+    "project": "Project",
+    "experience": "Experience"
   },
   "contact": {
     "emailLabel": "Email",
@@ -38,7 +39,7 @@
     "linkedinLabel": "LinkedIn"
   },
   "footer": {
-    "builtWith": "Built with Astro + Tailwind CSS",
+    "builtWith": "Built with Astro",
     "designedBy": "Designed & developed by"
   }
 }

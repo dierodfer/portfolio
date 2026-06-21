@@ -40,6 +40,7 @@ export const technologies: TechCategory[] = [
       { id: "spring", name: "Spring Boot", icon: "spring.svg" },
       { id: "nodejs", name: "Node.js", icon: "nodejs.svg" },
       { id: "supabase", name: "Supabase", icon: "supabase.svg" },
+      { id: "firebase", name: "Firebase", icon: "firebase.svg" },
       { id: "kafka", name: "Apache Kafka", icon: "kafka.svg" },
     ],
   },
@@ -66,6 +67,8 @@ export const technologies: TechCategory[] = [
 export const extraTech: TechItem[] = [
   { id: "wails", name: "Wails", icon: "wails.svg" },
   { id: "boltdb", name: "BoltDB", icon: "boltdb.svg" },
+  { id: "pwa", name: "PWA", icon: "pwa.svg" },
+  { id: "openlayers", name: "OpenLayers", icon: "openlayers.svg" },
   { id: "windows", name: "Windows", icon: "windows.svg" },
   { id: "macos", name: "macOS", icon: "macos.svg" },
 ];

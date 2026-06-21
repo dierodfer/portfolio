@@ -18,8 +18,8 @@ const hasPlatforms = !!project.platforms?.length;
 ---
 
 <article
-  class:list={["project-card", "filter-match", "animate-on-scroll", `stagger-${stagger}`]}
-  data-technologies={project.technologies.join(",")}
+  id={`project-${project.id}`}
+  class:list={["project-card", "flashable", "animate-on-scroll", `stagger-${stagger}`]}
 >
   <a
     href={link}
