@@ -5,6 +5,7 @@ import { technologies } from "../data/technologies";
 import { projects } from "../data/projects";
 import { experience } from "../data/experience";
 import { withBase } from "../lib/paths";
+import { readTechSvg } from "../lib/icons";
 import Section from "./Section.astro";
 import Icon from "./Icon.astro";
 
@@ -56,12 +57,12 @@ function relatedFor(id: string) {
                     aria-expanded={linked ? "false" : undefined}
                     disabled={!linked}
                   >
-                    <img
-                      src={withBase(`icons/tech/${item.icon}`)}
-                      alt={item.name}
-                      width="40"
-                      height="40"
-                      loading="lazy"
+                    <span
+                      class:list={[
+                        "skill-svg",
+                        item.darkInvert && "tech-dark-invert",
+                      ]}
+                      set:html={readTechSvg(item)}
                     />
                     {linked && <span class="skill-dot" aria-hidden="true" />}
                   </button>
@@ -69,12 +70,12 @@ function relatedFor(id: string) {
                   {linked && (
                     <div class="skill-pop" role="menu" aria-label={item.name}>
                       <div class="pop-head">
-                        <img
-                          class="pop-head-icon"
-                          src={withBase(`icons/tech/${item.icon}`)}
-                          alt=""
-                          width="22"
-                          height="22"
+                        <span
+                          class:list={[
+                            "pop-head-icon",
+                            item.darkInvert && "tech-dark-invert",
+                          ]}
+                          set:html={readTechSvg(item)}
                         />
                         <span class="pop-head-name">{item.name}</span>
                         <span class="pop-count">{count}</span>
@@ -211,10 +212,17 @@ function relatedFor(id: string) {
   .skill:not(.is-linked) .skill-chip {
     opacity: 0.55;
   }
-  .skill-chip img {
+  .skill-svg {
+    display: inline-flex;
     width: 40px;
     height: 40px;
-    object-fit: contain;
+  }
+  .skill-svg :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  :global(.dark) .tech-dark-invert :global(svg) {
+    filter: invert(0.85);
   }
   .skill-dot {
     position: absolute;
@@ -278,9 +286,14 @@ function relatedFor(id: string) {
     margin-bottom: 0.35rem;
   }
   .pop-head-icon {
+    display: inline-flex;
     width: 22px;
     height: 22px;
-    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .pop-head-icon :global(svg) {
+    width: 100%;
+    height: 100%;
   }
   .pop-head-name {
     font-size: 0.85rem;
