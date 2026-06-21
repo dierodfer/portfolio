@@ -8,6 +8,7 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   featured?: "large" | "wide"; // large = 2x2, wide = 2x1
+  icon?: string; // filename in public/icons/projects/
 }
 
 export const projects: Project[] = [
@@ -21,6 +22,7 @@ export const projects: Project[] = [
     technologies: ["javascript", "html", "css"],
     githubUrl: "https://github.com/dierodfer/CatchTheKiller",
     featured: "large",
+    icon: "catchthekiller.png",
   },
   {
     id: "arenaquiz",
@@ -42,6 +44,7 @@ export const projects: Project[] = [
     },
     technologies: ["typescript", "html", "css"],
     githubUrl: "https://github.com/dierodfer/queeens",
+    icon: "queeens.png",
   },
   {
     id: "comicstore",
@@ -62,6 +65,7 @@ export const projects: Project[] = [
     },
     technologies: ["typescript"],
     githubUrl: "https://github.com/dierodfer/desk-tasks",
+    icon: "desktasks.png",
   },
   {
     id: "simplebot",
