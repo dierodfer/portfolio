@@ -1,0 +1,40 @@
+---
+import type { Lang } from "../i18n/i18n";
+import ThemeToggle from "./ThemeToggle.astro";
+import LangToggle from "./LangToggle.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<div class="floating-controls">
+  <LangToggle lang={lang} />
+  <ThemeToggle />
+</div>
+
+<style>
+  .floating-controls {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 70;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem;
+    border-radius: 14px;
+    background: var(--color-nav-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border);
+  }
+  @media (max-width: 768px) {
+    .floating-controls {
+      top: 0.75rem;
+      right: 0.75rem;
+    }
+  }
+</style>
