@@ -27,6 +27,8 @@ export const technologies: TechCategory[] = [
     items: [
       { id: "react", name: "React", icon: "react.svg" },
       { id: "angular", name: "Angular", icon: "angular.svg" },
+      { id: "tailwindcss", name: "Tailwind CSS", icon: "tailwindcss.svg" },
+      { id: "vite", name: "Vite", icon: "vite.svg" },
       { id: "jquery", name: "jQuery", icon: "jquery.svg" },
       { id: "html", name: "HTML5", icon: "html5.svg" },
       { id: "css", name: "CSS3", icon: "css3.svg" },
@@ -37,6 +39,7 @@ export const technologies: TechCategory[] = [
     items: [
       { id: "spring", name: "Spring Boot", icon: "spring.svg" },
       { id: "nodejs", name: "Node.js", icon: "nodejs.svg" },
+      { id: "supabase", name: "Supabase", icon: "supabase.svg" },
       { id: "kafka", name: "Apache Kafka", icon: "kafka.svg" },
     ],
   },
@@ -56,7 +59,19 @@ export const technologies: TechCategory[] = [
   },
 ];
 
+/**
+ * Project-only technologies — niche tools shown on project cards to convey the
+ * full stack (frameworks, DBs), but not featured as headline skills in the grid.
+ */
+export const extraTech: TechItem[] = [
+  { id: "wails", name: "Wails", icon: "wails.svg" },
+  { id: "boltdb", name: "BoltDB", icon: "boltdb.svg" },
+];
+
 /** Flat lookup of every tech by id, for rendering icons in projects/experience. */
 export const techById: Record<string, TechItem> = Object.fromEntries(
-  technologies.flatMap((cat) => cat.items).map((item) => [item.id, item]),
+  [...technologies.flatMap((cat) => cat.items), ...extraTech].map((item) => [
+    item.id,
+    item,
+  ]),
 );

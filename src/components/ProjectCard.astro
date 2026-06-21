@@ -12,18 +12,12 @@ interface Props {
 }
 
 const { project, lang, stagger } = Astro.props;
-const sizeClass =
-  project.featured === "large"
-    ? "bento-large"
-    : project.featured === "wide"
-      ? "bento-wide"
-      : "";
 const link = project.liveUrl ?? project.githubUrl;
 const hasIcon = !!project.icon;
 ---
 
 <article
-  class:list={["project-card", "filter-match", "animate-on-scroll", `stagger-${stagger}`, sizeClass]}
+  class:list={["project-card", "filter-match", "animate-on-scroll", `stagger-${stagger}`]}
   data-technologies={project.technologies.join(",")}
 >
   <a
@@ -33,22 +27,21 @@ const hasIcon = !!project.icon;
     class="card-link"
     aria-label={project.title[lang]}
   >
+    {hasIcon && (
+      <img
+        src={withBase(`icons/projects/${project.icon}`)}
+        alt=""
+        class="card-bg-icon"
+        aria-hidden="true"
+        loading="lazy"
+      />
+    )}
+
     <span class="card-arrow" aria-hidden="true">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M7 17L17 7M17 7H7M17 7v10"></path>
       </svg>
     </span>
-
-    {hasIcon && (
-      <div class="card-icon-area">
-        <img
-          src={withBase(`icons/projects/${project.icon}`)}
-          alt=""
-          class="card-icon"
-          loading="lazy"
-        />
-      </div>
-    )}
 
     <div class="card-body">
       <h3 class="card-title">{project.title[lang]}</h3>
@@ -95,6 +88,7 @@ const hasIcon = !!project.icon;
   .card-link {
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
     height: 100%;
     min-height: 240px;
     padding: 1.75rem;
@@ -102,6 +96,29 @@ const hasIcon = !!project.icon;
     color: inherit;
     position: relative;
     z-index: 1;
+  }
+
+  /* ===== Lateral background watermark icon ===== */
+  .card-bg-icon {
+    position: absolute;
+    right: -10%;
+    top: 42%;
+    transform: translateY(-50%) rotate(-6deg);
+    width: 62%;
+    max-width: 190px;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.16;
+    pointer-events: none;
+    z-index: 0;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.25));
+    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    -webkit-mask-image: linear-gradient(to left, #000 55%, transparent 100%);
+    mask-image: linear-gradient(to left, #000 55%, transparent 100%);
+  }
+  .project-card:hover .card-bg-icon {
+    opacity: 0.3;
+    transform: translateY(-50%) rotate(-3deg) scale(1.05);
   }
 
   .card-arrow {
@@ -112,45 +129,19 @@ const hasIcon = !!project.icon;
     opacity: 0;
     transform: translate(-8px, 8px);
     transition: opacity 0.3s, transform 0.3s;
+    z-index: 2;
   }
   .project-card:hover .card-arrow {
     opacity: 1;
     transform: translate(0, 0);
   }
 
-  /* ===== Icon area ===== */
-  .card-icon-area {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem 0;
-  }
-  .card-icon {
-    width: 72px;
-    height: 72px;
-    object-fit: contain;
-    border-radius: 18px;
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
-  }
-  .project-card:hover .card-icon {
-    transform: scale(1.08);
-  }
-
-  /* Larger icon for featured cards */
-  .bento-large .card-icon {
-    width: 120px;
-    height: 120px;
-    border-radius: 24px;
-  }
-  .bento-wide .card-icon {
-    width: 80px;
-    height: 80px;
-  }
-
   /* ===== Card body ===== */
-  .card-body { margin-top: auto; }
+  .card-body {
+    margin-top: auto;
+    position: relative;
+    z-index: 1;
+  }
   .card-title {
     font-size: 1.25rem;
     font-weight: 700;
@@ -163,6 +154,7 @@ const hasIcon = !!project.icon;
     font-size: 0.875rem;
     color: var(--color-text-secondary);
     margin-bottom: 1rem;
+    max-width: 90%;
   }
   .card-tech {
     display: flex;
@@ -176,28 +168,13 @@ const hasIcon = !!project.icon;
     margin-top: 1rem;
     opacity: 0;
     transition: opacity 0.3s;
+    position: relative;
+    z-index: 1;
   }
   .project-card:hover .card-cta { opacity: 1; }
 
-  /* Bento sizing (desktop) */
-  .bento-large {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-  .bento-large .card-title { font-size: 1.75rem; }
-  .bento-wide { grid-column: span 2; }
-
   @media (max-width: 768px) {
-    .bento-large,
-    .bento-wide {
-      grid-column: span 1;
-      grid-row: span 1;
-    }
     .card-link { min-height: 200px; }
-    .bento-large .card-icon {
-      width: 80px;
-      height: 80px;
-      border-radius: 18px;
-    }
+    .card-bg-icon { opacity: 0.14; }
   }
 </style>
