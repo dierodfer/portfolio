@@ -19,7 +19,6 @@ export const technologies: TechCategory[] = [
       { id: "go", name: "Go", icon: "go.svg" },
       { id: "typescript", name: "TypeScript", icon: "typescript.svg" },
       { id: "javascript", name: "JavaScript", icon: "javascript.svg" },
-      { id: "python", name: "Python", icon: "python.svg" },
     ],
   },
   {
@@ -27,18 +26,13 @@ export const technologies: TechCategory[] = [
     items: [
       { id: "react", name: "React", icon: "react.svg" },
       { id: "angular", name: "Angular", icon: "angular.svg" },
-      { id: "tailwindcss", name: "Tailwind CSS", icon: "tailwindcss.svg" },
-      { id: "vite", name: "Vite", icon: "vite.svg" },
       { id: "jquery", name: "jQuery", icon: "jquery.svg" },
-      { id: "html", name: "HTML5", icon: "html5.svg" },
-      { id: "css", name: "CSS3", icon: "css3.svg" },
     ],
   },
   {
     name: { en: "Backend", es: "Backend" },
     items: [
       { id: "spring", name: "Spring Boot", icon: "spring.svg" },
-      { id: "nodejs", name: "Node.js", icon: "nodejs.svg" },
       { id: "supabase", name: "Supabase", icon: "supabase.svg" },
       { id: "firebase", name: "Firebase", icon: "firebase.svg" },
       { id: "kafka", name: "Apache Kafka", icon: "kafka.svg" },
@@ -71,6 +65,12 @@ export const extraTech: TechItem[] = [
   { id: "openlayers", name: "OpenLayers", icon: "openlayers.svg" },
   { id: "windows", name: "Windows", icon: "windows.svg" },
   { id: "macos", name: "macOS", icon: "macos.svg" },
+  { id: "tailwindcss", name: "Tailwind CSS", icon: "tailwindcss.svg" },
+  { id: "vite", name: "Vite", icon: "vite.svg" },
+  { id: "html", name: "HTML5", icon: "html5.svg" },
+  { id: "css", name: "CSS3", icon: "css3.svg" },
+  { id: "nodejs", name: "Node.js", icon: "nodejs.svg" },
+  { id: "python", name: "Python", icon: "python.svg" },
 ];
 
 /** Flat lookup of every tech by id, for rendering icons in projects/experience. */
