@@ -1,0 +1,55 @@
+---
+import type { Lang } from "../i18n/i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const base = import.meta.env.BASE_URL; // e.g. "/portfolio/"
+const clean = base.endsWith("/") ? base.slice(0, -1) : base;
+
+// EN lives at root, ES under /es/. Link points to the *other* language.
+const target = lang === "en" ? `${clean}/es/` : `${clean}/`;
+const label = lang === "en" ? "ES" : "EN";
+const aria = lang === "en" ? "Cambiar a español" : "Switch to English";
+---
+
+<a href={target} class="lang-toggle font-mono" aria-label={aria} data-lang-link>
+  {label}
+</a>
+
+<style>
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 0.75rem;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .lang-toggle:hover {
+    color: var(--color-text);
+    border-color: var(--color-accent);
+  }
+</style>
+
+<script>
+  // Preserve the current scroll anchor when switching language.
+  document.querySelectorAll("[data-lang-link]").forEach((link) => {
+    link.addEventListener("click", () => {
+      if (window.location.hash) {
+        const href = link.getAttribute("href") ?? "";
+        link.setAttribute("href", href.replace(/#.*$/, "") + window.location.hash);
+      }
+    });
+  });
+</script>

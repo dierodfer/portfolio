@@ -1,0 +1,226 @@
+---
+import type { Lang } from "../i18n/i18n";
+import { t } from "../i18n/i18n";
+import { navItems } from "../data/navigation";
+import { personal } from "../data/personal";
+import ThemeToggle from "./ThemeToggle.astro";
+import LangToggle from "./LangToggle.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const initials = personal.name
+  .split(" ")
+  .slice(0, 2)
+  .map((w) => w[0])
+  .join("");
+---
+
+<header class="nav-root">
+  <nav class="nav-inner">
+    <a href="#top" class="nav-logo">
+      {initials}<span class="accent">.</span>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      {
+        navItems.map((item) => (
+          <li>
+            <a href={item.href} class="nav-link" data-section={item.href.slice(1)}>
+              {t(`nav.${item.key}`, lang)}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="nav-actions">
+      <LangToggle lang={lang} />
+      <ThemeToggle />
+      <button id="menu-toggle" class="menu-toggle" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile slide-down menu -->
+  <ul class="mobile-menu" id="mobile-menu">
+    {
+      navItems.map((item) => (
+        <li>
+          <a href={item.href} class="mobile-link">
+            {t(`nav.${item.key}`, lang)}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</header>
+
+<style>
+  .nav-root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: var(--color-nav-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--color-border);
+    transition: background 0.4s ease;
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.85rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .nav-logo {
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+  .nav-logo .accent { color: var(--color-accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-link {
+    position: relative;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--color-text-secondary);
+    transition: color 0.3s;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    right: 50%;
+    height: 1.5px;
+    background: var(--color-accent);
+    transition: left 0.3s, right 0.3s;
+  }
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--color-text);
+  }
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    left: 0;
+    right: 0;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: transparent;
+    cursor: pointer;
+  }
+  .menu-toggle span {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    margin: 0 auto;
+    background: var(--color-text);
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .menu-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(5.5px) rotate(45deg);
+  }
+  .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .menu-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-5.5px) rotate(-45deg);
+  }
+
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .mobile-menu.open {
+    max-height: 320px;
+  }
+  .mobile-link {
+    display: block;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    border-top: 1px solid var(--color-border);
+  }
+  .mobile-link:hover { color: var(--color-text); }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .menu-toggle { display: flex; }
+    .mobile-menu { display: flex; }
+  }
+</style>
+
+<script>
+  // Mobile menu toggle
+  const menuBtn = document.getElementById("menu-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+  menuBtn?.addEventListener("click", () => {
+    const open = mobileMenu?.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  mobileMenu?.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => {
+      mobileMenu.classList.remove("open");
+      menuBtn?.setAttribute("aria-expanded", "false");
+    }),
+  );
+
+  // Scroll-spy: highlight active section
+  const links = document.querySelectorAll<HTMLAnchorElement>(".nav-link");
+  const sections = document.querySelectorAll<HTMLElement>("section[id]");
+  const spy = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          links.forEach((l) =>
+            l.classList.toggle(
+              "active",
+              l.dataset.section === entry.target.id,
+            ),
+          );
+        }
+      });
+    },
+    { rootMargin: "-50% 0px -50% 0px" },
+  );
+  sections.forEach((s) => spy.observe(s));
+</script>

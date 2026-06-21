@@ -1,0 +1,29 @@
+---
+import { techById } from "../data/technologies";
+import { withBase } from "../lib/paths";
+
+interface Props {
+  id: string;
+  size?: number;
+  /** mini = small icon row inside cards/timeline (for bounce + filter targets) */
+  mini?: boolean;
+}
+
+const { id, size = 24, mini = false } = Astro.props;
+const tech = techById[id];
+---
+
+{
+  tech && (
+    <img
+      src={withBase(`icons/tech/${tech.icon}`)}
+      alt={tech.name}
+      title={tech.name}
+      width={size}
+      height={size}
+      loading="lazy"
+      class:list={["tech-img", mini && "tech-mini"]}
+      style={`width:${size}px;height:${size}px`}
+    />
+  )
+}

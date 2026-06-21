@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "technologies": "Technologies",
+    "experience": "Experience",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Hi, I'm",
+    "ctaContact": "Get in touch",
+    "ctaGithub": "GitHub"
+  },
+  "sections": {
+    "projectsTag": "Portfolio",
+    "projectsTitle": "Featured projects",
+    "technologiesTag": "Skills",
+    "technologiesTitle": "Technologies",
+    "technologiesHint": "Click a technology to filter projects and experience",
+    "experienceTag": "Career",
+    "experienceTitle": "Experience",
+    "contactTag": "Let's talk",
+    "contactTitle": "Contact"
+  },
+  "projects": {
+    "viewProject": "View project",
+    "present": "Present"
+  },
+  "experience": {
+    "present": "Present"
+  },
+  "filter": {
+    "active": "Filtering by",
+    "clear": "Clear filter"
+  },
+  "contact": {
+    "emailLabel": "Email",
+    "githubLabel": "GitHub",
+    "linkedinLabel": "LinkedIn"
+  },
+  "footer": {
+    "builtWith": "Built with Astro + Tailwind CSS",
+    "designedBy": "Designed & developed by"
+  }
+}

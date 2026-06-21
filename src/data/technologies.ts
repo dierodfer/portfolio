@@ -1,0 +1,62 @@
+import type { Localized } from "./personal";
+
+export interface TechItem {
+  id: string; // unique key, matches project/experience `technologies`
+  name: string; // tooltip label
+  icon: string; // SVG filename in public/icons/tech/
+}
+
+export interface TechCategory {
+  name: Localized;
+  items: TechItem[];
+}
+
+export const technologies: TechCategory[] = [
+  {
+    name: { en: "Languages", es: "Lenguajes" },
+    items: [
+      { id: "java", name: "Java", icon: "java.svg" },
+      { id: "go", name: "Go", icon: "go.svg" },
+      { id: "typescript", name: "TypeScript", icon: "typescript.svg" },
+      { id: "javascript", name: "JavaScript", icon: "javascript.svg" },
+      { id: "python", name: "Python", icon: "python.svg" },
+    ],
+  },
+  {
+    name: { en: "Frontend", es: "Frontend" },
+    items: [
+      { id: "react", name: "React", icon: "react.svg" },
+      { id: "angular", name: "Angular", icon: "angular.svg" },
+      { id: "jquery", name: "jQuery", icon: "jquery.svg" },
+      { id: "html", name: "HTML5", icon: "html5.svg" },
+      { id: "css", name: "CSS3", icon: "css3.svg" },
+    ],
+  },
+  {
+    name: { en: "Backend", es: "Backend" },
+    items: [
+      { id: "spring", name: "Spring Boot", icon: "spring.svg" },
+      { id: "nodejs", name: "Node.js", icon: "nodejs.svg" },
+      { id: "kafka", name: "Apache Kafka", icon: "kafka.svg" },
+    ],
+  },
+  {
+    name: { en: "Cloud & DevOps", es: "Cloud & DevOps" },
+    items: [
+      { id: "aws", name: "AWS", icon: "aws.svg" },
+      { id: "azure", name: "Azure", icon: "azure.svg" },
+      { id: "gcp", name: "Google Cloud", icon: "gcp.svg" },
+      { id: "kubernetes", name: "Kubernetes", icon: "kubernetes.svg" },
+      { id: "docker", name: "Docker", icon: "docker.svg" },
+      { id: "terraform", name: "Terraform", icon: "terraform.svg" },
+      { id: "githubactions", name: "GitHub Actions", icon: "githubactions.svg" },
+      { id: "git", name: "Git", icon: "git.svg" },
+      { id: "linux", name: "Linux", icon: "linux.svg" },
+    ],
+  },
+];
+
+/** Flat lookup of every tech by id, for rendering icons in projects/experience. */
+export const techById: Record<string, TechItem> = Object.fromEntries(
+  technologies.flatMap((cat) => cat.items).map((item) => [item.id, item]),
+);
