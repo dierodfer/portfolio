@@ -23,14 +23,9 @@
   },
   "projects": {
     "liveDemo": "Ver app",
-    "sourceCode": "Código fuente",
-    "present": "Actualidad"
-  },
-  "experience": {
-    "present": "Actualidad"
+    "sourceCode": "Código fuente"
   },
   "skills": {
-    "usedIn": "Usado en",
     "project": "Proyecto",
     "experience": "Experiencia"
   },
@@ -42,5 +37,8 @@
   "footer": {
     "builtWith": "Hecho con Astro",
     "designedBy": "Diseñado y desarrollado por"
+  },
+  "a11y": {
+    "skipToContent": "Saltar al contenido"
   }
 }

@@ -5,6 +5,8 @@ import { technologies } from "../data/technologies";
 import { projects } from "../data/projects";
 import { experience } from "../data/experience";
 import { withBase } from "../lib/paths";
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
 
 interface Props {
   lang: Lang;
@@ -12,145 +14,140 @@ interface Props {
 
 const { lang } = Astro.props;
 
-/**
- * For a given skill id, gather the projects and experience entries that use it.
- * Projects match on either their tech stack or supported platforms.
- */
 function relatedFor(id: string) {
   const projs = projects.filter(
     (p) => p.technologies.includes(id) || p.platforms?.includes(id),
   );
-  const exps = experience.filter((e) => e.technologies.includes(id));
+  const exps = experience.filter((e) =>
+    e.roles.some((r) => r.technologies.includes(id)),
+  );
   return { projs, exps };
 }
 ---
 
-<section id="tecnologias" class="section">
-  <div class="container">
-    <p class="section-tag font-mono animate-on-scroll">{t("sections.technologiesTag", lang)}</p>
-    <h2 class="section-heading animate-on-scroll">{t("sections.technologiesTitle", lang)}</h2>
-    <p class="section-hint animate-on-scroll">{t("sections.technologiesHint", lang)}</p>
+<Section
+  id="tecnologias"
+  tag={t("sections.technologiesTag", lang)}
+  title={t("sections.technologiesTitle", lang)}
+  hint={t("sections.technologiesHint", lang)}
+>
+  <div class="tech-grid">
+    {
+      technologies.map((cat, i) => (
+        <div
+          class="tech-category animate-on-scroll"
+          class:list={[`stagger-${(i % 7) + 1}`]}
+        >
+          <h3 class="tech-cat-title font-mono">{cat.name[lang]}</h3>
+          <div class="tech-items">
+            {cat.items.map((item) => {
+              const { projs, exps } = relatedFor(item.id);
+              const count = projs.length + exps.length;
+              const linked = count > 0;
+              return (
+                <div class="skill" class:list={[linked && "is-linked"]}>
+                  <button
+                    type="button"
+                    class="skill-chip"
+                    data-skill={item.id}
+                    title={item.name}
+                    aria-label={item.name}
+                    aria-haspopup={linked ? "true" : undefined}
+                    aria-expanded={linked ? "false" : undefined}
+                    disabled={!linked}
+                  >
+                    <img
+                      src={withBase(`icons/tech/${item.icon}`)}
+                      alt={item.name}
+                      width="40"
+                      height="40"
+                      loading="lazy"
+                    />
+                    {linked && <span class="skill-dot" aria-hidden="true" />}
+                  </button>
 
-    <div class="tech-grid">
-      {
-        technologies.map((cat, i) => (
-          <div class="tech-category animate-on-scroll" class:list={[`stagger-${(i % 7) + 1}`]}>
-            <h3 class="tech-cat-title font-mono">{cat.name[lang]}</h3>
-            <div class="tech-items">
-              {cat.items.map((item) => {
-                const { projs, exps } = relatedFor(item.id);
-                const count = projs.length + exps.length;
-                const linked = count > 0;
-                return (
-                  <div class="skill" class:list={[linked && "is-linked"]}>
-                    <button
-                      type="button"
-                      class="skill-chip"
-                      data-skill={item.id}
-                      title={item.name}
-                      aria-label={item.name}
-                      aria-haspopup={linked ? "true" : undefined}
-                      aria-expanded={linked ? "false" : undefined}
-                      disabled={!linked}
-                    >
-                      <img
-                        src={withBase(`icons/tech/${item.icon}`)}
-                        alt={item.name}
-                        width="40"
-                        height="40"
-                        loading="lazy"
-                      />
-                      {linked && <span class="skill-dot" aria-hidden="true" />}
-                    </button>
-
-                    {linked && (
-                      <div class="skill-pop" role="menu" aria-label={item.name}>
-                        <div class="pop-head">
-                          <img
-                            class="pop-head-icon"
-                            src={withBase(`icons/tech/${item.icon}`)}
-                            alt=""
-                            width="22"
-                            height="22"
-                          />
-                          <span class="pop-head-name">{item.name}</span>
-                          <span class="pop-count">{count}</span>
-                        </div>
-                        <div class="pop-list">
-                          {projs.map((p) => (
-                            <a class="pop-item" href={`#project-${p.id}`} role="menuitem">
-                              <span class="pop-ico">
-                                {p.icon ? (
-                                  <img src={withBase(`icons/projects/${p.icon}`)} alt="" width="28" height="28" />
-                                ) : (
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="3" width="18" height="18" rx="4" />
-                                    <path d="M3 9h18M9 21V9" />
-                                  </svg>
-                                )}
+                  {linked && (
+                    <div class="skill-pop" role="menu" aria-label={item.name}>
+                      <div class="pop-head">
+                        <img
+                          class="pop-head-icon"
+                          src={withBase(`icons/tech/${item.icon}`)}
+                          alt=""
+                          width="22"
+                          height="22"
+                        />
+                        <span class="pop-head-name">{item.name}</span>
+                        <span class="pop-count">{count}</span>
+                      </div>
+                      <div class="pop-list">
+                        {projs.map((p) => (
+                          <a
+                            class="pop-item"
+                            href={`#project-${p.id}`}
+                            role="menuitem"
+                          >
+                            <span class="pop-ico">
+                              {p.icon ? (
+                                <img
+                                  src={withBase(`icons/projects/${p.icon}`)}
+                                  alt=""
+                                  width="28"
+                                  height="28"
+                                />
+                              ) : (
+                                <Icon name="grid" size={18} />
+                              )}
+                            </span>
+                            <span class="pop-text">
+                              <span class="pop-title">{p.title[lang]}</span>
+                              <span class="pop-meta">
+                                {t("skills.project", lang)}
                               </span>
-                              <span class="pop-text">
-                                <span class="pop-title">{p.title[lang]}</span>
-                                <span class="pop-meta">{t("skills.project", lang)}</span>
-                              </span>
-                              <span class="pop-arrow" aria-hidden="true">→</span>
-                            </a>
-                          ))}
-                          {exps.map((e) => (
-                            <a class="pop-item" href={`#exp-${e.id}`} role="menuitem">
+                            </span>
+                            <span class="pop-arrow" aria-hidden="true">
+                              →
+                            </span>
+                          </a>
+                        ))}
+                        {exps.map((e) => {
+                          const matchingRole = e.roles.find((r) =>
+                            r.technologies.includes(item.id),
+                          );
+                          return (
+                            <a
+                              class="pop-item"
+                              href={`#exp-${e.id}`}
+                              role="menuitem"
+                            >
                               <span class="pop-ico">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                  <rect x="3" y="7" width="18" height="13" rx="2" />
-                                  <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                </svg>
+                                <Icon name="briefcase" size={18} />
                               </span>
                               <span class="pop-text">
                                 <span class="pop-title">{e.company}</span>
-                                <span class="pop-meta">{e.role[lang]}</span>
+                                <span class="pop-meta">
+                                  {matchingRole?.role[lang]}
+                                </span>
                               </span>
-                              <span class="pop-arrow" aria-hidden="true">→</span>
+                              <span class="pop-arrow" aria-hidden="true">
+                                →
+                              </span>
                             </a>
-                          ))}
-                        </div>
+                          );
+                        })}
                       </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
-        ))
-      }
-    </div>
+        </div>
+      ))
+    }
   </div>
-</section>
+</Section>
 
 <style>
-  .section { padding: 2rem 0; }
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-  .section-tag {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--color-accent);
-    margin-bottom: 0.5rem;
-  }
-  .section-heading {
-    font-size: 2.25rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-bottom: 0.75rem;
-  }
-  .section-hint {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 3rem;
-  }
   .tech-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -160,8 +157,6 @@ function relatedFor(id: string) {
   .tech-category {
     overflow: visible;
   }
-  /* After scroll-reveal completes, remove the transform so the category
-     no longer creates a stacking context that traps popover z-index. */
   .tech-category.visible {
     transform: none;
   }
@@ -179,7 +174,6 @@ function relatedFor(id: string) {
     gap: 0.75rem;
   }
 
-  /* ===== Skill chip + popover ===== */
   .skill {
     position: relative;
   }
@@ -197,7 +191,10 @@ function relatedFor(id: string) {
     border-radius: 12px;
     border: 1px solid var(--color-border);
     background: var(--color-bg-card);
-    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    transition:
+      transform 0.3s,
+      border-color 0.3s,
+      box-shadow 0.3s;
   }
   .skill.is-linked .skill-chip {
     cursor: pointer;
@@ -211,7 +208,6 @@ function relatedFor(id: string) {
     border-color: var(--color-accent-light);
     box-shadow: 0 0 0 3px var(--color-glow);
   }
-  /* Non-interactive skills read as present but quieter */
   .skill:not(.is-linked) .skill-chip {
     opacity: 0.55;
   }
@@ -220,7 +216,6 @@ function relatedFor(id: string) {
     height: 40px;
     object-fit: contain;
   }
-  /* Tiny dot signalling the chip is interactive */
   .skill-dot {
     position: absolute;
     top: 7px;
@@ -230,7 +225,9 @@ function relatedFor(id: string) {
     border-radius: 50%;
     background: var(--color-accent-light);
     opacity: 0.55;
-    transition: opacity 0.3s, transform 0.3s;
+    transition:
+      opacity 0.3s,
+      transform 0.3s;
   }
   .skill.is-linked .skill-chip:hover .skill-dot,
   .skill.open .skill-dot {
@@ -254,7 +251,10 @@ function relatedFor(id: string) {
     transform: translateY(8px) scale(0.97);
     transform-origin: top left;
     pointer-events: none;
-    transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.22s;
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0.22s;
     z-index: 41;
   }
   .skill.open .skill-pop {
@@ -330,8 +330,11 @@ function relatedFor(id: string) {
     color: var(--color-accent);
     overflow: hidden;
   }
-  .pop-ico img { width: 28px; height: 28px; object-fit: contain; }
-  .pop-ico svg { width: 18px; height: 18px; }
+  .pop-ico img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+  }
   .pop-text {
     display: flex;
     flex-direction: column;
@@ -357,7 +360,9 @@ function relatedFor(id: string) {
     color: var(--color-accent);
     opacity: 0;
     transform: translateX(-4px);
-    transition: opacity 0.2s, transform 0.2s;
+    transition:
+      opacity 0.2s,
+      transform 0.2s;
   }
   .pop-item:hover .pop-arrow {
     opacity: 1;
@@ -365,15 +370,28 @@ function relatedFor(id: string) {
   }
 
   @media (max-width: 1024px) {
-    .tech-grid { grid-template-columns: repeat(2, 1fr); }
+    .tech-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
   @media (max-width: 560px) {
-    .tech-grid { grid-template-columns: 1fr; }
-    .skill-pop { width: 260px; }
+    .tech-grid {
+      grid-template-columns: 1fr;
+    }
+    .skill-pop {
+      width: 260px;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .skill-pop { transition: opacity 0.01s, visibility 0.01s; transform: none; }
-    .skill.open .skill-pop { transform: none; }
+    .skill-pop {
+      transition:
+        opacity 0.01s,
+        visibility 0.01s;
+      transform: none;
+    }
+    .skill.open .skill-pop {
+      transform: none;
+    }
   }
 </style>

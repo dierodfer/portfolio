@@ -1,17 +1,15 @@
 ---
 import type { Lang } from "../i18n/i18n";
+import { langPath } from "../i18n/i18n";
 
 interface Props {
   lang: Lang;
 }
 
 const { lang } = Astro.props;
-const base = import.meta.env.BASE_URL; // e.g. "/portfolio/"
-const clean = base.endsWith("/") ? base.slice(0, -1) : base;
-
-// EN lives at root, ES under /es/. Link points to the *other* language.
-const target = lang === "en" ? `${clean}/es/` : `${clean}/`;
-const label = lang === "en" ? "ES" : "EN";
+const otherLang: Lang = lang === "en" ? "es" : "en";
+const target = langPath(otherLang, import.meta.env.BASE_URL);
+const label = otherLang.toUpperCase();
 const aria = lang === "en" ? "Cambiar a español" : "Switch to English";
 ---
 
@@ -34,7 +32,9 @@ const aria = lang === "en" ? "Cambiar a español" : "Switch to English";
     font-weight: 500;
     text-decoration: none;
     letter-spacing: 0.05em;
-    transition: color 0.3s, border-color 0.3s;
+    transition:
+      color 0.3s,
+      border-color 0.3s;
   }
   .lang-toggle:hover {
     color: var(--color-text);
@@ -48,7 +48,10 @@ const aria = lang === "en" ? "Cambiar a español" : "Switch to English";
     link.addEventListener("click", () => {
       if (window.location.hash) {
         const href = link.getAttribute("href") ?? "";
-        link.setAttribute("href", href.replace(/#.*$/, "") + window.location.hash);
+        link.setAttribute(
+          "href",
+          href.replace(/#.*$/, "") + window.location.hash,
+        );
       }
     });
   });

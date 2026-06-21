@@ -1,15 +1,15 @@
 ---
-import { techById } from "../data/technologies";
+import { techById, assertTechIds } from "../data/technologies";
 import { withBase } from "../lib/paths";
 
 interface Props {
   id: string;
   size?: number;
-  /** mini = small icon row inside cards/timeline (for bounce + filter targets) */
   mini?: boolean;
 }
 
 const { id, size = 24, mini = false } = Astro.props;
+assertTechIds([id], `TechIcon(${id})`);
 const tech = techById[id];
 ---
 

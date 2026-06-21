@@ -1,0 +1,56 @@
+---
+interface Props {
+  id: string;
+  tag: string;
+  title: string;
+  hint?: string;
+  narrow?: boolean;
+}
+
+const { id, tag, title, hint, narrow = false } = Astro.props;
+---
+
+<section {id} class="section">
+  <div
+    class:list={["section-container", narrow && "section-container--narrow"]}
+  >
+    <p class="section-tag font-mono animate-on-scroll">{tag}</p>
+    <h2 class="section-heading animate-on-scroll">{title}</h2>
+    {hint && <p class="section-hint animate-on-scroll">{hint}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section {
+    padding: 2rem 0;
+  }
+  .section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  .section-container--narrow {
+    max-width: 820px;
+  }
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
+  }
+  .section-heading {
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 3rem;
+  }
+  .section-hint {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-top: -2.25rem;
+    margin-bottom: 3rem;
+  }
+</style>

@@ -10,23 +10,45 @@ interface Props {
 }
 
 const { entry, lang, stagger } = Astro.props;
+const multiRole = entry.roles.length > 1;
 ---
 
 <div
   id={`exp-${entry.id}`}
-  class:list={["timeline-item", "flashable", "animate-on-scroll", `stagger-${stagger}`]}
+  class:list={[
+    "timeline-item",
+    "flashable",
+    "animate-on-scroll",
+    `stagger-${stagger}`,
+  ]}
 >
-  <span class="timeline-period font-mono">{entry.period[lang]}</span>
-  <h3 class="timeline-company">
-    {entry.company}
-    {entry.client && <span class="timeline-client">· {entry.client}</span>}
-  </h3>
-  <p class="timeline-role">{entry.role[lang]} · {entry.location[lang]}</p>
-  <ul class="timeline-desc">
-    {entry.description.map((d) => <li>{d[lang]}</li>)}
-  </ul>
-  <div class="timeline-tech">
-    {entry.technologies.map((id) => <TechIcon id={id} size={20} mini />)}
+  <h3 class="timeline-company">{entry.company}</h3>
+
+  <div class:list={["timeline-roles", multiRole && "has-subroles"]}>
+    {
+      entry.roles.map((role, i) => (
+        <div class:list={["role-block", i > 0 && "role-subsequent"]}>
+          <span class="timeline-period font-mono">{role.period[lang]}</span>
+          <p class="timeline-role">
+            {role.role[lang]}
+            {role.client && (
+              <span class="timeline-client"> · {role.client}</span>
+            )}
+          </p>
+          <p class="timeline-location">{role.location[lang]}</p>
+          <ul class="timeline-desc">
+            {role.description.map((d) => (
+              <li>{d[lang]}</li>
+            ))}
+          </ul>
+          <div class="timeline-tech">
+            {role.technologies.map((id) => (
+              <TechIcon id={id} size={20} mini />
+            ))}
+          </div>
+        </div>
+      ))
+    }
   </div>
 </div>
 
@@ -48,29 +70,67 @@ const { entry, lang, stagger } = Astro.props;
     border: 2px solid var(--color-bg);
     box-shadow: 0 0 0 3px var(--color-glow);
   }
+
+  .timeline-company {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .timeline-roles.has-subroles {
+    border-left: 1px solid var(--color-border);
+    padding-left: 1.25rem;
+    margin-left: 0.25rem;
+  }
+
+  .role-block {
+    position: relative;
+  }
+  .role-subsequent {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--color-border);
+  }
+
+  .has-subroles .role-block::before {
+    content: "";
+    position: absolute;
+    left: -1.25rem;
+    top: 0.55rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-accent-light);
+    transform: translateX(-50%);
+  }
+  .has-subroles .role-subsequent::before {
+    top: calc(1.5rem + 0.55rem);
+  }
+
   .timeline-period {
     font-size: 0.75rem;
     color: var(--color-accent);
     font-weight: 500;
   }
-  .timeline-company {
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin: 0.25rem 0;
+  .timeline-role {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0.2rem 0 0.1rem;
   }
   .timeline-client {
     font-weight: 500;
     color: var(--color-text-secondary);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
-  .timeline-role {
-    font-size: 0.875rem;
+  .timeline-location {
+    font-size: 0.8rem;
     color: var(--color-text-secondary);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.65rem;
+    opacity: 0.7;
   }
   .timeline-desc {
     list-style: none;
-    margin: 0 0 1rem;
+    margin: 0 0 0.75rem;
     padding: 0;
   }
   .timeline-desc li {
