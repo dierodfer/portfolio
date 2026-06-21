@@ -32,6 +32,7 @@ export const projects: Project[] = [
     },
     technologies: ["react", "javascript", "supabase", "tailwindcss", "vite"],
     githubUrl: "https://github.com/dierodfer/ArenaQuiz",
+    icon: "arenaquiz.svg",
   },
   {
     id: "queeens",
