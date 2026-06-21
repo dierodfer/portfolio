@@ -1,0 +1,42 @@
+---
+// Cross-section filter: clicking a technology chip highlights the matching
+// projects and experience entries and dims the rest. Click again to clear.
+---
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>(".tech-chip[data-tech-id]");
+  // Every element that declares which technologies it uses.
+  const filterables = document.querySelectorAll<HTMLElement>("[data-technologies]");
+
+  let active: string | null = null;
+
+  function apply(techId: string | null) {
+    // Toggle chip active state
+    chips.forEach((chip) =>
+      chip.classList.toggle("tech-active", chip.dataset.techId === techId),
+    );
+
+    filterables.forEach((el) => {
+      if (!techId) {
+        el.classList.remove("filtered-out");
+        return;
+      }
+      const techs = (el.dataset.technologies ?? "").split(",");
+      el.classList.toggle("filtered-out", !techs.includes(techId));
+    });
+  }
+
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const id = chip.dataset.techId ?? null;
+      active = active === id ? null : id;
+      apply(active);
+
+      // When a filter activates, gently scroll to the projects section.
+      if (active) {
+        const target = document.getElementById("proyectos");
+        target?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  });
+</script>

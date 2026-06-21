@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "projects": "Proyectos",
+    "technologies": "Tecnologías",
+    "experience": "Experiencia",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "greeting": "Hola, soy",
+    "ctaContact": "Contáctame",
+    "ctaGithub": "GitHub"
+  },
+  "sections": {
+    "projectsTag": "Portfolio",
+    "projectsTitle": "Proyectos destacados",
+    "technologiesTag": "Habilidades",
+    "technologiesTitle": "Tecnologías",
+    "technologiesHint": "Haz clic en una tecnología para filtrar proyectos y experiencia",
+    "experienceTag": "Trayectoria",
+    "experienceTitle": "Experiencia",
+    "contactTag": "Hablemos",
+    "contactTitle": "Contacto"
+  },
+  "projects": {
+    "viewProject": "Ver proyecto",
+    "present": "Actualidad"
+  },
+  "experience": {
+    "present": "Actualidad"
+  },
+  "filter": {
+    "active": "Filtrando por",
+    "clear": "Quitar filtro"
+  },
+  "contact": {
+    "emailLabel": "Email",
+    "githubLabel": "GitHub",
+    "linkedinLabel": "LinkedIn"
+  },
+  "footer": {
+    "builtWith": "Hecho con Astro + Tailwind CSS",
+    "designedBy": "Diseñado y desarrollado por"
+  }
+}

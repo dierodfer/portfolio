@@ -1,0 +1,154 @@
+---
+import type { Lang } from "../i18n/i18n";
+import { t } from "../i18n/i18n";
+import type { Project } from "../data/projects";
+import TechIcon from "./TechIcon.astro";
+
+interface Props {
+  project: Project;
+  lang: Lang;
+  stagger: number;
+}
+
+const { project, lang, stagger } = Astro.props;
+const sizeClass =
+  project.featured === "large"
+    ? "bento-large"
+    : project.featured === "wide"
+      ? "bento-wide"
+      : "";
+const link = project.liveUrl ?? project.githubUrl;
+---
+
+<article
+  class:list={["project-card", "filter-match", "animate-on-scroll", `stagger-${stagger}`, sizeClass]}
+  data-technologies={project.technologies.join(",")}
+>
+  <a
+    href={link}
+    target="_blank"
+    rel="noopener"
+    class="card-link"
+    aria-label={project.title[lang]}
+  >
+    <span class="card-arrow" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 17L17 7M17 7H7M17 7v10"></path>
+      </svg>
+    </span>
+
+    <div class="card-body">
+      <h3 class="card-title">{project.title[lang]}</h3>
+      <p class="card-desc">{project.description[lang]}</p>
+      <div class="card-tech">
+        {project.technologies.map((id) => <TechIcon id={id} size={20} mini />)}
+      </div>
+    </div>
+
+    <span class="card-cta font-mono">{t("projects.viewProject", lang)} →</span>
+  </a>
+</article>
+
+<style>
+  .project-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    transition:
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.4s,
+      box-shadow 0.4s,
+      opacity 0.4s,
+      filter 0.4s;
+  }
+  .project-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--color-glow) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+  .project-card:hover::before { opacity: 1; }
+  .project-card:hover {
+    border-color: var(--color-accent-light);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px -15px var(--color-glow);
+  }
+
+  .card-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    min-height: 240px;
+    padding: 1.75rem;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-arrow {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: var(--color-accent);
+    opacity: 0;
+    transform: translate(-8px, 8px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .project-card:hover .card-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  .card-body { margin-top: auto; }
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s;
+  }
+  .project-card:hover .card-title { color: var(--color-accent-lighter); }
+
+  .card-desc {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+  }
+  .card-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+  }
+  .card-cta {
+    font-size: 0.75rem;
+    color: var(--color-accent);
+    margin-top: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .project-card:hover .card-cta { opacity: 1; }
+
+  /* Bento sizing (desktop) */
+  .bento-large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .bento-large .card-title { font-size: 1.75rem; }
+  .bento-wide { grid-column: span 2; }
+
+  @media (max-width: 768px) {
+    .bento-large,
+    .bento-wide {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+    .card-link { min-height: 200px; }
+  }
+</style>

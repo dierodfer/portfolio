@@ -1,0 +1,124 @@
+---
+import type { Lang } from "../i18n/i18n";
+import { t } from "../i18n/i18n";
+import { technologies } from "../data/technologies";
+import { withBase } from "../lib/paths";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<section id="tecnologias" class="section">
+  <div class="container">
+    <p class="section-tag font-mono animate-on-scroll">{t("sections.technologiesTag", lang)}</p>
+    <h2 class="section-heading animate-on-scroll">{t("sections.technologiesTitle", lang)}</h2>
+    <p class="section-hint animate-on-scroll">{t("sections.technologiesHint", lang)}</p>
+
+    <div class="tech-grid">
+      {
+        technologies.map((cat, i) => (
+          <div class="tech-category animate-on-scroll" class:list={[`stagger-${(i % 7) + 1}`]}>
+            <h3 class="tech-cat-title font-mono">{cat.name[lang]}</h3>
+            <div class="tech-items">
+              {cat.items.map((item) => (
+                <button
+                  type="button"
+                  class="tech-chip"
+                  data-tech-id={item.id}
+                  title={item.name}
+                  aria-label={item.name}
+                >
+                  <img
+                    src={withBase(`icons/tech/${item.icon}`)}
+                    alt={item.name}
+                    width="40"
+                    height="40"
+                    loading="lazy"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .section { padding: 2rem 0; }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
+  }
+  .section-heading {
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.75rem;
+  }
+  .section-hint {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 3rem;
+  }
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+  }
+  .tech-cat-title {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    margin-bottom: 1.25rem;
+  }
+  .tech-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .tech-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+    cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+  .tech-chip:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-accent-light);
+  }
+  .tech-chip img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+
+  @media (max-width: 1024px) {
+    .tech-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .tech-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+import type { Lang } from "../i18n/i18n";
+import Layout from "../layouts/Layout.astro";
+import Navbar from "./Navbar.astro";
+import ScrollProgress from "./ScrollProgress.astro";
+import Hero from "./Hero.astro";
+import SectionDivider from "./SectionDivider.astro";
+import Projects from "./Projects.astro";
+import Technologies from "./Technologies.astro";
+import Experience from "./Experience.astro";
+import Contact from "./Contact.astro";
+import Footer from "./Footer.astro";
+import TechFilter from "./TechFilter.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<Layout lang={lang}>
+  <ScrollProgress />
+  <Navbar lang={lang} />
+  <main>
+    <Hero lang={lang} />
+    <SectionDivider />
+    <Projects lang={lang} />
+    <SectionDivider />
+    <Technologies lang={lang} />
+    <SectionDivider />
+    <Experience lang={lang} />
+    <SectionDivider />
+    <Contact lang={lang} />
+  </main>
+  <Footer lang={lang} />
+  <TechFilter />
+</Layout>
