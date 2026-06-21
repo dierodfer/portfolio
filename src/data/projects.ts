@@ -5,9 +5,9 @@ export interface Project {
   title: Localized;
   description: Localized;
   technologies: string[]; // tech ids, cross-referenced with technologies.ts
+  platforms?: string[]; // platform tech ids shown as badges (e.g. windows, macos, linux)
   githubUrl?: string;
   liveUrl?: string;
-  featured?: "large" | "wide"; // large = 2x2, wide = 2x1
   icon?: string; // filename in public/icons/projects/
 }
 
@@ -19,9 +19,8 @@ export const projects: Project[] = [
       en: "Interactive mystery and deduction game. Track down the culprit using the clues you gather along the way.",
       es: "Juego interactivo de misterio y deducción. Encuentra al culpable usando las pistas que recoges por el camino.",
     },
-    technologies: ["javascript", "html", "css"],
+    technologies: ["react", "typescript", "tailwindcss", "vite"],
     githubUrl: "https://github.com/dierodfer/CatchTheKiller",
-    featured: "large",
     icon: "catchthekiller.png",
   },
   {
@@ -31,9 +30,8 @@ export const projects: Project[] = [
       en: "Competitive quiz platform with multiple categories and a fast-paced arena mode.",
       es: "Plataforma de quiz competitivo con múltiples categorías y un modo arena trepidante.",
     },
-    technologies: ["javascript", "html", "css"],
+    technologies: ["react", "javascript", "supabase", "tailwindcss", "vite"],
     githubUrl: "https://github.com/dierodfer/ArenaQuiz",
-    featured: "wide",
   },
   {
     id: "queeens",
@@ -42,19 +40,9 @@ export const projects: Project[] = [
       en: "Logic puzzle game based on the classic 8 queens problem.",
       es: "Juego de lógica basado en el clásico problema de las 8 reinas.",
     },
-    technologies: ["typescript", "html", "css"],
+    technologies: ["react", "typescript", "vite"],
     githubUrl: "https://github.com/dierodfer/queeens",
     icon: "queeens.png",
-  },
-  {
-    id: "comicstore",
-    title: { en: "Comic Store", es: "Tienda de Cómics" },
-    description: {
-      en: "A beautiful comic store front with an engaging, responsive interface.",
-      es: "Una atractiva tienda de cómics con una interfaz responsive y cuidada.",
-    },
-    technologies: ["javascript", "html", "css"],
-    githubUrl: "https://github.com/dierodfer/beautiful-comic-store",
   },
   {
     id: "desktasks",
@@ -63,7 +51,8 @@ export const projects: Project[] = [
       en: "Lightweight desktop task manager with inline editing. Productivity without distractions.",
       es: "Gestor de tareas de escritorio ligero con edición inline. Productividad sin distracciones.",
     },
-    technologies: ["typescript"],
+    technologies: ["go", "wails", "react", "typescript", "boltdb"],
+    platforms: ["windows", "macos", "linux"],
     githubUrl: "https://github.com/dierodfer/desk-tasks",
     icon: "desktasks.png",
   },
@@ -74,7 +63,7 @@ export const projects: Project[] = [
       en: "Modern Go CLI application with a clean, idiomatic architecture.",
       es: "Aplicación CLI moderna en Go con una arquitectura limpia e idiomática.",
     },
-    technologies: ["go"],
+    technologies: ["go", "boltdb"],
     githubUrl: "https://github.com/dierodfer/simple-bot",
   },
   {

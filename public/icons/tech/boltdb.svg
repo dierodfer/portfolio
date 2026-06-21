@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="bolt" x1="64" y1="8" x2="64" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#94a3b8"/>
+      <stop offset="1" stop-color="#475569"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="64" cy="28" rx="44" ry="16" fill="url(#bolt)"/>
+  <path d="M20 28v72c0 8.84 19.7 16 44 16s44-7.16 44-16V28" fill="url(#bolt)" fill-opacity="0.85"/>
+  <ellipse cx="64" cy="28" rx="44" ry="16" fill="#cbd5e1" fill-opacity="0.25"/>
+  <path d="M20 52c0 8.84 19.7 16 44 16s44-7.16 44-16M20 76c0 8.84 19.7 16 44 16s44-7.16 44-16" stroke="#0f172a" stroke-opacity="0.25" stroke-width="4" fill="none"/>
+  <path d="M66 44l-14 22h11l-3 18 16-24H64l2-16z" fill="#fbbf24"/>
+</svg>
