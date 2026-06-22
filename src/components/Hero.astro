@@ -350,7 +350,12 @@ const { lang } = Astro.props;
     aspect-ratio: 4 / 5;
     object-fit: cover;
     object-position: center 15%;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 4%, #000 100%);
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 4%,
+      #000 100%
+    );
     mask-image: linear-gradient(to bottom, transparent 0%, #000 4%, #000 100%);
   }
   .hero-card {
