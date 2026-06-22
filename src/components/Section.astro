@@ -1,22 +1,36 @@
 ---
+import type { Lang, TranslationKey } from "../i18n/i18n";
+import { t, i18nText } from "../i18n/i18n";
+
 interface Props {
   id: string;
-  tag: string;
-  title: string;
-  hint?: string;
+  lang: Lang;
+  tagKey: TranslationKey;
+  titleKey: TranslationKey;
+  hintKey?: TranslationKey;
   narrow?: boolean;
 }
 
-const { id, tag, title, hint, narrow = false } = Astro.props;
+const { id, lang, tagKey, titleKey, hintKey, narrow = false } = Astro.props;
 ---
 
 <section {id} class="section">
   <div
     class:list={["section-container", narrow && "section-container--narrow"]}
   >
-    <p class="section-tag font-mono animate-on-scroll">{tag}</p>
-    <h2 class="section-heading animate-on-scroll">{title}</h2>
-    {hint && <p class="section-hint animate-on-scroll">{hint}</p>}
+    <p class="section-tag font-mono animate-on-scroll" {...i18nText(tagKey)}>
+      {t(tagKey, lang)}
+    </p>
+    <h2 class="section-heading animate-on-scroll" {...i18nText(titleKey)}>
+      {t(titleKey, lang)}
+    </h2>
+    {
+      hintKey && (
+        <p class="section-hint animate-on-scroll" {...i18nText(hintKey)}>
+          {t(hintKey, lang)}
+        </p>
+      )
+    }
     <slot />
   </div>
 </section>

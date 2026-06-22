@@ -1,6 +1,5 @@
 ---
 import type { Lang } from "../i18n/i18n";
-import { t } from "../i18n/i18n";
 import { projects } from "../data/projects";
 import Section from "./Section.astro";
 import ProjectCard from "./ProjectCard.astro";
@@ -14,8 +13,9 @@ const { lang } = Astro.props;
 
 <Section
   id="proyectos"
-  tag={t("sections.projectsTag", lang)}
-  title={t("sections.projectsTitle", lang)}
+  lang={lang}
+  tagKey="sections.projectsTag"
+  titleKey="sections.projectsTitle"
 >
   <div class="bento-grid">
     {

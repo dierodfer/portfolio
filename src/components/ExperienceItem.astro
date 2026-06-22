@@ -1,5 +1,6 @@
 ---
 import type { Lang } from "../i18n/i18n";
+import { i18nTextLoc } from "../i18n/i18n";
 import type { ExperienceEntry } from "../data/experience";
 import TechIcon from "./TechIcon.astro";
 
@@ -28,17 +29,21 @@ const multiRole = entry.roles.length > 1;
     {
       entry.roles.map((role, i) => (
         <div class:list={["role-block", i > 0 && "role-subsequent"]}>
-          <span class="timeline-period font-mono">{role.period[lang]}</span>
+          <span class="timeline-period font-mono" {...i18nTextLoc(role.period)}>
+            {role.period[lang]}
+          </span>
           <p class="timeline-role">
-            {role.role[lang]}
+            <span {...i18nTextLoc(role.role)}>{role.role[lang]}</span>
             {role.client && (
               <span class="timeline-client"> · {role.client}</span>
             )}
           </p>
-          <p class="timeline-location">{role.location[lang]}</p>
+          <p class="timeline-location" {...i18nTextLoc(role.location)}>
+            {role.location[lang]}
+          </p>
           <ul class="timeline-desc">
             {role.description.map((d) => (
-              <li>{d[lang]}</li>
+              <li {...i18nTextLoc(d)}>{d[lang]}</li>
             ))}
           </ul>
           <div class="timeline-tech">
