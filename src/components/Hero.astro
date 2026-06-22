@@ -2,6 +2,8 @@
 import type { Lang } from "../i18n/i18n";
 import { t, i18nText, i18nTextLoc, i18nAttr } from "../i18n/i18n";
 import { personal } from "../data/personal";
+import { Image } from "astro:assets";
+import diegoPhoto from "../assets/diego.png";
 import Icon from "./Icon.astro";
 
 interface Props {
@@ -14,54 +16,98 @@ const { lang } = Astro.props;
 <section class="hero" id="top">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <p
-      class="hero-greeting font-mono hero-anim"
-      style="animation-delay:0.2s"
-      {...i18nText("hero.greeting")}
-    >
-      {t("hero.greeting", lang)}
-    </p>
-    <h1 class="hero-name hero-anim" style="animation-delay:0.35s">
-      {personal.name}
-    </h1>
-    <p
-      class="hero-role hero-anim"
-      style="animation-delay:0.5s"
-      {...i18nTextLoc(personal.role)}
-    >
-      {personal.role[lang]}
-    </p>
-    <div class="hero-actions hero-anim" style="animation-delay:0.65s">
-      <a href={`mailto:${personal.email}`} class="btn btn-primary">
-        <Icon name="mail" size={16} />
-        <span {...i18nText("hero.ctaContact")}
-          >{t("hero.ctaContact", lang)}</span
+    <div class="hero-grid">
+      <!-- Text column -->
+      <div class="hero-text">
+        <div
+          class="hero-greeting font-mono hero-anim"
+          style="animation-delay:0.15s"
         >
-      </a>
-      <a
-        href={personal.github}
-        target="_blank"
-        rel="noopener"
-        class="btn btn-secondary"
-        aria-label={t("contact.githubLabel", lang)}
-        {...i18nAttr("aria-label", "contact.githubLabel")}
-      >
-        <Icon name="github" size={16} />
-        <span {...i18nText("hero.ctaGithub")}>{t("hero.ctaGithub", lang)}</span>
-      </a>
-      <a
-        href={personal.linkedin}
-        target="_blank"
-        rel="noopener"
-        class="btn btn-secondary"
-        aria-label={t("contact.linkedinLabel", lang)}
-        {...i18nAttr("aria-label", "contact.linkedinLabel")}
-      >
-        <Icon name="linkedin" size={16} />
-        <span {...i18nText("contact.linkedinLabel")}>
-          {t("contact.linkedinLabel", lang)}
-        </span>
-      </a>
+          <span class="greeting-dot" aria-hidden="true"></span>
+          <span {...i18nText("hero.greeting")}>{t("hero.greeting", lang)}</span>
+        </div>
+
+        <h1 class="hero-name hero-anim" style="animation-delay:0.3s">
+          {personal.name}
+        </h1>
+
+        <p
+          class="hero-role hero-anim"
+          style="animation-delay:0.42s"
+          {...i18nTextLoc(personal.role)}
+        >
+          {personal.role[lang]}
+        </p>
+
+        <p
+          class="hero-tagline hero-anim"
+          style="animation-delay:0.54s"
+          {...i18nTextLoc(personal.tagline)}
+        >
+          {personal.tagline[lang]}
+        </p>
+
+        <div class="hero-actions hero-anim" style="animation-delay:0.66s">
+          <a href={`mailto:${personal.email}`} class="btn btn-primary">
+            <Icon name="mail" size={16} />
+            <span {...i18nText("hero.ctaContact")}
+              >{t("hero.ctaContact", lang)}</span
+            >
+          </a>
+          <a
+            href={personal.github}
+            target="_blank"
+            rel="noopener"
+            class="btn btn-secondary"
+            aria-label={t("contact.githubLabel", lang)}
+            {...i18nAttr("aria-label", "contact.githubLabel")}
+          >
+            <Icon name="github" size={16} />
+            <span {...i18nText("hero.ctaGithub")}
+              >{t("hero.ctaGithub", lang)}</span
+            >
+          </a>
+          <a
+            href={personal.linkedin}
+            target="_blank"
+            rel="noopener"
+            class="btn btn-secondary"
+            aria-label={t("contact.linkedinLabel", lang)}
+            {...i18nAttr("aria-label", "contact.linkedinLabel")}
+          >
+            <Icon name="linkedin" size={16} />
+            <span {...i18nText("contact.linkedinLabel")}>
+              {t("contact.linkedinLabel", lang)}
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Visual column -->
+      <div class="hero-visual hero-anim" style="animation-delay:0.45s">
+        <div class="hero-photo-wrap">
+          <span class="hero-glow" aria-hidden="true"></span>
+          <span class="hero-dots" aria-hidden="true"></span>
+          <div class="hero-photo-mask">
+            <Image
+              src={diegoPhoto}
+              alt={personal.name}
+              class="hero-photo"
+              widths={[280, 420, 560]}
+              sizes="(max-width: 900px) 280px, 420px"
+              format="webp"
+              quality={82}
+              loading="eager"
+            />
+          </div>
+          <div class="hero-card">
+            <span class="hero-card-icon" aria-hidden="true">
+              <Icon name="code" size={18} />
+            </span>
+            <span {...i18nText("hero.impact")}>{t("hero.impact", lang)}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -76,9 +122,9 @@ const { lang } = Astro.props;
     position: absolute;
     inset: 0;
     background: radial-gradient(
-      ellipse at 30% 50%,
+      ellipse at 75% 40%,
       var(--color-glow) 0%,
-      transparent 70%
+      transparent 65%
     );
     pointer-events: none;
   }
@@ -89,35 +135,63 @@ const { lang } = Astro.props;
     margin: 0 auto;
     padding: 0 2rem;
   }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4.5rem);
+  }
+
+  /* ===== Text column ===== */
   .hero-greeting {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-bg-card);
     color: var(--color-accent);
+    font-size: 0.8rem;
     font-weight: 500;
-    margin-bottom: 1rem;
+    margin-bottom: 1.35rem;
+  }
+  .greeting-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-accent-light);
   }
   .hero-name {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(2.4rem, 5.5vw, 4.25rem);
     font-weight: 800;
     letter-spacing: -0.04em;
-    line-height: 1.1;
-    margin-bottom: 1rem;
+    line-height: 1.05;
+    margin-bottom: 0.85rem;
   }
   .hero-role {
-    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-size: clamp(1.15rem, 2.5vw, 1.6rem);
     font-weight: 600;
+    color: var(--color-accent);
+    margin-bottom: 1.35rem;
+  }
+  .hero-tagline {
+    font-size: 1rem;
+    line-height: 1.7;
     color: var(--color-text-secondary);
-    margin-bottom: 1.5rem;
+    max-width: 46ch;
+    margin-bottom: 2rem;
   }
   .hero-actions {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
-    margin-bottom: 1.75rem;
   }
   .btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.75rem;
+    padding: 0.75rem 1.6rem;
     border-radius: 10px;
     font-size: 0.9rem;
     font-weight: 600;
@@ -144,5 +218,163 @@ const { lang } = Astro.props;
   .btn-secondary:hover {
     border-color: var(--color-accent);
     transform: translateY(-2px);
+  }
+  /* ===== Visual column ===== */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  .hero-photo-wrap {
+    position: relative;
+    width: min(100%, 360px);
+    opacity: 0;
+    transform: scale(0.92) translateY(20px);
+    animation: heroPhotoIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+  }
+  @keyframes heroPhotoIn {
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  .hero-glow {
+    position: absolute;
+    top: 5%;
+    left: -12%;
+    width: 124%;
+    height: 85%;
+    background: radial-gradient(
+      ellipse at 50% 45%,
+      var(--color-accent) 0%,
+      var(--color-accent-light) 30%,
+      transparent 70%
+    );
+    filter: blur(55px);
+    opacity: 0.2;
+    z-index: 0;
+    border-radius: 50%;
+  }
+  .hero-dots {
+    position: absolute;
+    top: -1rem;
+    right: -0.5rem;
+    width: 110px;
+    height: 110px;
+    background-image: radial-gradient(
+      var(--color-accent) 1.4px,
+      transparent 1.4px
+    );
+    background-size: 14px 14px;
+    opacity: 0.25;
+    z-index: 3;
+    -webkit-mask-image: linear-gradient(225deg, #000 25%, transparent 75%);
+    mask-image: linear-gradient(225deg, #000 25%, transparent 75%);
+  }
+  .hero-photo-mask {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 62% 38% 50% 50% / 52% 48% 52% 48%;
+    box-shadow: 0 24px 55px -18px var(--color-glow);
+    transition:
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.4s,
+      box-shadow 0.4s;
+  }
+  .hero-photo-mask::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--color-glow) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .hero-photo-mask:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-accent-light);
+    box-shadow: 0 28px 65px -16px var(--color-glow);
+  }
+  .hero-photo-mask:hover::before {
+    opacity: 1;
+  }
+  .hero-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center 10%;
+  }
+  .hero-card {
+    position: absolute;
+    left: -0.5rem;
+    bottom: 1.5rem;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    max-width: 215px;
+    padding: 0.75rem 0.95rem;
+    border-radius: 14px;
+    background: var(--color-nav-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 20px 45px -22px rgba(0, 0, 0, 0.5);
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--color-text);
+  }
+  .hero-card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--color-accent);
+    color: var(--color-bg);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2.75rem;
+      justify-items: start;
+    }
+    .hero-visual {
+      order: -1;
+      justify-content: flex-start;
+    }
+    .hero-photo-wrap {
+      width: min(70%, 290px);
+    }
+    .hero-tagline {
+      max-width: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-card {
+      left: -0.25rem;
+      max-width: 185px;
+      font-size: 0.74rem;
+      padding: 0.6rem 0.75rem;
+    }
+    .hero-dots {
+      width: 80px;
+      height: 80px;
+    }
+    .hero-photo-wrap {
+      width: min(65%, 260px);
+    }
   }
 </style>
