@@ -23,7 +23,7 @@ export const experience: ExperienceEntry[] = [
       {
         role: { en: "Technical Lead", es: "Technical Lead" },
         client: "Inditex tech",
-        period: { en: "Nov 2025 — Present", es: "Nov 2025 — Actualidad" },
+        period: { en: "2025 — Present", es: "2025 — Actualidad" },
         location: { en: "A Coruña · Remote", es: "A Coruña · Remoto" },
         description: [
           {
@@ -58,7 +58,7 @@ export const experience: ExperienceEntry[] = [
       {
         role: { en: "DevOps Engineer", es: "DevOps Engineer" },
         client: "Roche Diagnostics",
-        period: { en: "Jan 2023 — Nov 2025", es: "Ene 2023 — Nov 2025" },
+        period: { en: "2023 — 2025", es: "2023 — 2025" },
         location: {
           en: "Sant Cugat del Vallès, Catalonia · Remote",
           es: "Sant Cugat del Vallès, Cataluña · Remoto",
@@ -92,7 +92,7 @@ export const experience: ExperienceEntry[] = [
       {
         role: { en: "Back-end Engineer Lead", es: "Back-end Engineer Lead" },
         client: "Mercadona",
-        period: { en: "Feb 2022 — Jan 2023", es: "Feb 2022 — Ene 2023" },
+        period: { en: "2022 — 2023", es: "2022 — 2023" },
         location: {
           en: "Valencia · Spain",
           es: "Valencia · España",
@@ -118,7 +118,7 @@ export const experience: ExperienceEntry[] = [
       {
         role: { en: "Full-stack Developer", es: "Desarrollador Full-stack" },
         client: "Enel Group",
-        period: { en: "Sep 2020 — Feb 2022", es: "Sep 2020 — Feb 2022" },
+        period: { en: "2020 — 2022", es: "2020 — 2022" },
         location: {
           en: "Málaga, Andalusia · Remote",
           es: "Málaga, Andalucía · Remoto",
@@ -143,7 +143,7 @@ export const experience: ExperienceEntry[] = [
     roles: [
       {
         role: { en: "Full-stack Developer", es: "Desarrollador Full-stack" },
-        period: { en: "Apr 2019 — Sep 2020", es: "Abr 2019 — Sep 2020" },
+        period: { en: "2019 — 2020", es: "2019 — 2020" },
         location: {
           en: "Seville, Andalusia · Hybrid",
           es: "Sevilla, Andalucía · Híbrido",
@@ -168,7 +168,7 @@ export const experience: ExperienceEntry[] = [
     roles: [
       {
         role: { en: "Web Developer", es: "Desarrollador Web" },
-        period: { en: "Aug 2018 — Jan 2019", es: "Ago 2018 — Ene 2019" },
+        period: { en: "2018 — 2019", es: "2018 — 2019" },
         location: {
           en: "Seville, Andalusia · On-site",
           es: "Sevilla, Andalucía · Presencial",
