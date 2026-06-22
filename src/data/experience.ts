@@ -113,7 +113,7 @@ export const experience: ExperienceEntry[] = [
   },
   {
     id: "minsait",
-    company: "Minsait",
+    company: "Minsait (Grupo Indra)",
     roles: [
       {
         role: { en: "Full-stack Developer", es: "Desarrollador Full-stack" },
@@ -133,13 +133,13 @@ export const experience: ExperienceEntry[] = [
             es: "Desarrollo de APIs REST, mensajería streaming y aplicaciones frontend.",
           },
         ],
-        technologies: ["java", "spring", "angular", "aws", "kafka"],
+        technologies: ["java", "spring", "angular", "aws", "kafka", "mongodb"],
       },
     ],
   },
   {
     id: "konecta",
-    company: "Konecta Corporativa",
+    company: "Konecta",
     roles: [
       {
         role: { en: "Full-stack Developer", es: "Desarrollador Full-stack" },
@@ -158,13 +158,13 @@ export const experience: ExperienceEntry[] = [
             es: "Bots de recolección de datos, aplicaciones web e informes personalizados.",
           },
         ],
-        technologies: ["java", "spring", "jquery", "javascript"],
+        technologies: ["java", "spring", "jquery", "javascript", "oracle"],
       },
     ],
   },
   {
     id: "everis",
-    company: "everis",
+    company: "NTT Data",
     roles: [
       {
         role: { en: "Web Developer", es: "Desarrollador Web" },
@@ -179,7 +179,7 @@ export const experience: ExperienceEntry[] = [
             es: "Desarrollo de frontend y servicios REST API para un portal web sobre Drupal.",
           },
         ],
-        technologies: ["jquery", "angular", "spring", "java"],
+        technologies: ["jquery", "angular", "spring", "java", "oracle"],
       },
     ],
   },
