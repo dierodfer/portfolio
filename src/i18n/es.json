@@ -8,7 +8,9 @@
   "hero": {
     "greeting": "Hola, soy",
     "ctaContact": "Contáctame",
-    "ctaGithub": "GitHub"
+    "ctaGithub": "GitHub",
+    "available": "Disponible para nuevas oportunidades",
+    "impact": "Enfocado en crear impacto a través del código"
   },
   "sections": {
     "projectsTag": "Portfolio",
