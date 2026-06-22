@@ -227,22 +227,31 @@ const { lang } = Astro.props;
   }
   .hero-photo-wrap {
     position: relative;
-    width: min(100%, 420px);
+    width: min(100%, 360px);
+    opacity: 0;
+    transform: scale(0.92) translateY(20px);
+    animation: heroPhotoIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+  }
+  @keyframes heroPhotoIn {
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
   }
   .hero-glow {
     position: absolute;
     top: 5%;
-    left: -15%;
-    width: 130%;
-    height: 80%;
+    left: -12%;
+    width: 124%;
+    height: 85%;
     background: radial-gradient(
       ellipse at 50% 45%,
       var(--color-accent) 0%,
       var(--color-accent-light) 30%,
       transparent 70%
     );
-    filter: blur(60px);
-    opacity: 0.18;
+    filter: blur(55px);
+    opacity: 0.2;
     z-index: 0;
     border-radius: 50%;
   }
@@ -265,23 +274,46 @@ const { lang } = Astro.props;
   .hero-photo-mask {
     position: relative;
     z-index: 1;
-    -webkit-mask-image:
-      radial-gradient(ellipse 95% 90% at 50% 38%, #000 48%, transparent 75%);
-    mask-image:
-      radial-gradient(ellipse 95% 90% at 50% 38%, #000 48%, transparent 75%);
+    overflow: hidden;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 62% 38% 50% 50% / 52% 48% 52% 48%;
+    box-shadow: 0 24px 55px -18px var(--color-glow);
+    transition:
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.4s,
+      box-shadow 0.4s;
+  }
+  .hero-photo-mask::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--color-glow) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .hero-photo-mask:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-accent-light);
+    box-shadow: 0 28px 65px -16px var(--color-glow);
+  }
+  .hero-photo-mask:hover::before {
+    opacity: 1;
   }
   .hero-photo {
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 4 / 5;
     object-fit: cover;
-    object-position: center 12%;
+    object-position: center 10%;
   }
   .hero-card {
     position: absolute;
     left: -0.5rem;
-    bottom: 2.5rem;
+    bottom: 1.5rem;
     z-index: 4;
     display: flex;
     align-items: center;
@@ -323,7 +355,7 @@ const { lang } = Astro.props;
       justify-content: flex-start;
     }
     .hero-photo-wrap {
-      width: min(75%, 320px);
+      width: min(70%, 290px);
     }
     .hero-tagline {
       max-width: none;
@@ -342,7 +374,7 @@ const { lang } = Astro.props;
       height: 80px;
     }
     .hero-photo-wrap {
-      width: min(70%, 280px);
+      width: min(65%, 260px);
     }
   }
 </style>
