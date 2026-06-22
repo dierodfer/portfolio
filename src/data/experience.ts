@@ -27,24 +27,16 @@ export const experience: ExperienceEntry[] = [
         location: { en: "A Coruña · Remote", es: "A Coruña · Remoto" },
         description: [
           {
-            en: "Technical lead of internal applications, driving architecture and delivery.",
-            es: "Lead técnico de aplicaciones internas, dirigiendo arquitectura y entrega.",
+            en: "End-to-end delivery of back-office applications: hexagonal microservices, event-driven messaging and frontend.",
+            es: "Entrega end-to-end de aplicaciones back-office: microservicios hexagonales, mensajería orientada a eventos y frontend.",
           },
           {
-            en: "API-first design and development of hexagonal microservices on Azure (AKS).",
-            es: "Diseño API-first y desarrollo de microservicios hexagonales en Azure (AKS).",
+            en: "Cloud releases with CI/CD, monitoring and high-availability operations.",
+            es: "Releases en cloud con CI/CD, monitorización y operaciones de alta disponibilidad.",
           },
           {
-            en: "REST APIs, BFFs and frontend applications.",
-            es: "APIs REST, BFFs y aplicaciones frontend.",
-          },
-          {
-            en: "Deployment, versioning and releases on Kubernetes (AKS), with monitoring, observability and incident resolution ensuring high availability.",
-            es: "Despliegue, versionado y releases en Kubernetes (AKS), con monitorización, observabilidad y resolución de incidencias garantizando alta disponibilidad.",
-          },
-          {
-            en: "Event streaming architecture and AI-assisted development (Claude Code, Codex).",
-            es: "Arquitectura de streaming de eventos y desarrollo asistido por IA (Claude Code, Codex).",
+            en: "AI agents and process automation.",
+            es: "Agentes de IA y automatización de procesos.",
           },
         ],
         technologies: [
@@ -73,20 +65,16 @@ export const experience: ExperienceEntry[] = [
         },
         description: [
           {
-            en: "Architecture, development and quality squad on an agile project.",
-            es: "Squad de arquitectura, desarrollo y calidad en un proyecto ágil.",
+            en: "Cloud infrastructure as code and CI/CD pipeline design for automated releases.",
+            es: "Infraestructura cloud como código y diseño de pipelines CI/CD para releases automatizados.",
           },
           {
-            en: "Cloud infrastructure using IaC and CI/CD pipeline design for automated releases.",
-            es: "Infraestructura cloud con IaC y diseño de pipelines CI/CD para releases automatizados.",
+            en: "Container orchestration, image lifecycle and cluster management.",
+            es: "Orquestación de contenedores, ciclo de vida de imágenes y gestión de clústeres.",
           },
           {
-            en: "Artifact and image management, automated testing, and SDLC GitOps best practices.",
-            es: "Gestión de artefactos e imágenes, testing automatizado y buenas prácticas SDLC GitOps.",
-          },
-          {
-            en: "Container orchestration, development and cluster management.",
-            es: "Orquestación de contenedores, desarrollo y gestión de clústeres.",
+            en: "GitOps workflows, automated testing and SDLC best practices.",
+            es: "Flujos GitOps, testing automatizado y buenas prácticas SDLC.",
           },
         ],
         technologies: [
@@ -111,16 +99,12 @@ export const experience: ExperienceEntry[] = [
         },
         description: [
           {
-            en: "Feature development squad following API-First, OpenAPI and Hexagonal Architecture.",
-            es: "Squad de desarrollo de features siguiendo API-First, OpenAPI y arquitectura hexagonal.",
+            en: "API-First microservices with hexagonal architecture on cloud infrastructure.",
+            es: "Microservicios API-First con arquitectura hexagonal sobre infraestructura cloud.",
           },
           {
-            en: "Cloud infrastructure, design and development of APIs and microservices.",
-            es: "Infraestructura cloud, diseño y desarrollo de APIs y microservicios.",
-          },
-          {
-            en: "Application SDLC: new features, quality, deployment and monitoring.",
-            es: "SDLC de la aplicación: nuevas features, calidad, despliegue y monitorización.",
+            en: "Full application lifecycle: feature development, quality, deployment and monitoring.",
+            es: "Ciclo de vida completo de la aplicación: desarrollo de features, calidad, despliegue y monitorización.",
           },
         ],
         technologies: ["java", "spring", "gcp"],
@@ -141,20 +125,12 @@ export const experience: ExperienceEntry[] = [
         },
         description: [
           {
-            en: "Development squad on an international team and agile project.",
-            es: "Squad de desarrollo en un equipo internacional y proyecto ágil.",
+            en: "Cloud infrastructure, event-driven microservices and ETL pipeline migration.",
+            es: "Infraestructura cloud, microservicios orientados a eventos y migración de pipelines ETL.",
           },
           {
-            en: "Cloud infrastructure and design of microservice workflows with event-driven architecture.",
-            es: "Infraestructura cloud y diseño de flujos de microservicios con arquitectura orientada a eventos.",
-          },
-          {
-            en: "Implementation and design of ETLs (on-premise to cloud).",
-            es: "Implementación y diseño de ETLs (on-premise a cloud).",
-          },
-          {
-            en: "Event streaming consumers/producers, APIs and micro-frontends.",
-            es: "Consumers/producers de streaming de eventos, APIs y micro-frontends.",
+            en: "REST API development, streaming messaging and frontend applications.",
+            es: "Desarrollo de APIs REST, mensajería streaming y aplicaciones frontend.",
           },
         ],
         technologies: ["java", "spring", "angular", "aws", "kafka"],
@@ -174,16 +150,12 @@ export const experience: ExperienceEntry[] = [
         },
         description: [
           {
-            en: "Telecommunication companies: on-premise ETL implementations, automation, monitoring and data visualization for back-office applications.",
-            es: "Empresas de telecomunicaciones: implementaciones ETL on-premise, automatización, monitorización y visualización de datos para aplicaciones de back-office.",
+            en: "On-premise ETL pipelines, automation and data visualization for telecom back-office systems.",
+            es: "Pipelines ETL on-premise, automatización y visualización de datos para sistemas back-office de telecomunicaciones.",
           },
           {
-            en: "Development of data-collecting robots and web applications.",
-            es: "Desarrollo de robots de recolección de datos y aplicaciones web.",
-          },
-          {
-            en: "Generation of custom reports.",
-            es: "Generación de informes personalizados.",
+            en: "Data-collecting bots, web applications and custom reporting.",
+            es: "Bots de recolección de datos, aplicaciones web e informes personalizados.",
           },
         ],
         technologies: ["java", "spring", "jquery", "javascript"],
