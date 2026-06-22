@@ -276,13 +276,11 @@ const { lang } = Astro.props;
     z-index: 1;
     overflow: hidden;
     background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: 50% 50% 45% 55% / 48% 48% 52% 52%;
-    box-shadow: 0 24px 55px -18px var(--color-glow);
+    clip-path: polygon(15% 0%, 100% 5%, 85% 100%, 5% 90%);
+    filter: drop-shadow(0 24px 35px var(--color-glow));
     transition:
       transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.4s,
-      box-shadow 0.4s;
+      filter 0.4s;
   }
   .hero-photo-mask::before {
     content: "";
@@ -296,8 +294,7 @@ const { lang } = Astro.props;
   }
   .hero-photo-mask:hover {
     transform: translateY(-5px);
-    border-color: var(--color-accent-light);
-    box-shadow: 0 28px 65px -16px var(--color-glow);
+    filter: drop-shadow(0 28px 40px var(--color-glow));
   }
   .hero-photo-mask:hover::before {
     opacity: 1;
