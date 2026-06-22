@@ -85,10 +85,11 @@ const { lang } = Astro.props;
 
       <!-- Visual column -->
       <div class="hero-visual hero-anim" style="animation-delay:0.45s">
-        <div class="hero-photo-wrap">
+        <div class="hero-photo-wrap" id="hero-photo-wrap">
           <span class="hero-glow" aria-hidden="true"></span>
           <span class="hero-dots" aria-hidden="true"></span>
-          <div class="hero-photo-mask" id="hero-photo-mask">
+          <div class="hero-photo-blob" aria-hidden="true"></div>
+          <div class="hero-photo-frame">
             <Image
               src={diegoPhoto}
               alt={personal.name}
@@ -107,9 +108,9 @@ const { lang } = Astro.props;
             style="position:absolute"
           >
             <defs>
-              <clipPath id="heroTri" clipPathUnits="objectBoundingBox">
+              <clipPath id="heroBlob" clipPathUnits="objectBoundingBox">
                 <path
-                  d="M0.43,0.14 Q0.5,0 0.57,0.14 L0.93,0.86 Q1,1 0.86,1 L0.14,1 Q0,1 0.07,0.86 Z"
+                  d="M0.05,0.38 C0.0,0.55 0.02,0.78 0.1,0.92 C0.22,1.04 0.48,0.98 0.65,1.0 C0.82,1.02 0.98,0.9 1.0,0.7 C1.02,0.5 0.96,0.34 0.85,0.26 C0.72,0.18 0.55,0.22 0.4,0.25 C0.22,0.29 0.1,0.24 0.05,0.38 Z"
                 ></path>
               </clipPath>
             </defs>
@@ -296,41 +297,33 @@ const { lang } = Astro.props;
     -webkit-mask-image: linear-gradient(225deg, #000 25%, transparent 75%);
     mask-image: linear-gradient(225deg, #000 25%, transparent 75%);
   }
-  .hero-photo-mask {
-    position: relative;
+  .hero-photo-blob {
+    position: absolute;
+    inset: 0;
     z-index: 1;
-    overflow: hidden;
-    cursor: pointer;
     background: linear-gradient(
       155deg,
       var(--color-accent) 0%,
       var(--color-accent-light) 45%,
       var(--color-accent-lighter) 100%
     );
-    clip-path: url(#heroTri);
-    filter: drop-shadow(0 22px 30px var(--color-glow));
-    transition:
-      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-      filter 0.4s;
+    clip-path: url(#heroBlob);
+    filter: drop-shadow(0 18px 28px var(--color-glow));
+    transition: filter 0.4s;
   }
-  .hero-photo-mask::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--color-glow) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.4s;
-    pointer-events: none;
+  .hero-photo-frame {
+    position: relative;
     z-index: 2;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .hero-photo-mask:hover {
-    transform: translateY(-6px) scale(1.015);
-    filter: drop-shadow(0 30px 42px var(--color-glow));
+  .hero-photo-frame:hover {
+    transform: translateY(-6px) scale(1.02);
   }
-  .hero-photo-mask:hover::before {
-    opacity: 1;
+  .hero-photo-wrap:hover .hero-photo-blob {
+    filter: drop-shadow(0 26px 38px var(--color-glow));
   }
-  .hero-photo-mask.is-pop {
+  .hero-photo-frame.is-pop {
     animation: heroPhotoPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   @keyframes heroPhotoPop {
@@ -356,9 +349,9 @@ const { lang } = Astro.props;
     height: auto;
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    object-position: center 18%;
-    transform: scale(0.86) translateY(4%);
-    transform-origin: center bottom;
+    object-position: center 15%;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 4%, #000 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 4%, #000 100%);
   }
   .hero-card {
     position: absolute;
@@ -434,21 +427,21 @@ const { lang } = Astro.props;
       transform: none;
       animation: none;
     }
-    .hero-photo-mask.is-pop {
+    .hero-photo-frame.is-pop {
       animation: none;
     }
   }
 </style>
 
 <script>
-  const mask = document.getElementById("hero-photo-mask");
-  mask?.addEventListener("click", () => {
-    mask.classList.remove("is-pop");
-    // force reflow so the animation can replay on rapid clicks
-    void mask.offsetWidth;
-    mask.classList.add("is-pop");
+  const wrap = document.getElementById("hero-photo-wrap");
+  const frame = wrap?.querySelector<HTMLElement>(".hero-photo-frame");
+  frame?.addEventListener("click", () => {
+    frame.classList.remove("is-pop");
+    void frame.offsetWidth;
+    frame.classList.add("is-pop");
   });
-  mask?.addEventListener("animationend", () => {
-    mask.classList.remove("is-pop");
+  frame?.addEventListener("animationend", () => {
+    frame.classList.remove("is-pop");
   });
 </script>
