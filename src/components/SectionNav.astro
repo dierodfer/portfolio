@@ -1,6 +1,6 @@
 ---
-import type { Lang } from "../i18n/i18n";
-import { t } from "../i18n/i18n";
+import type { Lang, TranslationKey } from "../i18n/i18n";
+import { t, i18nText, i18nAttr } from "../i18n/i18n";
 import { navItems } from "../data/navigation";
 
 interface Props {
@@ -13,18 +13,24 @@ const { lang } = Astro.props;
 <nav class="section-nav" aria-label="Sections">
   <ul>
     {
-      navItems.map((item) => (
-        <li>
-          <a
-            href={item.href}
-            class="dot"
-            data-section={item.href.slice(1)}
-            aria-label={t(`nav.${item.key}`, lang)}
-          >
-            <span class="dot-label">{t(`nav.${item.key}`, lang)}</span>
-          </a>
-        </li>
-      ))
+      navItems.map((item) => {
+        const key = `nav.${item.key}` as TranslationKey;
+        return (
+          <li>
+            <a
+              href={item.href}
+              class="dot"
+              data-section={item.href.slice(1)}
+              aria-label={t(key, lang)}
+              {...i18nAttr("aria-label", key)}
+            >
+              <span class="dot-label" {...i18nText(key)}>
+                {t(key, lang)}
+              </span>
+            </a>
+          </li>
+        );
+      })
     }
   </ul>
 </nav>

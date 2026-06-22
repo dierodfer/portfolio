@@ -1,6 +1,6 @@
 ---
 import type { Lang } from "../i18n/i18n";
-import { t } from "../i18n/i18n";
+import { t, i18nText, i18nTextLoc } from "../i18n/i18n";
 import type { Project } from "../data/projects";
 import TechIcon from "./TechIcon.astro";
 import Icon from "./Icon.astro";
@@ -41,8 +41,12 @@ const hasGithub = !!project.githubUrl;
   }
 
   <div class="card-body">
-    <h3 class="card-title">{project.title[lang]}</h3>
-    <p class="card-desc">{project.description[lang]}</p>
+    <h3 class="card-title" {...i18nTextLoc(project.title)}>
+      {project.title[lang]}
+    </h3>
+    <p class="card-desc" {...i18nTextLoc(project.description)}>
+      {project.description[lang]}
+    </p>
     <div class="card-tech">
       {project.technologies.map((id) => <TechIcon id={id} size={20} mini />)}
     </div>
@@ -67,7 +71,9 @@ const hasGithub = !!project.githubUrl;
           class="card-btn card-btn-primary"
         >
           <Icon name="external" size={15} />
-          <span>{t("projects.liveDemo", lang)}</span>
+          <span {...i18nText("projects.liveDemo")}>
+            {t("projects.liveDemo", lang)}
+          </span>
         </a>
       )
     }
@@ -80,7 +86,9 @@ const hasGithub = !!project.githubUrl;
           class="card-btn card-btn-secondary"
         >
           <Icon name="github" size={15} />
-          <span>{t("projects.sourceCode", lang)}</span>
+          <span {...i18nText("projects.sourceCode")}>
+            {t("projects.sourceCode", lang)}
+          </span>
         </a>
       )
     }

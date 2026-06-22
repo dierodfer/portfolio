@@ -1,6 +1,6 @@
 ---
 import type { Lang } from "../i18n/i18n";
-import { t } from "../i18n/i18n";
+import { t, i18nText, i18nTextLoc } from "../i18n/i18n";
 import { technologies } from "../data/technologies";
 import { projects } from "../data/projects";
 import { experience } from "../data/experience";
@@ -28,9 +28,10 @@ function relatedFor(id: string) {
 
 <Section
   id="tecnologias"
-  tag={t("sections.technologiesTag", lang)}
-  title={t("sections.technologiesTitle", lang)}
-  hint={t("sections.technologiesHint", lang)}
+  lang={lang}
+  tagKey="sections.technologiesTag"
+  titleKey="sections.technologiesTitle"
+  hintKey="sections.technologiesHint"
 >
   <div class="tech-grid">
     {
@@ -100,8 +101,13 @@ function relatedFor(id: string) {
                               )}
                             </span>
                             <span class="pop-text">
-                              <span class="pop-title">{p.title[lang]}</span>
-                              <span class="pop-meta">
+                              <span class="pop-title" {...i18nTextLoc(p.title)}>
+                                {p.title[lang]}
+                              </span>
+                              <span
+                                class="pop-meta"
+                                {...i18nText("skills.project")}
+                              >
                                 {t("skills.project", lang)}
                               </span>
                             </span>
@@ -125,7 +131,12 @@ function relatedFor(id: string) {
                               </span>
                               <span class="pop-text">
                                 <span class="pop-title">{e.company}</span>
-                                <span class="pop-meta">
+                                <span
+                                  class="pop-meta"
+                                  {...(matchingRole
+                                    ? i18nTextLoc(matchingRole.role)
+                                    : {})}
+                                >
                                   {matchingRole?.role[lang]}
                                 </span>
                               </span>

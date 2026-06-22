@@ -15,6 +15,19 @@ const { lang, title, description } = Astro.props;
 const pageTitle = title ?? `${personal.name} — ${personal.role[lang]}`;
 const pageDesc = description ?? personal.tagline[lang];
 
+// Both languages' <title>/description so the client runtime can swap them
+// without a reload.
+const i18nMeta = {
+  en: {
+    title: title ?? `${personal.name} — ${personal.role.en}`,
+    desc: description ?? personal.tagline.en,
+  },
+  es: {
+    title: title ?? `${personal.name} — ${personal.role.es}`,
+    desc: description ?? personal.tagline.es,
+  },
+};
+
 const base = import.meta.env.BASE_URL;
 const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "";
 const canonicalPath = langPath(lang, base);
@@ -94,6 +107,72 @@ const jsonLd = {
   </head>
   <body class="grain">
     <slot />
+
+    <!-- Instant language switch (no reload): swaps text/attributes, updates
+         the URL, and persists the choice. -->
+    <script is:inline define:vars={{ i18nMeta, basePath: base, defaultLang }}>
+      (function () {
+        const KEY = "lang";
+        function langPath(lang) {
+          const clean = basePath.replace(/\/$/, "");
+          return lang === defaultLang ? clean + "/" : clean + "/" + lang + "/";
+        }
+        function apply(lang) {
+          document.documentElement.lang = lang;
+          document.querySelectorAll("[data-i18n]").forEach(function (el) {
+            const v = el.getAttribute("data-" + lang);
+            if (v !== null) el.textContent = v;
+          });
+          document.querySelectorAll("[data-i18n-attrs]").forEach(function (el) {
+            el.getAttribute("data-i18n-attrs")
+              .split(",")
+              .forEach(function (attr) {
+                const v = el.getAttribute("data-" + attr + "-" + lang);
+                if (v !== null) el.setAttribute(attr, v);
+              });
+          });
+          const meta = i18nMeta[lang];
+          if (meta) {
+            document.title = meta.title;
+            const d = document.querySelector("meta[name=description]");
+            if (d) d.setAttribute("content", meta.desc);
+          }
+          const other = lang === "en" ? "es" : "en";
+          document
+            .querySelectorAll("[data-lang-toggle]")
+            .forEach(function (btn) {
+              btn.textContent = other.toUpperCase();
+              btn.setAttribute(
+                "aria-label",
+                lang === "en" ? "Cambiar a español" : "Switch to English",
+              );
+              btn.setAttribute("data-target-lang", other);
+              btn.setAttribute("href", langPath(other));
+            });
+          try {
+            localStorage.setItem(KEY, lang);
+          } catch (e) {}
+          history.replaceState(
+            null,
+            "",
+            langPath(lang) + (location.hash || ""),
+          );
+        }
+
+        let saved = null;
+        try {
+          saved = localStorage.getItem(KEY);
+        } catch (e) {}
+        apply(saved || document.documentElement.lang || defaultLang);
+
+        document.addEventListener("click", function (e) {
+          const btn = e.target.closest("[data-lang-toggle]");
+          if (!btn) return;
+          e.preventDefault();
+          apply(btn.getAttribute("data-target-lang"));
+        });
+      })();
+    </script>
 
     <!-- Reveal body + scroll animations -->
     <script>

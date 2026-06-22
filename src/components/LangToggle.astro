@@ -13,7 +13,13 @@ const label = otherLang.toUpperCase();
 const aria = lang === "en" ? "Cambiar a español" : "Switch to English";
 ---
 
-<a href={target} class="lang-toggle font-mono" aria-label={aria} data-lang-link>
+<a
+  href={target}
+  class="lang-toggle font-mono"
+  aria-label={aria}
+  data-lang-toggle
+  data-target-lang={otherLang}
+>
   {label}
 </a>
 
@@ -41,18 +47,3 @@ const aria = lang === "en" ? "Cambiar a español" : "Switch to English";
     border-color: var(--color-accent);
   }
 </style>
-
-<script>
-  // Preserve the current scroll anchor when switching language.
-  document.querySelectorAll("[data-lang-link]").forEach((link) => {
-    link.addEventListener("click", () => {
-      if (window.location.hash) {
-        const href = link.getAttribute("href") ?? "";
-        link.setAttribute(
-          "href",
-          href.replace(/#.*$/, "") + window.location.hash,
-        );
-      }
-    });
-  });
-</script>

@@ -63,3 +63,28 @@ export function langPath(lang: Lang, base: string): string {
   const clean = base.endsWith("/") ? base.slice(0, -1) : base;
   return lang === defaultLang ? `${clean}/` : `${clean}/${lang}/`;
 }
+
+/**
+ * Spread onto an element to carry both languages so the client runtime can
+ * swap its textContent instantly. e.g. `<h2 {...i18nText("sections.x")}>`.
+ */
+export function i18nText(key: TranslationKey) {
+  return { "data-i18n": "", "data-en": t(key, "en"), "data-es": t(key, "es") };
+}
+
+/** Same as i18nText but from a `Localized` value (data, not UI strings). */
+export function i18nTextLoc(loc: { en: string; es: string }) {
+  return { "data-i18n": "", "data-en": loc.en, "data-es": loc.es };
+}
+
+/**
+ * Spread onto an element to make a translatable attribute (e.g. aria-label)
+ * swappable by the client runtime.
+ */
+export function i18nAttr(attr: string, key: TranslationKey) {
+  return {
+    "data-i18n-attrs": attr,
+    [`data-${attr}-en`]: t(key, "en"),
+    [`data-${attr}-es`]: t(key, "es"),
+  };
+}

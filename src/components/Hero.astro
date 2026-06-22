@@ -1,6 +1,6 @@
 ---
 import type { Lang } from "../i18n/i18n";
-import { t } from "../i18n/i18n";
+import { t, i18nText, i18nTextLoc, i18nAttr } from "../i18n/i18n";
 import { personal } from "../data/personal";
 import Icon from "./Icon.astro";
 
@@ -14,19 +14,29 @@ const { lang } = Astro.props;
 <section class="hero" id="top">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <p class="hero-greeting font-mono hero-anim" style="animation-delay:0.2s">
+    <p
+      class="hero-greeting font-mono hero-anim"
+      style="animation-delay:0.2s"
+      {...i18nText("hero.greeting")}
+    >
       {t("hero.greeting", lang)}
     </p>
     <h1 class="hero-name hero-anim" style="animation-delay:0.35s">
       {personal.name}
     </h1>
-    <p class="hero-role hero-anim" style="animation-delay:0.5s">
+    <p
+      class="hero-role hero-anim"
+      style="animation-delay:0.5s"
+      {...i18nTextLoc(personal.role)}
+    >
       {personal.role[lang]}
     </p>
     <div class="hero-actions hero-anim" style="animation-delay:0.65s">
       <a href={`mailto:${personal.email}`} class="btn btn-primary">
         <Icon name="mail" size={16} />
-        {t("hero.ctaContact", lang)}
+        <span {...i18nText("hero.ctaContact")}
+          >{t("hero.ctaContact", lang)}</span
+        >
       </a>
       <a
         href={personal.github}
@@ -34,9 +44,10 @@ const { lang } = Astro.props;
         rel="noopener"
         class="btn btn-secondary"
         aria-label={t("contact.githubLabel", lang)}
+        {...i18nAttr("aria-label", "contact.githubLabel")}
       >
         <Icon name="github" size={16} />
-        {t("hero.ctaGithub", lang)}
+        <span {...i18nText("hero.ctaGithub")}>{t("hero.ctaGithub", lang)}</span>
       </a>
       <a
         href={personal.linkedin}
@@ -44,9 +55,12 @@ const { lang } = Astro.props;
         rel="noopener"
         class="btn btn-secondary"
         aria-label={t("contact.linkedinLabel", lang)}
+        {...i18nAttr("aria-label", "contact.linkedinLabel")}
       >
         <Icon name="linkedin" size={16} />
-        {t("contact.linkedinLabel", lang)}
+        <span {...i18nText("contact.linkedinLabel")}>
+          {t("contact.linkedinLabel", lang)}
+        </span>
       </a>
     </div>
   </div>

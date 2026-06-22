@@ -64,6 +64,10 @@ ol {
 html {
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
+  /* clip (not hidden) avoids a horizontal scroll container while still
+     containing off-screen elements like closed skill popovers, so the y-axis
+     scroll-snap keeps working. */
+  overflow-x: clip;
   transition:
     background-color 0.4s ease,
     color 0.4s ease;

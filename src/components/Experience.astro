@@ -1,6 +1,5 @@
 ---
 import type { Lang } from "../i18n/i18n";
-import { t } from "../i18n/i18n";
 import { experience } from "../data/experience";
 import Section from "./Section.astro";
 import ExperienceItem from "./ExperienceItem.astro";
@@ -14,8 +13,9 @@ const { lang } = Astro.props;
 
 <Section
   id="experiencia"
-  tag={t("sections.experienceTag", lang)}
-  title={t("sections.experienceTitle", lang)}
+  lang={lang}
+  tagKey="sections.experienceTag"
+  titleKey="sections.experienceTitle"
   narrow
 >
   <div class="timeline">
