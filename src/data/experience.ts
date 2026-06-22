@@ -43,8 +43,8 @@ export const experience: ExperienceEntry[] = [
             es: "Despliegue, versionado y releases en Kubernetes (AKS), con monitorización, observabilidad y resolución de incidencias garantizando alta disponibilidad.",
           },
           {
-            en: "Event streaming with Kafka and AI-assisted development (Claude Code, Codex).",
-            es: "Streaming de eventos con Kafka y desarrollo asistido por IA (Claude Code, Codex).",
+            en: "Event streaming architecture and AI-assisted development (Claude Code, Codex).",
+            es: "Arquitectura de streaming de eventos y desarrollo asistido por IA (Claude Code, Codex).",
           },
         ],
         technologies: [
@@ -77,16 +77,16 @@ export const experience: ExperienceEntry[] = [
             es: "Squad de arquitectura, desarrollo y calidad en un proyecto ágil.",
           },
           {
-            en: "AWS infrastructure using IaC (Terraform) and CI/CD release design (GitHub Actions).",
-            es: "Infraestructura AWS con IaC (Terraform) y diseño de releases CI/CD (GitHub Actions).",
+            en: "Cloud infrastructure using IaC and CI/CD pipeline design for automated releases.",
+            es: "Infraestructura cloud con IaC y diseño de pipelines CI/CD para releases automatizados.",
           },
           {
             en: "Artifact and image management, automated testing, and SDLC GitOps best practices.",
             es: "Gestión de artefactos e imágenes, testing automatizado y buenas prácticas SDLC GitOps.",
           },
           {
-            en: "Kubernetes development and management.",
-            es: "Desarrollo y gestión de Kubernetes.",
+            en: "Container orchestration, development and cluster management.",
+            es: "Orquestación de contenedores, desarrollo y gestión de clústeres.",
           },
         ],
         technologies: [
@@ -115,8 +115,8 @@ export const experience: ExperienceEntry[] = [
             es: "Squad de desarrollo de features siguiendo API-First, OpenAPI y arquitectura hexagonal.",
           },
           {
-            en: "Google Cloud infrastructure, design and development of APIs and microservices.",
-            es: "Infraestructura Google Cloud, diseño y desarrollo de APIs y microservicios.",
+            en: "Cloud infrastructure, design and development of APIs and microservices.",
+            es: "Infraestructura cloud, diseño y desarrollo de APIs y microservicios.",
           },
           {
             en: "Application SDLC: new features, quality, deployment and monitoring.",
@@ -145,16 +145,16 @@ export const experience: ExperienceEntry[] = [
             es: "Squad de desarrollo en un equipo internacional y proyecto ágil.",
           },
           {
-            en: "AWS infrastructure and design of microservice workflows with event-driven architecture.",
-            es: "Infraestructura AWS y diseño de flujos de microservicios con arquitectura orientada a eventos.",
+            en: "Cloud infrastructure and design of microservice workflows with event-driven architecture.",
+            es: "Infraestructura cloud y diseño de flujos de microservicios con arquitectura orientada a eventos.",
           },
           {
             en: "Implementation and design of ETLs (on-premise to cloud).",
             es: "Implementación y diseño de ETLs (on-premise a cloud).",
           },
           {
-            en: "Development of Kafka consumers/producers, APIs and micro-frontends.",
-            es: "Desarrollo de consumers/producers de Kafka, APIs y micro-frontends.",
+            en: "Event streaming consumers/producers, APIs and micro-frontends.",
+            es: "Consumers/producers de streaming de eventos, APIs y micro-frontends.",
           },
         ],
         technologies: ["java", "spring", "angular", "aws", "kafka"],
