@@ -123,7 +123,7 @@ export const experience: ExperienceEntry[] = [
   {
     id: "minsait",
     company: "Minsait (Grupo Indra)",
-    logo: "minsait.png",
+    logo: "minsait.svg",
     logoDark: true,
     roles: [
       {
