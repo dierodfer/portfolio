@@ -39,15 +39,32 @@ const { lang } = Astro.props;
           {personal.role[lang]}
         </p>
 
+        <p class="hero-location hero-anim" style="animation-delay:0.5s">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"
+            ></path><circle cx="12" cy="10" r="3"></circle></svg
+          >
+          {personal.location}
+        </p>
+
         <p
           class="hero-tagline hero-anim"
-          style="animation-delay:0.54s"
+          style="animation-delay:0.6s"
           {...i18nTextLoc(personal.tagline)}
         >
           {personal.tagline[lang]}
         </p>
 
-        <div class="hero-actions hero-anim" style="animation-delay:0.66s">
+        <div class="hero-actions hero-anim" style="animation-delay:0.72s">
           <a href={`mailto:${personal.email}`} class="btn btn-primary">
             <Icon name="mail" size={16} />
             <span {...i18nText("hero.ctaContact")}
@@ -189,6 +206,15 @@ const { lang } = Astro.props;
     font-weight: 600;
     color: var(--color-accent);
     margin-bottom: 1.35rem;
+  }
+  .hero-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+    opacity: 0.85;
   }
   .hero-tagline {
     font-size: 1rem;

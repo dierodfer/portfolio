@@ -9,16 +9,15 @@ export interface ExperienceRole {
   technologies: string[];
 }
 
-/** Bullet marker style for a card's description list. */
-export type BulletStyle = "chevron" | "diamond" | "plus" | "arrow" | "ring";
-
 export interface ExperienceEntry {
   id: string;
   company: string;
-  /** SVG filename in public/icons/companies/ */
+  /** Image filename in public/icons/companies/ */
   logo: string;
-  /** Description bullet marker style (varies per company for now). */
-  bullet: BulletStyle;
+  /** When true the logo tile uses a dark background (for white-on-dark logos). */
+  logoDark?: boolean;
+  /** Override the rail year (defaults to first role's period year). */
+  startYear?: string;
   roles: ExperienceRole[];
 }
 
@@ -26,14 +25,13 @@ export const experience: ExperienceEntry[] = [
   {
     id: "nunegal",
     company: "Nunegal Consulting",
-    logo: "nunegal.svg",
-    bullet: "chevron",
+    logo: "nunegal.png",
     roles: [
       {
         role: { en: "Technical Lead", es: "Technical Lead" },
         client: "Inditex tech",
-        period: { en: "2025 — Present", es: "2025 — Actualidad" },
-        location: { en: "A Coruña · Remote", es: "A Coruña · Remoto" },
+        period: { en: "2025", es: "2025" },
+        location: { en: "A Coruña", es: "A Coruña" },
         description: [
           {
             en: "End-to-end delivery of back-office applications: hexagonal microservices, event-driven messaging and frontend.",
@@ -64,15 +62,15 @@ export const experience: ExperienceEntry[] = [
     id: "capgemini",
     company: "Capgemini",
     logo: "capgemini.svg",
-    bullet: "diamond",
+    startYear: "2022",
     roles: [
       {
         role: { en: "DevOps Engineer", es: "DevOps Engineer" },
         client: "Roche Diagnostics",
-        period: { en: "2023 — 2025", es: "2023 — 2025" },
+        period: { en: "2023", es: "2023" },
         location: {
-          en: "Sant Cugat del Vallès, Catalonia · Remote",
-          es: "Sant Cugat del Vallès, Cataluña · Remoto",
+          en: "Sant Cugat del Vallès, Catalonia",
+          es: "Sant Cugat del Vallès, Cataluña",
         },
         description: [
           {
@@ -103,10 +101,10 @@ export const experience: ExperienceEntry[] = [
       {
         role: { en: "Back-end Engineer Lead", es: "Back-end Engineer Lead" },
         client: "Mercadona",
-        period: { en: "2022 — 2023", es: "2022 — 2023" },
+        period: { en: "2022", es: "2022" },
         location: {
-          en: "Valencia · Spain",
-          es: "Valencia · España",
+          en: "Valencia, Spain",
+          es: "Valencia, España",
         },
         description: [
           {
@@ -125,16 +123,16 @@ export const experience: ExperienceEntry[] = [
   {
     id: "minsait",
     company: "Minsait (Grupo Indra)",
-    logo: "minsait.svg",
-    bullet: "plus",
+    logo: "minsait.png",
+    logoDark: true,
     roles: [
       {
         role: { en: "Full-stack Developer", es: "Desarrollador Full-stack" },
         client: "Enel Group",
-        period: { en: "2020 — 2022", es: "2020 — 2022" },
+        period: { en: "2020", es: "2020" },
         location: {
-          en: "Málaga, Andalusia · Remote",
-          es: "Málaga, Andalucía · Remoto",
+          en: "Málaga, Andalusia",
+          es: "Málaga, Andalucía",
         },
         description: [
           {
@@ -153,15 +151,14 @@ export const experience: ExperienceEntry[] = [
   {
     id: "konecta",
     company: "Konecta",
-    logo: "konecta.svg",
-    bullet: "arrow",
+    logo: "konecta.png",
     roles: [
       {
         role: { en: "Full-stack Developer", es: "Desarrollador Full-stack" },
-        period: { en: "2019 — 2020", es: "2019 — 2020" },
+        period: { en: "2019", es: "2019" },
         location: {
-          en: "Seville, Andalusia · Hybrid",
-          es: "Sevilla, Andalucía · Híbrido",
+          en: "Seville, Andalusia",
+          es: "Sevilla, Andalucía",
         },
         description: [
           {
@@ -181,14 +178,13 @@ export const experience: ExperienceEntry[] = [
     id: "everis",
     company: "NTT Data",
     logo: "nttdata.svg",
-    bullet: "ring",
     roles: [
       {
         role: { en: "Web Developer", es: "Desarrollador Web" },
-        period: { en: "2018 — 2019", es: "2018 — 2019" },
+        period: { en: "2018", es: "2018" },
         location: {
-          en: "Seville, Andalusia · On-site",
-          es: "Sevilla, Andalucía · Presencial",
+          en: "Seville, Andalusia",
+          es: "Sevilla, Andalucía",
         },
         description: [
           {
