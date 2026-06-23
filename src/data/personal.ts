@@ -3,6 +3,7 @@ export type Localized = { en: string; es: string };
 export interface PersonalInfo {
   name: string;
   role: Localized;
+  location: string;
   tagline: Localized;
   email: string;
   github: string;
@@ -15,6 +16,7 @@ export const personal: PersonalInfo = {
     en: "Software Engineer",
     es: "Software Engineer",
   },
+  location: "Málaga, Spain",
   tagline: {
     en: "Building and delivering solutions in cloud environments with a focus on microservices. Extensive experience in Java and Go within AWS ecosystems.",
     es: "Construyo y despliego soluciones en entornos cloud con foco en microservicios. Amplia experiencia en Java y Go dentro de ecosistemas AWS.",

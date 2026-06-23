@@ -2,7 +2,6 @@
 import type { Lang } from "../i18n/i18n";
 import { i18nTextLoc } from "../i18n/i18n";
 import type { ExperienceEntry, ExperienceRole } from "../data/experience";
-import type { Localized } from "../data/personal";
 import TechIcon from "./TechIcon.astro";
 import Icon from "./Icon.astro";
 import { withBase } from "../lib/paths";
@@ -15,56 +14,22 @@ interface Props {
 
 const { entry, lang, stagger } = Astro.props;
 
-/** Work-mode keywords that earn a monitor icon (EN side drives detection). */
-const MODE_WORDS = new Set([
-  "Remote",
-  "Hybrid",
-  "On-site",
-  "Onsite",
-  "Remoto",
-  "Híbrido",
-  "Presencial",
-]);
-
-const EM_DASH = "—";
-
-/** Split a localized period into a big start year + a small localized suffix. */
-function parsePeriod(period: Localized) {
-  const year = period.en.split(EM_DASH)[0].trim();
-  const suffix: Localized = {
-    en: `${EM_DASH} ${period.en.split(EM_DASH).slice(1).join(EM_DASH).trim()}`,
-    es: `${EM_DASH} ${period.es.split(EM_DASH).slice(1).join(EM_DASH).trim()}`,
-  };
-  return { year, suffix };
-}
-
-/** Split a localized location into place + optional tail (work-mode or country). */
-function parseLocation(loc: Localized) {
-  const enParts = loc.en.split("·");
-  const esParts = loc.es.split("·");
-  const place: Localized = { en: enParts[0].trim(), es: esParts[0].trim() };
-  const tailEn = enParts[1]?.trim();
-  if (!tailEn) return { place, tail: null as Localized | null, isMode: false };
-  const tail: Localized = { en: tailEn, es: (esParts[1] ?? "").trim() };
-  return { place, tail, isMode: MODE_WORDS.has(tailEn) };
-}
-
 const primary = entry.roles[0];
 const extraRoles = entry.roles.slice(1);
-const { year, suffix } = parsePeriod(primary.period);
+const multiRole = extraRoles.length > 0;
+const railYear = entry.startYear ?? primary.period.en;
 ---
 
 <div class:list={["timeline-item", "animate-on-scroll", `stagger-${stagger}`]}>
   <div class="exp-rail">
-    <span class="exp-year">{year}</span>
-    <span class="exp-year-suffix" {...i18nTextLoc(suffix)}>{suffix[lang]}</span>
+    <span class="exp-year">{railYear}</span>
   </div>
 
   <div class="exp-marker" aria-hidden="true"><span class="exp-dot"></span></div>
 
   <article id={`exp-${entry.id}`} class="exp-card flashable">
     <header class="exp-header">
-      <div class="exp-logo">
+      <div class:list={["exp-logo", entry.logoDark && "exp-logo--dark"]}>
         <img
           src={withBase(`icons/companies/${entry.logo}`)}
           alt={entry.company}
@@ -85,33 +50,28 @@ const { year, suffix } = parsePeriod(primary.period);
               </>
             )
           }
+          {
+            multiRole && (
+              <span class="exp-subperiod font-mono">
+                {primary.period[lang]}
+              </span>
+            )
+          }
         </p>
-        {
-          (() => {
-            const { place, tail, isMode } = parseLocation(primary.location);
-            return (
-              <p class="exp-meta">
-                <span class="exp-meta-item">
-                  <Icon name="pin" size={14} />
-                  <span {...i18nTextLoc(place)}>{place[lang]}</span>
-                </span>
-                {tail && (
-                  <span class="exp-meta-item">
-                    <span class="exp-meta-dot">·</span>
-                    {isMode && <Icon name="monitor" size={14} />}
-                    <span {...i18nTextLoc(tail)}>{tail[lang]}</span>
-                  </span>
-                )}
-              </p>
-            );
-          })()
-        }
+        <p class="exp-meta">
+          <span class="exp-meta-item">
+            <Icon name="pin" size={14} />
+            <span {...i18nTextLoc(primary.location)}
+              >{primary.location[lang]}</span
+            >
+          </span>
+        </p>
       </div>
     </header>
 
     <div class="exp-divider"></div>
 
-    <ul class:list={["exp-desc", `bullet-${entry.bullet}`]}>
+    <ul class="exp-desc">
       {primary.description.map((d) => <li {...i18nTextLoc(d)}>{d[lang]}</li>)}
     </ul>
 
@@ -126,54 +86,40 @@ const { year, suffix } = parsePeriod(primary.period);
     </div>
 
     {
-      extraRoles.map((role: ExperienceRole) => {
-        const sub = parsePeriod(role.period);
-        const subLoc = parseLocation(role.location);
-        return (
-          <div class="exp-subrole">
-            <p class="exp-role">
-              <span class="role" {...i18nTextLoc(role.role)}>
-                {role.role[lang]}
+      extraRoles.map((role: ExperienceRole) => (
+        <div class="exp-subrole">
+          <p class="exp-role">
+            <span class="role" {...i18nTextLoc(role.role)}>
+              {role.role[lang]}
+            </span>
+            {role.client && (
+              <>
+                <span class="exp-sep">|</span>
+                <span class="exp-client">{role.client}</span>
+              </>
+            )}
+            <span class="exp-subperiod font-mono">{role.period[lang]}</span>
+          </p>
+          <p class="exp-meta">
+            <span class="exp-meta-item">
+              <Icon name="pin" size={14} />
+              <span {...i18nTextLoc(role.location)}>{role.location[lang]}</span>
+            </span>
+          </p>
+          <ul class="exp-desc">
+            {role.description.map((d) => (
+              <li {...i18nTextLoc(d)}>{d[lang]}</li>
+            ))}
+          </ul>
+          <div class="exp-tech">
+            {role.technologies.map((id) => (
+              <span class="exp-chip">
+                <TechIcon id={id} size={22} />
               </span>
-              {role.client && (
-                <>
-                  <span class="exp-sep">|</span>
-                  <span class="exp-client">{role.client}</span>
-                </>
-              )}
-              <span class="exp-subperiod font-mono">
-                {sub.year}{" "}
-                <span {...i18nTextLoc(sub.suffix)}>{sub.suffix[lang]}</span>
-              </span>
-            </p>
-            <p class="exp-meta">
-              <span class="exp-meta-item">
-                <Icon name="pin" size={14} />
-                <span {...i18nTextLoc(subLoc.place)}>{subLoc.place[lang]}</span>
-              </span>
-              {subLoc.tail && (
-                <span class="exp-meta-item">
-                  <span class="exp-meta-dot">·</span>
-                  {subLoc.isMode && <Icon name="monitor" size={14} />}
-                  <span {...i18nTextLoc(subLoc.tail)}>{subLoc.tail[lang]}</span>
-                </span>
-              )}
-            </p>
-            <ul class:list={["exp-desc", `bullet-${entry.bullet}`]}>
-              {role.description.map((d) => (
-                <li {...i18nTextLoc(d)}>{d[lang]}</li>
-              ))}
-            </ul>
-            <div class="exp-tech">
-              {role.technologies.map((id) => (
-                <span class="exp-chip">
-                  <TechIcon id={id} size={22} />
-                </span>
-              ))}
-            </div>
+            ))}
           </div>
-        );
-      })
+        </div>
+      ))
     }
   </article>
 </div>
@@ -189,23 +135,15 @@ const { year, suffix } = parsePeriod(primary.period);
   /* ===== Left rail: start year ===== */
   .exp-rail {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    text-align: right;
-    padding-top: 0.35rem;
-    line-height: 1.1;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding-top: 0.55rem;
   }
   .exp-year {
     font-size: 1.15rem;
     font-weight: 800;
     color: var(--color-accent);
     letter-spacing: -0.02em;
-  }
-  .exp-year-suffix {
-    font-size: 0.7rem;
-    color: var(--color-text-secondary);
-    margin-top: 0.15rem;
-    white-space: nowrap;
   }
 
   /* ===== Middle marker: dot + connecting line ===== */
@@ -240,7 +178,7 @@ const { year, suffix } = parsePeriod(primary.period);
     z-index: 1;
   }
 
-  /* ===== Card (shares the project-card visual language) ===== */
+  /* ===== Card ===== */
   .exp-card {
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
@@ -291,10 +229,15 @@ const { year, suffix } = parsePeriod(primary.period);
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    padding: 6px;
+  }
+  .exp-logo--dark {
+    background: #3c3c3c;
+    border-color: #555;
   }
   .exp-logo img {
-    width: 72%;
-    height: 72%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
   }
   .exp-headings {
@@ -340,9 +283,6 @@ const { year, suffix } = parsePeriod(primary.period);
     align-items: center;
     gap: 0.3rem;
   }
-  .exp-meta-dot {
-    opacity: 0.6;
-  }
 
   /* ===== Divider ===== */
   .exp-divider {
@@ -353,7 +293,7 @@ const { year, suffix } = parsePeriod(primary.period);
     z-index: 1;
   }
 
-  /* ===== Description bullets ===== */
+  /* ===== Description bullets (chevron) ===== */
   .exp-desc {
     list-style: none;
     margin: 0;
@@ -370,48 +310,17 @@ const { year, suffix } = parsePeriod(primary.period);
     margin-bottom: 0.5rem;
   }
   .exp-desc li::before {
+    content: "›";
     position: absolute;
     left: 0;
+    top: -0.05em;
+    font-size: 1.05rem;
+    line-height: 1.5;
     color: var(--color-accent);
     font-weight: 700;
   }
 
-  /* Per-company bullet markers (5 professional variants to compare) */
-  .bullet-chevron li::before {
-    content: "›";
-    top: -0.05em;
-    font-size: 1.05rem;
-    line-height: 1.5;
-  }
-  .bullet-diamond li::before {
-    content: "";
-    top: 0.55em;
-    width: 7px;
-    height: 7px;
-    background: var(--color-accent);
-    transform: rotate(45deg);
-    border-radius: 1px;
-  }
-  .bullet-plus li::before {
-    content: "+";
-    top: -0.05em;
-    font-size: 0.95rem;
-  }
-  .bullet-arrow li::before {
-    content: "→";
-    top: 0;
-    font-size: 0.85rem;
-  }
-  .bullet-ring li::before {
-    content: "";
-    top: 0.5em;
-    width: 8px;
-    height: 8px;
-    border: 2px solid var(--color-accent);
-    border-radius: 50%;
-  }
-
-  /* ===== Tech chips (tile style, matches sketch) ===== */
+  /* ===== Tech chips ===== */
   .exp-tech {
     display: flex;
     flex-wrap: wrap;
@@ -440,12 +349,11 @@ const { year, suffix } = parsePeriod(primary.period);
   .exp-chip:hover {
     transform: translateY(-2px);
   }
-  /* Tech icons sit on a white tile, so never invert in dark mode */
   .exp-chip :global(.tech-dark-invert svg) {
     filter: none;
   }
 
-  /* ===== Secondary roles within the same company ===== */
+  /* ===== Secondary roles ===== */
   .exp-subrole {
     margin-top: 1.25rem;
     padding-top: 1.25rem;
@@ -458,9 +366,7 @@ const { year, suffix } = parsePeriod(primary.period);
     color: var(--color-accent);
     margin-left: auto;
     white-space: nowrap;
-  }
-  .exp-subperiod span {
-    color: var(--color-text-secondary);
+    font-weight: 600;
   }
 
   /* ===== Responsive ===== */
