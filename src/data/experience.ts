@@ -9,9 +9,16 @@ export interface ExperienceRole {
   technologies: string[];
 }
 
+/** Bullet marker style for a card's description list. */
+export type BulletStyle = "chevron" | "diamond" | "plus" | "arrow" | "ring";
+
 export interface ExperienceEntry {
   id: string;
   company: string;
+  /** SVG filename in public/icons/companies/ */
+  logo: string;
+  /** Description bullet marker style (varies per company for now). */
+  bullet: BulletStyle;
   roles: ExperienceRole[];
 }
 
@@ -19,6 +26,8 @@ export const experience: ExperienceEntry[] = [
   {
     id: "nunegal",
     company: "Nunegal Consulting",
+    logo: "nunegal.svg",
+    bullet: "chevron",
     roles: [
       {
         role: { en: "Technical Lead", es: "Technical Lead" },
@@ -54,6 +63,8 @@ export const experience: ExperienceEntry[] = [
   {
     id: "capgemini",
     company: "Capgemini",
+    logo: "capgemini.svg",
+    bullet: "diamond",
     roles: [
       {
         role: { en: "DevOps Engineer", es: "DevOps Engineer" },
@@ -114,6 +125,8 @@ export const experience: ExperienceEntry[] = [
   {
     id: "minsait",
     company: "Minsait (Grupo Indra)",
+    logo: "minsait.svg",
+    bullet: "plus",
     roles: [
       {
         role: { en: "Full-stack Developer", es: "Desarrollador Full-stack" },
@@ -140,6 +153,8 @@ export const experience: ExperienceEntry[] = [
   {
     id: "konecta",
     company: "Konecta",
+    logo: "konecta.svg",
+    bullet: "arrow",
     roles: [
       {
         role: { en: "Full-stack Developer", es: "Desarrollador Full-stack" },
@@ -165,6 +180,8 @@ export const experience: ExperienceEntry[] = [
   {
     id: "everis",
     company: "NTT Data",
+    logo: "nttdata.svg",
+    bullet: "ring",
     roles: [
       {
         role: { en: "Web Developer", es: "Desarrollador Web" },

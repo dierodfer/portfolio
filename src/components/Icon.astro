@@ -7,7 +7,9 @@ interface Props {
     | "external"
     | "briefcase"
     | "grid"
-    | "code";
+    | "code"
+    | "pin"
+    | "monitor";
   size?: number;
 }
 
@@ -73,6 +75,22 @@ const { name, size = 24 } = Astro.props;
       <Fragment>
         <polyline points="16 18 22 12 16 6" />
         <polyline points="8 6 2 12 8 18" />
+      </Fragment>
+    )
+  }
+  {
+    name === "pin" && (
+      <Fragment>
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+        <circle cx="12" cy="10" r="3" />
+      </Fragment>
+    )
+  }
+  {
+    name === "monitor" && (
+      <Fragment>
+        <rect x="2" y="3" width="20" height="14" rx="2" />
+        <path d="M8 21h8M12 17v4" />
       </Fragment>
     )
   }
