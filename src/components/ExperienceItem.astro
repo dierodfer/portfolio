@@ -18,6 +18,7 @@ const primary = entry.roles[0];
 const extraRoles = entry.roles.slice(1);
 const multiRole = extraRoles.length > 0;
 const railYear = entry.startYear ?? primary.period.en;
+const logoSrc = withBase(`icons/companies/${entry.logo}`);
 ---
 
 <div class:list={["timeline-item", "animate-on-scroll", `stagger-${stagger}`]}>
@@ -28,13 +29,17 @@ const railYear = entry.startYear ?? primary.period.en;
   <div class="exp-marker" aria-hidden="true"><span class="exp-dot"></span></div>
 
   <article id={`exp-${entry.id}`} class="exp-card flashable">
-    <header class="exp-header">
+    <img
+      src={logoSrc}
+      alt=""
+      class:list={["exp-bg-icon", entry.logoDark && "exp-bg-icon--invert"]}
+      aria-hidden="true"
+      loading="lazy"
+    />
+
+    <header class="exp-header" role="button" tabindex="0" aria-expanded="false">
       <div class:list={["exp-logo", entry.logoDark && "exp-logo--dark"]}>
-        <img
-          src={withBase(`icons/companies/${entry.logo}`)}
-          alt={entry.company}
-          loading="lazy"
-        />
+        <img src={logoSrc} alt={entry.company} loading="lazy" />
       </div>
       <div class="exp-headings">
         <h3 class="exp-company">{entry.company}</h3>
@@ -67,60 +72,83 @@ const railYear = entry.startYear ?? primary.period.en;
           </span>
         </p>
       </div>
+      <span class="exp-toggle" aria-hidden="true">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          ><polyline points="6 9 12 15 18 9"></polyline></svg
+        >
+      </span>
     </header>
 
-    <div class="exp-divider"></div>
+    <div class="exp-body">
+      <div class="exp-body-inner">
+        <div class="exp-divider"></div>
 
-    <ul class="exp-desc">
-      {primary.description.map((d) => <li {...i18nTextLoc(d)}>{d[lang]}</li>)}
-    </ul>
-
-    <div class="exp-tech">
-      {
-        primary.technologies.map((id) => (
-          <span class="exp-chip">
-            <TechIcon id={id} size={22} />
-          </span>
-        ))
-      }
-    </div>
-
-    {
-      extraRoles.map((role: ExperienceRole) => (
-        <div class="exp-subrole">
-          <p class="exp-role">
-            <span class="role" {...i18nTextLoc(role.role)}>
-              {role.role[lang]}
-            </span>
-            {role.client && (
-              <>
-                <span class="exp-sep">|</span>
-                <span class="exp-client">{role.client}</span>
-              </>
-            )}
-            <span class="exp-subperiod font-mono">{role.period[lang]}</span>
-          </p>
-          <p class="exp-meta">
-            <span class="exp-meta-item">
-              <Icon name="pin" size={14} />
-              <span {...i18nTextLoc(role.location)}>{role.location[lang]}</span>
-            </span>
-          </p>
-          <ul class="exp-desc">
-            {role.description.map((d) => (
+        <ul class="exp-desc">
+          {
+            primary.description.map((d) => (
               <li {...i18nTextLoc(d)}>{d[lang]}</li>
-            ))}
-          </ul>
-          <div class="exp-tech">
-            {role.technologies.map((id) => (
+            ))
+          }
+        </ul>
+
+        <div class="exp-tech">
+          {
+            primary.technologies.map((id) => (
               <span class="exp-chip">
                 <TechIcon id={id} size={22} />
               </span>
-            ))}
-          </div>
+            ))
+          }
         </div>
-      ))
-    }
+
+        {
+          extraRoles.map((role: ExperienceRole) => (
+            <div class="exp-subrole">
+              <p class="exp-role">
+                <span class="role" {...i18nTextLoc(role.role)}>
+                  {role.role[lang]}
+                </span>
+                {role.client && (
+                  <>
+                    <span class="exp-sep">|</span>
+                    <span class="exp-client">{role.client}</span>
+                  </>
+                )}
+                <span class="exp-subperiod font-mono">{role.period[lang]}</span>
+              </p>
+              <p class="exp-meta">
+                <span class="exp-meta-item">
+                  <Icon name="pin" size={14} />
+                  <span {...i18nTextLoc(role.location)}>
+                    {role.location[lang]}
+                  </span>
+                </span>
+              </p>
+              <ul class="exp-desc">
+                {role.description.map((d) => (
+                  <li {...i18nTextLoc(d)}>{d[lang]}</li>
+                ))}
+              </ul>
+              <div class="exp-tech">
+                {role.technologies.map((id) => (
+                  <span class="exp-chip">
+                    <TechIcon id={id} size={22} />
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
   </article>
 </div>
 
@@ -209,14 +237,73 @@ const railYear = entry.startYear ?? primary.period.en;
     box-shadow: 0 18px 50px -18px var(--color-glow);
   }
 
-  /* ===== Header: logo + identity ===== */
+  /* ===== Background watermark logo ===== */
+  .exp-bg-icon {
+    position: absolute;
+    right: -8%;
+    top: 50%;
+    transform: translateY(-50%) rotate(-6deg);
+    width: 55%;
+    max-width: 180px;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: 0;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15));
+    transition:
+      opacity 0.45s ease,
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    -webkit-mask-image: linear-gradient(to left, #000 55%, transparent 100%);
+    mask-image: linear-gradient(to left, #000 55%, transparent 100%);
+  }
+  .exp-card:hover .exp-bg-icon {
+    opacity: 0.14;
+    transform: translateY(-50%) rotate(-3deg) scale(1.05);
+  }
+  :global(.dark) .exp-bg-icon--invert {
+    filter: invert(1) drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15));
+  }
+
+  /* ===== Header (clickable toggle) ===== */
   .exp-header {
     display: flex;
     align-items: center;
     gap: 1rem;
     position: relative;
     z-index: 1;
+    cursor: pointer;
+    user-select: none;
   }
+  .exp-header:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: 8px;
+  }
+  .exp-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: var(--color-text-secondary);
+    opacity: 0.5;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s;
+  }
+  .exp-card.expanded .exp-toggle {
+    transform: rotate(180deg);
+    opacity: 0.8;
+  }
+  .exp-header:hover .exp-toggle {
+    opacity: 0.9;
+  }
+
+  /* ===== Logo tile ===== */
   .exp-logo {
     flex-shrink: 0;
     width: 60px;
@@ -240,8 +327,11 @@ const railYear = entry.startYear ?? primary.period.en;
     height: 100%;
     object-fit: contain;
   }
+
+  /* ===== Headings ===== */
   .exp-headings {
     min-width: 0;
+    flex: 1;
   }
   .exp-company {
     font-size: 1.2rem;
@@ -284,13 +374,26 @@ const railYear = entry.startYear ?? primary.period.en;
     gap: 0.3rem;
   }
 
+  /* ===== Collapsible body ===== */
+  .exp-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s ease;
+    position: relative;
+    z-index: 1;
+  }
+  .exp-body-inner {
+    overflow: hidden;
+  }
+  .exp-card.expanded .exp-body {
+    grid-template-rows: 1fr;
+  }
+
   /* ===== Divider ===== */
   .exp-divider {
     height: 1px;
     background: var(--color-border);
     margin: 1.1rem 0;
-    position: relative;
-    z-index: 1;
   }
 
   /* ===== Description bullets (chevron) ===== */
@@ -298,8 +401,6 @@ const railYear = entry.startYear ?? primary.period.en;
     list-style: none;
     margin: 0;
     padding: 0;
-    position: relative;
-    z-index: 1;
   }
   .exp-desc li {
     position: relative;
@@ -326,8 +427,7 @@ const railYear = entry.startYear ?? primary.period.en;
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 1.1rem;
-    position: relative;
-    z-index: 1;
+    padding-bottom: 0.25rem;
   }
   .exp-chip {
     display: inline-flex;
@@ -358,8 +458,6 @@ const railYear = entry.startYear ?? primary.period.en;
     margin-top: 1.25rem;
     padding-top: 1.25rem;
     border-top: 1px dashed var(--color-border);
-    position: relative;
-    z-index: 1;
   }
   .exp-subperiod {
     font-size: 0.72rem;
@@ -393,3 +491,49 @@ const railYear = entry.startYear ?? primary.period.en;
     }
   }
 </style>
+
+<script>
+  function initExpCards() {
+    document.querySelectorAll<HTMLElement>(".exp-header").forEach((header) => {
+      const card = header.closest<HTMLElement>(".exp-card");
+      if (!card) return;
+
+      function toggle() {
+        const expanded = card!.classList.toggle("expanded");
+        header.setAttribute("aria-expanded", String(expanded));
+      }
+
+      header.addEventListener("click", toggle);
+      header.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggle();
+        }
+      });
+    });
+
+    function expandFromHash() {
+      const hash = location.hash;
+      if (!hash) return;
+      const target = document.querySelector<HTMLElement>(hash);
+      if (!target?.classList.contains("exp-card")) return;
+      if (!target.classList.contains("expanded")) {
+        target.classList.add("expanded");
+        const header = target.querySelector<HTMLElement>(".exp-header");
+        header?.setAttribute("aria-expanded", "true");
+      }
+      requestAnimationFrame(() => {
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    }
+
+    expandFromHash();
+    window.addEventListener("hashchange", expandFromHash);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initExpCards);
+  } else {
+    initExpCards();
+  }
+</script>
