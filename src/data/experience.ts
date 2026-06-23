@@ -31,7 +31,7 @@ export const experience: ExperienceEntry[] = [
         role: { en: "Technical Lead", es: "Technical Lead" },
         client: "Inditex tech",
         period: { en: "2025", es: "2025" },
-        location: { en: "A Coruña", es: "A Coruña" },
+        location: { en: "A Coruña, Galicia", es: "A Coruña, Galicia" },
         description: [
           {
             en: "End-to-end delivery of back-office applications: hexagonal microservices, event-driven messaging and frontend.",
