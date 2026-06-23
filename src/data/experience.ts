@@ -151,7 +151,7 @@ export const experience: ExperienceEntry[] = [
   {
     id: "konecta",
     company: "Konecta",
-    logo: "konecta.png",
+    logo: "konecta.svg",
     roles: [
       {
         role: { en: "Full-stack Developer", es: "Desarrollador Full-stack" },

@@ -40,34 +40,42 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
     <header class="exp-header" role="button" tabindex="0" aria-expanded="false">
       <div class="exp-headings">
         <h3 class="exp-company">{entry.company}</h3>
-        <p class="exp-role">
-          <span class="role" {...i18nTextLoc(primary.role)}
-            >{primary.role[lang]}</span
-          >
-          {
-            primary.client && (
-              <>
-                <span class="exp-sep">|</span>
-                <span class="exp-client">{primary.client}</span>
-              </>
-            )
-          }
-          {
-            multiRole && (
-              <span class="exp-subperiod font-mono">
-                {primary.period[lang]}
-              </span>
-            )
-          }
-        </p>
-        <p class="exp-meta">
-          <span class="exp-meta-item">
-            <Icon name="pin" size={14} />
-            <span {...i18nTextLoc(primary.location)}
-              >{primary.location[lang]}</span
-            >
-          </span>
-        </p>
+        {
+          multiRole ? (
+            <p class="exp-roles-summary">
+              {entry.roles.map((role, i) => (
+                <>
+                  {i > 0 && <span class="exp-sep">&</span>}
+                  <span class="role" {...i18nTextLoc(role.role)}>
+                    {role.role[lang]}
+                  </span>
+                </>
+              ))}
+            </p>
+          ) : (
+            <>
+              <p class="exp-role">
+                <span class="role" {...i18nTextLoc(primary.role)}>
+                  {primary.role[lang]}
+                </span>
+                {primary.client && (
+                  <>
+                    <span class="exp-sep">|</span>
+                    <span class="exp-client">{primary.client}</span>
+                  </>
+                )}
+              </p>
+              <p class="exp-meta">
+                <span class="exp-meta-item">
+                  <Icon name="pin" size={14} />
+                  <span {...i18nTextLoc(primary.location)}>
+                    {primary.location[lang]}
+                  </span>
+                </span>
+              </p>
+            </>
+          )
+        }
       </div>
       <span class="exp-toggle" aria-hidden="true">
         <svg
@@ -86,63 +94,63 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
 
     <div class="exp-body">
       <div class="exp-body-inner">
-        <div class="exp-divider"></div>
-
-        <ul class="exp-desc">
-          {
-            primary.description.map((d) => (
-              <li {...i18nTextLoc(d)}>{d[lang]}</li>
-            ))
-          }
-        </ul>
-
-        <div class="exp-tech">
-          {
-            primary.technologies.map((id) => (
-              <span class="exp-chip">
-                <TechIcon id={id} size={22} />
-              </span>
-            ))
-          }
-        </div>
-
         {
-          extraRoles.map((role: ExperienceRole) => (
-            <div class="exp-subrole">
-              <p class="exp-role">
-                <span class="role" {...i18nTextLoc(role.role)}>
-                  {role.role[lang]}
-                </span>
-                {role.client && (
-                  <>
-                    <span class="exp-sep">|</span>
-                    <span class="exp-client">{role.client}</span>
-                  </>
-                )}
-                <span class="exp-subperiod font-mono">{role.period[lang]}</span>
-              </p>
-              <p class="exp-meta">
-                <span class="exp-meta-item">
-                  <Icon name="pin" size={14} />
-                  <span {...i18nTextLoc(role.location)}>
-                    {role.location[lang]}
+          multiRole ? (
+            entry.roles.map((role: ExperienceRole, i: number) => (
+              <div class:list={["exp-role-section", i > 0 && "exp-subrole"]}>
+                <p class="exp-role">
+                  <span class="role" {...i18nTextLoc(role.role)}>
+                    {role.role[lang]}
                   </span>
-                </span>
-              </p>
+                  {role.client && (
+                    <>
+                      <span class="exp-sep">|</span>
+                      <span class="exp-client">{role.client}</span>
+                    </>
+                  )}
+                  <span class="exp-subperiod font-mono">
+                    {role.period[lang]}
+                  </span>
+                </p>
+                <p class="exp-meta">
+                  <span class="exp-meta-item">
+                    <Icon name="pin" size={14} />
+                    <span {...i18nTextLoc(role.location)}>
+                      {role.location[lang]}
+                    </span>
+                  </span>
+                </p>
+                <ul class="exp-desc">
+                  {role.description.map((d) => (
+                    <li {...i18nTextLoc(d)}>{d[lang]}</li>
+                  ))}
+                </ul>
+                <div class="exp-tech">
+                  {role.technologies.map((id) => (
+                    <span class="exp-chip">
+                      <TechIcon id={id} size={22} />
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))
+          ) : (
+            <>
+              <div class="exp-divider" />
               <ul class="exp-desc">
-                {role.description.map((d) => (
+                {primary.description.map((d) => (
                   <li {...i18nTextLoc(d)}>{d[lang]}</li>
                 ))}
               </ul>
               <div class="exp-tech">
-                {role.technologies.map((id) => (
+                {primary.technologies.map((id) => (
                   <span class="exp-chip">
                     <TechIcon id={id} size={22} />
                   </span>
                 ))}
               </div>
-            </div>
-          ))
+            </>
+          )
         }
       </div>
     </div>
@@ -342,6 +350,18 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
+  }
+
+  .exp-roles-summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+  }
+  .exp-role-section:first-child {
+    margin-top: 0.75rem;
   }
 
   /* ===== Collapsible body ===== */
