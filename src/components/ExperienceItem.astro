@@ -32,7 +32,7 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
     <img
       src={logoSrc}
       alt=""
-      class:list={["exp-bg-icon", entry.logoDark && "exp-bg-icon--invert"]}
+      class="exp-bg-icon"
       aria-hidden="true"
       loading="lazy"
     />
@@ -208,7 +208,7 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: 16px;
-    padding: 1.5rem 1.65rem 1.5rem 4.5rem;
+    padding: 1.5rem 1.65rem 1.5rem 5.25rem;
     position: relative;
     overflow: hidden;
     transition:
@@ -237,25 +237,26 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
   /* ===== Background watermark logo ===== */
   .exp-bg-icon {
     position: absolute;
-    left: 1rem;
+    left: 1.15rem;
     top: 50%;
     transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     object-fit: contain;
-    opacity: 0.12;
+    opacity: 0.13;
     pointer-events: none;
     z-index: 0;
+    filter: brightness(0);
     transition:
       opacity 0.45s ease,
       transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .exp-card:hover .exp-bg-icon {
-    opacity: 0.2;
+    opacity: 0.22;
     transform: translateY(-50%) scale(1.08);
   }
-  :global(.dark) .exp-bg-icon--invert {
-    filter: invert(1);
+  :global(.dark) .exp-bg-icon {
+    filter: brightness(0) invert(1);
   }
 
   /* ===== Header (clickable toggle) ===== */
@@ -445,12 +446,12 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
       font-size: 1rem;
     }
     .exp-card {
-      padding: 1.25rem 1.25rem 1.25rem 3.75rem;
+      padding: 1.25rem 1.25rem 1.25rem 4.25rem;
     }
     .exp-bg-icon {
-      width: 38px;
-      height: 38px;
-      left: 0.75rem;
+      width: 42px;
+      height: 42px;
+      left: 0.85rem;
     }
     .exp-header {
       gap: 0.85rem;
