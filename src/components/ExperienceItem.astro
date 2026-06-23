@@ -237,12 +237,12 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
   /* ===== Background watermark logo ===== */
   .exp-bg-icon {
     position: absolute;
-    right: -6%;
+    right: 1.25rem;
     top: 50%;
     transform: translateY(-50%) rotate(-6deg);
-    width: 55%;
-    max-width: 140px;
-    height: auto;
+    width: auto;
+    height: 65%;
+    max-height: 80px;
     object-fit: contain;
     opacity: 0.1;
     pointer-events: none;
@@ -450,7 +450,8 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
       padding: 1.25rem;
     }
     .exp-bg-icon {
-      max-width: 100px;
+      max-height: 55px;
+      right: 0.75rem;
       opacity: 0.08;
     }
     .exp-header {
