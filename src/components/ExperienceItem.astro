@@ -32,15 +32,12 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
     <img
       src={logoSrc}
       alt=""
-      class:list={["exp-bg-icon", entry.logoDark && "exp-bg-icon--invert"]}
+      class="exp-bg-icon"
       aria-hidden="true"
       loading="lazy"
     />
 
     <header class="exp-header" role="button" tabindex="0" aria-expanded="false">
-      <div class:list={["exp-logo", entry.logoDark && "exp-logo--dark"]}>
-        <img src={logoSrc} alt={entry.company} loading="lazy" />
-      </div>
       <div class="exp-headings">
         <h3 class="exp-company">{entry.company}</h3>
         <p class="exp-role">
@@ -240,29 +237,27 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
   /* ===== Background watermark logo ===== */
   .exp-bg-icon {
     position: absolute;
-    right: -8%;
+    right: -6%;
     top: 50%;
     transform: translateY(-50%) rotate(-6deg);
     width: 55%;
-    max-width: 180px;
+    max-width: 140px;
     height: auto;
     object-fit: contain;
-    opacity: 0.07;
+    opacity: 0.1;
     pointer-events: none;
     z-index: 0;
-    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15));
+    filter: brightness(0);
     transition:
       opacity 0.45s ease,
       transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-    -webkit-mask-image: linear-gradient(to left, #000 55%, transparent 100%);
-    mask-image: linear-gradient(to left, #000 55%, transparent 100%);
   }
   .exp-card:hover .exp-bg-icon {
-    opacity: 0.14;
+    opacity: 0.22;
     transform: translateY(-50%) rotate(-3deg) scale(1.05);
   }
-  :global(.dark) .exp-bg-icon--invert {
-    filter: invert(1) drop-shadow(0 8px 20px rgba(0, 0, 0, 0.15));
+  :global(.dark) .exp-bg-icon {
+    filter: brightness(0) invert(1);
   }
 
   /* ===== Header (clickable toggle) ===== */
@@ -301,31 +296,6 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
   }
   .exp-header:hover .exp-toggle {
     opacity: 0.9;
-  }
-
-  /* ===== Logo tile ===== */
-  .exp-logo {
-    flex-shrink: 0;
-    width: 60px;
-    height: 60px;
-    border-radius: 14px;
-    background: #fff;
-    border: 1px solid var(--color-border);
-    box-shadow: 0 4px 14px -6px rgba(0, 0, 0, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    padding: 6px;
-  }
-  .exp-logo--dark {
-    background: #3c3c3c;
-    border-color: #555;
-  }
-  .exp-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
   }
 
   /* ===== Headings ===== */
@@ -479,9 +449,9 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
     .exp-card {
       padding: 1.25rem;
     }
-    .exp-logo {
-      width: 50px;
-      height: 50px;
+    .exp-bg-icon {
+      max-width: 100px;
+      opacity: 0.08;
     }
     .exp-header {
       gap: 0.85rem;
