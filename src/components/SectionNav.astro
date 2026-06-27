@@ -108,6 +108,7 @@ const { lang } = Astro.props;
     document.querySelectorAll<HTMLAnchorElement>(".section-nav .dot"),
   );
   const byId = new Map(dots.map((d) => [d.dataset.section, d]));
+  const scroller = document.querySelector<HTMLElement>("main");
   const sections = document.querySelectorAll<HTMLElement>("main > section[id]");
 
   const spy = new IntersectionObserver(
@@ -119,7 +120,21 @@ const { lang } = Astro.props;
         }
       });
     },
-    { threshold: 0.5 },
+    // Observe against the <main> scroll container, not the viewport.
+    { root: scroller, threshold: 0.5 },
   );
   sections.forEach((s) => spy.observe(s));
+
+  // Native fragment navigation is unreliable inside a non-document scroll
+  // container, so drive it explicitly via scrollIntoView on the scroller.
+  dots.forEach((dot) => {
+    dot.addEventListener("click", (e) => {
+      const href = dot.getAttribute("href");
+      const target = href ? document.querySelector<HTMLElement>(href) : null;
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      history.pushState(null, "", href);
+    });
+  });
 </script>
