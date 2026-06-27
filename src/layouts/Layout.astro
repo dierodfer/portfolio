@@ -178,6 +178,9 @@ const jsonLd = {
     <script>
       requestAnimationFrame(() => document.body.classList.add("loaded"));
 
+      // <main> is the scroll container, so reveal animations must observe
+      // against it rather than the document viewport.
+      const scroller = document.querySelector("main");
       const reveal = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -188,7 +191,7 @@ const jsonLd = {
             }
           });
         },
-        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+        { root: scroller, threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
       );
       document
         .querySelectorAll(".animate-on-scroll")

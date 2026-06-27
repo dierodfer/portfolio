@@ -23,12 +23,15 @@
 
 <script>
   const bar = document.getElementById("scroll-progress");
+  // <main> is the scroll container, so read progress from it (not the document).
+  const scroller = document.querySelector("main");
   let ticking = false;
   const update = () => {
-    const top = document.documentElement.scrollTop;
-    const height = document.documentElement.scrollHeight - window.innerHeight;
+    if (!bar || !scroller) return;
+    const top = scroller.scrollTop;
+    const height = scroller.scrollHeight - scroller.clientHeight;
     const pct = height > 0 ? (top / height) * 100 : 0;
-    if (bar) bar.style.width = pct + "%";
+    bar.style.width = pct + "%";
     ticking = false;
   };
   const onScroll = () => {
@@ -37,6 +40,6 @@
       requestAnimationFrame(update);
     }
   };
-  window.addEventListener("scroll", onScroll, { passive: true });
+  scroller?.addEventListener("scroll", onScroll, { passive: true });
   update();
 </script>

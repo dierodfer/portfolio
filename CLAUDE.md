@@ -54,7 +54,7 @@ To add a new technology: add entry to `technologies.ts` (grid) or `extraTech` (p
 
 ### Scroll Snap
 
-`html` has `scroll-snap-type: y mandatory`. Each `main > section` snaps at start with `min-height: 100dvh`. Last section uses `min-height: auto`. Disabled on mobile (< 768px) and `prefers-reduced-motion`.
+`<main>` is a dedicated scroll container (`height: 100dvh; overflow-y: auto`) with `scroll-snap-type: y mandatory` — the document itself does not scroll. Each `main > section` snaps at start with `min-height: 100dvh` (last section uses `min-height: auto`). Snapping is active on mobile too; there is no `scroll-snap-stop`, so a flick glides across sections with inertia before settling. Disabled only under `prefers-reduced-motion`. Because `<main>` (not the viewport) is the scroller, the `SectionNav` and reveal `IntersectionObserver`s pass `root: main`, and `ScrollProgress` reads `main.scrollTop`.
 
 ### Dark/Light Mode
 

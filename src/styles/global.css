@@ -62,15 +62,24 @@ ol {
 
 /* ===== Base ===== */
 html {
-  scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
   /* clip (not hidden) avoids a horizontal scroll container while still
-     containing off-screen elements like closed skill popovers, so the y-axis
-     scroll-snap keeps working. */
+     containing off-screen elements like closed skill popovers. */
   overflow-x: clip;
   transition:
     background-color 0.4s ease,
     color 0.4s ease;
+}
+
+/* ===== Dedicated scroll container =====
+   <main> is a fixed-height internal scroller (not the document), so each
+   section snaps within it on every viewport. */
+main {
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: clip;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
 }
 
 /* ===== Full-page scroll-snap sections ===== */
@@ -80,7 +89,8 @@ main > section {
   flex-direction: column;
   justify-content: center;
   scroll-snap-align: start;
-  scroll-snap-stop: always;
+  /* No scroll-snap-stop: lets a flick glide across sections with inertia
+     before settling on the nearest one. */
   padding: 5rem 0 3rem;
   position: relative;
 }
@@ -95,7 +105,9 @@ body {
   color: var(--color-text);
   font-family: var(--font-sans);
   line-height: 1.6;
-  overflow-x: hidden;
+  /* Document itself does not scroll — only <main> does. */
+  height: 100dvh;
+  overflow: hidden;
   /* Load transition: starts hidden, .loaded fades it in */
   opacity: 0;
   transition: opacity 0.3s ease-in;
@@ -284,25 +296,18 @@ main:focus-visible {
     transition: none;
   }
   /* Snapping changes scroll feel — disable when motion is reduced */
-  html {
+  main {
     scroll-snap-type: none;
+    scroll-behavior: auto;
   }
 }
 
-/* ===== Mobile: normal flow instead of forced snapping ===== */
+/* ===== Mobile: keep section snapping, just tighten spacing ===== */
 @media (max-width: 768px) {
   .grain::before {
     display: none;
   }
-  html {
-    scroll-snap-type: none;
-    overflow-x: hidden;
-  }
   main > section {
-    min-height: auto;
-    display: block;
-    scroll-snap-align: none;
-    scroll-snap-stop: unset;
     padding: 4.5rem 0 2rem;
   }
 }
