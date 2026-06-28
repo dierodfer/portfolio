@@ -4,6 +4,7 @@ import type { Lang } from "../i18n/i18n";
 import { langPath, defaultLang } from "../i18n/i18n";
 import { personal } from "../data/personal";
 import { withBase } from "../lib/paths";
+import Particles from "../components/Particles.astro";
 
 interface Props {
   lang: Lang;
@@ -106,6 +107,7 @@ const jsonLd = {
     </script>
   </head>
   <body class="grain">
+    <Particles />
     <slot />
 
     <!-- Instant language switch (no reload): swaps text/attributes, updates
