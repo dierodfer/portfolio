@@ -64,6 +64,12 @@ export const technologies: TechCategory[] = [
         devicon: "apachekafka/apachekafka-original",
         darkInvert: true,
       },
+      {
+        id: "mongodb",
+        name: "MongoDB",
+        devicon: "mongodb/mongodb-original",
+      },
+      { id: "oracle", name: "Oracle", devicon: "oracle/oracle-original" },
     ],
   },
   {
@@ -129,8 +135,6 @@ export const extraTech: TechItem[] = [
   { id: "css", name: "CSS3", devicon: "css3/css3-original" },
   { id: "nodejs", name: "Node.js", devicon: "nodejs/nodejs-original" },
   { id: "python", name: "Python", devicon: "python/python-original" },
-  { id: "oracle", name: "Oracle", devicon: "oracle/oracle-original" },
-  { id: "mongodb", name: "MongoDB", devicon: "mongodb/mongodb-original" },
 ];
 
 /** Flat lookup of every tech by id, for rendering icons in projects/experience. */
