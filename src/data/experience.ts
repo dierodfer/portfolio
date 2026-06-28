@@ -97,7 +97,6 @@ export const experience: ExperienceEntry[] = [
           "terraform",
           "linux",
           "githubactions",
-          "git",
         ],
       },
       {
@@ -118,7 +117,7 @@ export const experience: ExperienceEntry[] = [
             es: "Ciclo de vida completo de la aplicación: desarrollo de features, calidad, despliegue y monitorización.",
           },
         ],
-        technologies: ["java", "spring", "gcp"],
+        technologies: ["java", "spring", "gcp", "postgresql"],
       },
     ],
   },
