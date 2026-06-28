@@ -96,13 +96,14 @@ export const technologies: TechCategory[] = [
         name: "GitHub Actions",
         devicon: "githubactions/githubactions-original",
       },
-      { id: "git", name: "Git", devicon: "git/git-original" },
       { id: "linux", name: "Linux", devicon: "linux/linux-original" },
     ],
   },
 ];
 
 export const extraTech: TechItem[] = [
+  // Not shown in the skills grid, but still used by experience/project chips.
+  { id: "git", name: "Git", devicon: "git/git-original" },
   { id: "wails", name: "Wails", icon: "wails.svg" },
   { id: "boltdb", name: "BoltDB", icon: "boltdb.svg" },
   { id: "pwa", name: "PWA", icon: "pwa.svg" },
