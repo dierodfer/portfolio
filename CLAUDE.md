@@ -60,6 +60,10 @@ To add a new technology: add entry to `technologies.ts` (grid) or `extraTech` (p
 
 CSS custom properties in `:root` / `.dark`. Theme script in `<head>` reads localStorage before first paint. Default: dark.
 
+### Background Particles
+
+`Particles.astro` is a fixed full-viewport `<canvas>` (`z-index: -1`) mounted once in `Layout.astro`, behind all content. Vanilla zero-dependency engine reads `--color-accent` (recoloured on theme toggle via a `MutationObserver`) and honors `prefers-reduced-motion` (static single frame). Modes: `dots`, `constellation`, `aurora`, `off`, persisted in `localStorage["particles-mode"]`. A temporary floating `#particles-switch` pill cycles the modes for picking a style — remove that button (markup + styles + the `TEMP` switcher block in the script) once a final mode is locked.
+
 ## Code Conventions
 
 - No Tailwind — all styling is native CSS (custom properties + scoped styles)

@@ -1,0 +1,272 @@
+---
+// Subtle themed background particles on a <canvas>. Vanilla, zero-dependency.
+// Colours are read from the --color-accent CSS custom property, so it follows
+// the light/dark theme automatically (re-read on theme toggle).
+//
+// TEMP: ships with a floating style switcher (#particles-switch) so a final
+// look can be chosen. To lock a style, delete the button markup, its styles,
+// and the "TEMP" switcher block in the script, then hard-code `mode`.
+---
+
+<canvas id="bg-particles" aria-hidden="true"></canvas>
+
+<!-- TEMP — style switcher for picking a particle mode. Remove once chosen. -->
+<button
+  id="particles-switch"
+  type="button"
+  aria-label="Cambiar estilo del fondo de partículas"
+>
+  <span class="ps-dot" aria-hidden="true"></span>
+  <span id="particles-switch-label">Puntos</span>
+</button>
+
+<style>
+  #bg-particles {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* TEMP switcher pill — matches the FloatingControls / ThemeToggle vibe. */
+  #particles-switch {
+    position: fixed;
+    left: 1rem;
+    bottom: 1rem;
+    z-index: 80;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+    background: var(--color-nav-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition:
+      transform 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  #particles-switch:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-accent-light);
+    box-shadow: 0 8px 24px -12px var(--color-glow);
+  }
+  #particles-switch .ps-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+  @media (max-width: 768px) {
+    #particles-switch {
+      left: 0.75rem;
+      bottom: 0.75rem;
+    }
+  }
+</style>
+
+<script>
+  type Mode = "dots" | "constellation" | "aurora" | "off";
+
+  const canvas = document.getElementById(
+    "bg-particles",
+  ) as HTMLCanvasElement | null;
+
+  if (canvas) {
+    const ctx = canvas.getContext("2d")!;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    const MODES: Mode[] = ["dots", "constellation", "aurora", "off"];
+    const LABELS: Record<Mode, string> = {
+      dots: "Puntos",
+      constellation: "Constelación",
+      aurora: "Aurora",
+      off: "Apagado",
+    };
+
+    let mode = (localStorage.getItem("particles-mode") as Mode) || "dots";
+    if (!MODES.includes(mode)) mode = "dots";
+
+    // Theme-driven colour as an "r,g,b" string, re-read on theme change.
+    let rgb = "148,163,184";
+    const hexToRgb = (hex: string): string | null => {
+      const m = hex.replace("#", "").trim();
+      if (m.length !== 6) return null;
+      const r = parseInt(m.slice(0, 2), 16);
+      const g = parseInt(m.slice(2, 4), 16);
+      const b = parseInt(m.slice(4, 6), 16);
+      if ([r, g, b].some(Number.isNaN)) return null;
+      return `${r},${g},${b}`;
+    };
+    const readColor = () => {
+      const v = getComputedStyle(document.documentElement)
+        .getPropertyValue("--color-accent")
+        .trim();
+      rgb = hexToRgb(v) || rgb;
+    };
+
+    let w = 0;
+    let h = 0;
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    interface Particle {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      r: number;
+    }
+    let dots: Particle[] = [];
+    let orbs: Particle[] = [];
+
+    const rand = (a: number, b: number) => a + Math.random() * (b - a);
+
+    const build = () => {
+      const isMobile = w < 768;
+      const count = Math.min(isMobile ? 28 : 80, Math.round((w * h) / 18000));
+      dots = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: rand(-0.18, 0.18),
+        vy: rand(-0.18, 0.18),
+        r: rand(0.8, 2),
+      }));
+      orbs = Array.from({ length: isMobile ? 3 : 5 }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: rand(-0.08, 0.08),
+        vy: rand(-0.08, 0.08),
+        r: rand(180, 340),
+      }));
+    };
+
+    const step = (arr: Particle[]) => {
+      for (const p of arr) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < -60) p.x = w + 60;
+        else if (p.x > w + 60) p.x = -60;
+        if (p.y < -60) p.y = h + 60;
+        else if (p.y > h + 60) p.y = -60;
+      }
+    };
+
+    const drawDots = () => {
+      ctx.fillStyle = `rgba(${rgb},0.5)`;
+      for (const p of dots) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    };
+
+    const drawConstellation = () => {
+      const max = 120;
+      ctx.lineWidth = 1;
+      for (let i = 0; i < dots.length; i++) {
+        for (let j = i + 1; j < dots.length; j++) {
+          const a = dots[i];
+          const b = dots[j];
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < max) {
+            ctx.strokeStyle = `rgba(${rgb},${0.18 * (1 - d / max)})`;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      drawDots();
+    };
+
+    const drawAurora = () => {
+      for (const o of orbs) {
+        const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+        g.addColorStop(0, `rgba(${rgb},0.1)`);
+        g.addColorStop(1, `rgba(${rgb},0)`);
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    };
+
+    const paint = () => {
+      if (mode === "dots") drawDots();
+      else if (mode === "constellation") drawConstellation();
+      else if (mode === "aurora") drawAurora();
+    };
+
+    let raf = 0;
+    const frame = () => {
+      ctx.clearRect(0, 0, w, h);
+      if (mode === "dots" || mode === "constellation") step(dots);
+      else if (mode === "aurora") step(orbs);
+      paint();
+      raf = requestAnimationFrame(frame);
+    };
+
+    const start = () => {
+      cancelAnimationFrame(raf);
+      ctx.clearRect(0, 0, w, h);
+      if (mode === "off") return;
+      if (reduceMotion) {
+        paint(); // single static frame, no animation
+        return;
+      }
+      raf = requestAnimationFrame(frame);
+    };
+
+    const rebuild = () => {
+      resize();
+      build();
+      start();
+    };
+
+    window.addEventListener("resize", rebuild, { passive: true });
+
+    // Recolour on theme toggle (.dark class flips on <html>).
+    new MutationObserver(readColor).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    // TEMP — floating style switcher. Remove once a mode is chosen.
+    const label = document.getElementById("particles-switch-label");
+    const syncLabel = () => {
+      if (label) label.textContent = LABELS[mode];
+    };
+    document
+      .getElementById("particles-switch")
+      ?.addEventListener("click", () => {
+        mode = MODES[(MODES.indexOf(mode) + 1) % MODES.length];
+        localStorage.setItem("particles-mode", mode);
+        syncLabel();
+        start();
+      });
+
+    readColor();
+    resize();
+    build();
+    syncLabel();
+    start();
+  }
+</script>
