@@ -62,7 +62,7 @@ CSS custom properties in `:root` / `.dark`. Theme script in `<head>` reads local
 
 ### Background Particles
 
-`Particles.astro` is a fixed full-viewport `<canvas>` (`z-index: -1`) mounted once in `Layout.astro`, behind all content. Vanilla zero-dependency engine reads `--color-accent` (recoloured on theme toggle via a `MutationObserver`) and honors `prefers-reduced-motion` (static single frame). Modes: `dots`, `constellation`, `aurora`, `off`, persisted in `localStorage["particles-mode"]`. A temporary floating `#particles-switch` pill cycles the modes for picking a style — remove that button (markup + styles + the `TEMP` switcher block in the script) once a final mode is locked.
+`Particles.astro` is a fixed full-viewport `<canvas>` (`z-index: -1`) mounted once in `Layout.astro`, behind all content. Vanilla zero-dependency engine renders a slow-drifting **constellation** (points joined by thin lines when near), reads `--color-accent` (recoloured on theme toggle via a `MutationObserver`), and honors `prefers-reduced-motion` (static single frame).
 
 ## Code Conventions
 
