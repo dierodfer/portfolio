@@ -9,7 +9,8 @@ interface Props {
     | "grid"
     | "code"
     | "pin"
-    | "monitor";
+    | "monitor"
+    | "credly";
   size?: number;
 }
 
@@ -20,8 +21,12 @@ const { name, size = 24 } = Astro.props;
   width={size}
   height={size}
   viewBox="0 0 24 24"
-  fill={name === "github" || name === "linkedin" ? "currentColor" : "none"}
-  stroke={name === "github" || name === "linkedin" ? "none" : "currentColor"}
+  fill={name === "github" || name === "linkedin" || name === "credly"
+    ? "currentColor"
+    : "none"}
+  stroke={name === "github" || name === "linkedin" || name === "credly"
+    ? "none"
+    : "currentColor"}
   stroke-width="2"
   stroke-linecap="round"
   stroke-linejoin="round"
@@ -92,6 +97,11 @@ const { name, size = 24 } = Astro.props;
         <rect x="2" y="3" width="20" height="14" rx="2" />
         <path d="M8 21h8M12 17v4" />
       </Fragment>
+    )
+  }
+  {
+    name === "credly" && (
+      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-.14 4.148a7.855 7.855 0 0 1 5.186 1.958l-1.648 1.648a5.67 5.67 0 1 0 0 8.492l1.648 1.648A7.852 7.852 0 1 1 11.86 4.148z" />
     )
   }
 </svg>

@@ -97,6 +97,19 @@ const { lang } = Astro.props;
               {t("contact.linkedinLabel", lang)}
             </span>
           </a>
+          <a
+            href={personal.credly}
+            target="_blank"
+            rel="noopener"
+            class="btn btn-secondary"
+            aria-label={t("contact.credlyLabel", lang)}
+            {...i18nAttr("aria-label", "contact.credlyLabel")}
+          >
+            <Icon name="credly" size={16} />
+            <span {...i18nText("contact.credlyLabel")}>
+              {t("contact.credlyLabel", lang)}
+            </span>
+          </a>
         </div>
       </div>
 
