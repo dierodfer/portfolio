@@ -39,6 +39,7 @@ ol {
   --color-accent-lighter: #cbd5e1;
   --color-border: #e2e8f0;
   --color-glow: rgba(148, 163, 184, 0.15);
+  --color-sheen: rgba(148, 163, 184, 0.14);
   --color-nav-bg: rgba(255, 255, 255, 0.7);
   --grain-opacity: 0.03;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -56,6 +57,7 @@ ol {
   --color-accent-lighter: #e2e8f0;
   --color-border: rgba(148, 163, 184, 0.15);
   --color-glow: rgba(148, 163, 184, 0.08);
+  --color-sheen: rgba(226, 232, 240, 0.07);
   --color-nav-bg: rgba(10, 10, 26, 0.7);
   --grain-opacity: 0.04;
 }
@@ -169,15 +171,15 @@ main:focus-visible {
 /* ===== Scroll-reveal animations ===== */
 .animate-on-scroll {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(28px) scale(0.985);
   transition:
-    opacity 0.6s ease-out,
-    transform 0.6s ease-out;
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .animate-on-scroll.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 .stagger-1 {
@@ -271,6 +273,33 @@ main:focus-visible {
   }
 }
 
+/* ===== Card sheen sweep on hover ===== */
+.project-card::after,
+.exp-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    105deg,
+    transparent 42%,
+    var(--color-sheen) 50%,
+    transparent 58%
+  );
+  transform: translateX(-101%);
+  pointer-events: none;
+}
+.project-card:hover::after,
+.exp-card:hover::after {
+  animation: cardSheen 0.9s ease;
+}
+
+@keyframes cardSheen {
+  to {
+    transform: translateX(101%);
+  }
+}
+
 /* ===== Reduced motion ===== */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -286,6 +315,10 @@ main:focus-visible {
     animation: none;
   }
   .project-card:hover .tech-mini {
+    animation: none;
+  }
+  .project-card:hover::after,
+  .exp-card:hover::after {
     animation: none;
   }
   .flashable:target {
