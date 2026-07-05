@@ -58,6 +58,27 @@ const { id, lang, tagKey, titleKey, hintKey, narrow = false } = Astro.props;
     letter-spacing: -0.03em;
     margin-bottom: 3rem;
   }
+  .section-heading::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 3px;
+    margin-top: 0.7rem;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+  }
+  .section-heading.visible::after {
+    transform: scaleX(1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .section-heading::after {
+      transform: scaleX(1);
+      transition: none;
+    }
+  }
   .section-hint {
     font-size: 0.9rem;
     color: var(--color-text-secondary);

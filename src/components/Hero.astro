@@ -189,10 +189,30 @@ const { lang } = Astro.props;
     margin-bottom: 1.35rem;
   }
   .greeting-dot {
+    position: relative;
     width: 7px;
     height: 7px;
     border-radius: 50%;
     background: var(--color-accent-light);
+  }
+  .greeting-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: inherit;
+    animation: greetingPing 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  @keyframes greetingPing {
+    0% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    70%,
+    100% {
+      transform: scale(2.6);
+      opacity: 0;
+    }
   }
   .hero-name {
     font-size: clamp(2.4rem, 5.5vw, 4.25rem);
@@ -241,6 +261,12 @@ const { lang } = Astro.props;
       transform 0.3s,
       box-shadow 0.3s,
       border-color 0.3s;
+  }
+  .btn :global(svg) {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn:hover :global(svg) {
+    transform: scale(1.15);
   }
   .btn-primary {
     background: var(--color-text);
@@ -295,6 +321,18 @@ const { lang } = Astro.props;
     opacity: 0.2;
     z-index: 0;
     border-radius: 50%;
+    animation: glowBreathe 9s ease-in-out infinite;
+  }
+  @keyframes glowBreathe {
+    0%,
+    100% {
+      opacity: 0.18;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.28;
+      transform: scale(1.06);
+    }
   }
   .hero-dots {
     position: absolute;
@@ -375,6 +413,16 @@ const { lang } = Astro.props;
     font-weight: 500;
     line-height: 1.35;
     color: var(--color-text);
+    animation: cardFloat 6s ease-in-out 1.5s infinite;
+  }
+  @keyframes cardFloat {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-7px);
+    }
   }
   .hero-card-icon {
     display: inline-flex;
@@ -428,6 +476,17 @@ const { lang } = Astro.props;
       opacity: 1;
       transform: none;
       animation: none;
+    }
+    .greeting-dot::after,
+    .hero-glow,
+    .hero-card {
+      animation: none;
+    }
+    .btn :global(svg) {
+      transition: none;
+    }
+    .btn:hover :global(svg) {
+      transform: none;
     }
   }
 </style>

@@ -227,6 +227,11 @@ function relatedFor(id: string) {
     display: inline-flex;
     width: 40px;
     height: 40px;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .skill.is-linked .skill-chip:hover .skill-svg,
+  .skill.open .skill-svg {
+    transform: scale(1.12);
   }
   .skill-svg :global(svg) {
     width: 100%;
@@ -408,6 +413,13 @@ function relatedFor(id: string) {
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .skill-svg {
+      transition: none;
+    }
+    .skill.is-linked .skill-chip:hover .skill-svg,
+    .skill.open .skill-svg {
+      transform: none;
+    }
     .skill-pop {
       transition:
         opacity 0.01s,
