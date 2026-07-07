@@ -8,6 +8,7 @@ export interface PersonalInfo {
   email: string;
   github: string;
   linkedin: string;
+  credly: string;
 }
 
 export const personal: PersonalInfo = {
@@ -24,4 +25,5 @@ export const personal: PersonalInfo = {
   email: "dierodfer6@gmail.com",
   github: "https://github.com/dierodfer",
   linkedin: "https://www.linkedin.com/in/diegorodfer",
+  credly: "https://www.credly.com/users/diego-rod/badges",
 };

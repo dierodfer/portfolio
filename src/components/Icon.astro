@@ -9,7 +9,8 @@ interface Props {
     | "grid"
     | "code"
     | "pin"
-    | "monitor";
+    | "monitor"
+    | "award";
   size?: number;
 }
 
@@ -91,6 +92,14 @@ const { name, size = 24 } = Astro.props;
       <Fragment>
         <rect x="2" y="3" width="20" height="14" rx="2" />
         <path d="M8 21h8M12 17v4" />
+      </Fragment>
+    )
+  }
+  {
+    name === "award" && (
+      <Fragment>
+        <circle cx="12" cy="8" r="6" />
+        <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
       </Fragment>
     )
   }

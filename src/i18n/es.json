@@ -31,7 +31,8 @@
   "contact": {
     "emailLabel": "Email",
     "githubLabel": "GitHub",
-    "linkedinLabel": "LinkedIn"
+    "linkedinLabel": "LinkedIn",
+    "credlyLabel": "Credly"
   },
   "a11y": {
     "skipToContent": "Saltar al contenido"
