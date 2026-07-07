@@ -2,6 +2,7 @@
 import type { Lang } from "../i18n/i18n";
 import { t, i18nText, i18nTextLoc, i18nAttr } from "../i18n/i18n";
 import { personal } from "../data/personal";
+import { yearsSince } from "../lib/experience";
 import { Image } from "astro:assets";
 import diegoPhoto from "../assets/diego.png";
 import Icon from "./Icon.astro";
@@ -11,6 +12,12 @@ interface Props {
 }
 
 const { lang } = Astro.props;
+
+const yearsOfExperience = yearsSince(personal.careerStartDate);
+const tagline = {
+  en: personal.tagline.en.replace("{years}", String(yearsOfExperience)),
+  es: personal.tagline.es.replace("{years}", String(yearsOfExperience)),
+};
 ---
 
 <section class="hero" id="top">
@@ -59,9 +66,9 @@ const { lang } = Astro.props;
         <p
           class="hero-tagline hero-anim"
           style="animation-delay:0.6s"
-          {...i18nTextLoc(personal.tagline)}
+          {...i18nTextLoc(tagline)}
         >
-          {personal.tagline[lang]}
+          {tagline[lang]}
         </p>
 
         <div class="hero-actions hero-anim" style="animation-delay:0.72s">
