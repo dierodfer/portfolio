@@ -19,8 +19,8 @@ export const personal: PersonalInfo = {
   },
   location: "Málaga, Spain",
   tagline: {
-    en: "Building and delivering solutions in cloud environments with a focus on microservices. Extensive experience in Java and Go within AWS ecosystems.",
-    es: "Construyo y despliego soluciones en entornos cloud con foco en microservicios. Amplia experiencia en Java y Go dentro de ecosistemas AWS.",
+    en: "+8 years of experience. I lead the end-to-end design of cloud-native applications: architecture, development, deployment, operation, and observability. Specialized in Java, Go, and AWS, with a focus on microservices architectures.",
+    es: "+8 años de experiencia. Lidero el diseño de aplicaciones cloud-native end-to-end: arquitectura, desarrollo, despliegue, operación y observabilidad. Especializado en Java, Go y AWS, con foco en arquitecturas de microservicios.",
   },
   email: "dierodfer6@gmail.com",
   github: "https://github.com/dierodfer",
