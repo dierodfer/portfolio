@@ -14,12 +14,12 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "catchthekiller",
-    title: { en: "CatchTheKiller", es: "CatchTheKiller" },
+    title: { en: "Catch the killer", es: "Catch the killer" },
     description: {
       en: "Interactive mystery and deduction game. Track down the culprit using the clues you gather along the way.",
       es: "Juego interactivo de misterio y deducción. Encuentra al culpable usando las pistas que recoges por el camino.",
     },
-    technologies: ["react", "typescript", "tailwindcss", "vite"],
+    technologies: ["react", "typescript", "tailwindcss", "vite", "pwa"],
     githubUrl: "https://github.com/dierodfer/CatchTheKiller",
     liveUrl: "https://dierodfer.github.io/CatchTheKiller/",
     icon: "catchthekiller.png",
@@ -74,8 +74,8 @@ export const projects: Project[] = [
     id: "agentcolony",
     title: { en: "AgentColony", es: "AgentColony" },
     description: {
-      en: "Local web app that runs up to 8 CLI agents (Copilot, Claude Code, opencode) in parallel, answering the same question side by side in a live agent grid and map.",
-      es: "Aplicación web local que ejecuta hasta 8 agentes CLI (Copilot, Claude Code, opencode) en paralelo, respondiendo la misma pregunta en una grid y mapa de agentes en vivo.",
+      en: "Local application that runs up to 8 CLI agents (Copilot, Claude Code, opencode) in parallel, answering questions while offering an interactive agent map.",
+      es: "Aplicación local que ejecuta hasta 8 agentes CLI (Copilot, Claude Code, opencode) en paralelo, respondiendo preguntas ofreciendo mapa interactivo de agentes.",
     },
     technologies: ["react", "typescript", "tailwindcss", "vite"],
     githubUrl: "https://github.com/dierodfer/AgentColony",
