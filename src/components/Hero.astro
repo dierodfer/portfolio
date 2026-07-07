@@ -72,11 +72,18 @@ const tagline = {
         </p>
 
         <div class="hero-actions hero-anim" style="animation-delay:0.72s">
-          <a href={`mailto:${personal.email}`} class="btn btn-primary">
-            <Icon name="mail" size={16} />
-            <span {...i18nText("hero.ctaContact")}
-              >{t("hero.ctaContact", lang)}</span
-            >
+          <a
+            href={personal.linkedin}
+            target="_blank"
+            rel="noopener"
+            class="btn btn-secondary"
+            aria-label={t("contact.linkedinLabel", lang)}
+            {...i18nAttr("aria-label", "contact.linkedinLabel")}
+          >
+            <Icon name="linkedin" size={16} />
+            <span {...i18nText("contact.linkedinLabel")}>
+              {t("contact.linkedinLabel", lang)}
+            </span>
           </a>
           <a
             href={personal.github}
@@ -92,19 +99,6 @@ const tagline = {
             >
           </a>
           <a
-            href={personal.linkedin}
-            target="_blank"
-            rel="noopener"
-            class="btn btn-secondary"
-            aria-label={t("contact.linkedinLabel", lang)}
-            {...i18nAttr("aria-label", "contact.linkedinLabel")}
-          >
-            <Icon name="linkedin" size={16} />
-            <span {...i18nText("contact.linkedinLabel")}>
-              {t("contact.linkedinLabel", lang)}
-            </span>
-          </a>
-          <a
             href={personal.credly}
             target="_blank"
             rel="noopener"
@@ -116,6 +110,12 @@ const tagline = {
             <span {...i18nText("contact.credlyLabel")}>
               {t("contact.credlyLabel", lang)}
             </span>
+          </a>
+          <a href={`mailto:${personal.email}`} class="btn btn-primary">
+            <Icon name="mail" size={16} />
+            <span {...i18nText("hero.ctaContact")}
+              >{t("hero.ctaContact", lang)}</span
+            >
           </a>
         </div>
       </div>
