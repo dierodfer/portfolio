@@ -71,6 +71,17 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/dierodfer/simple-bot",
   },
   {
+    id: "agentcolony",
+    title: { en: "AgentColony", es: "AgentColony" },
+    description: {
+      en: "Local web app that runs up to 8 CLI agents (Copilot, Claude Code, opencode) in parallel, answering the same question side by side in a live agent grid and map.",
+      es: "Aplicación web local que ejecuta hasta 8 agentes CLI (Copilot, Claude Code, opencode) en paralelo, respondiendo la misma pregunta en una grid y mapa de agentes en vivo.",
+    },
+    technologies: ["react", "typescript", "tailwindcss", "vite"],
+    githubUrl: "https://github.com/dierodfer/AgentColony",
+    icon: "agentcolony.png",
+  },
+  {
     id: "planificador",
     title: {
       en: "Agronomist Task Planner",
