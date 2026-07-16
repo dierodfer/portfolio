@@ -135,7 +135,7 @@ const photoVariants = [
         <div class="hero-photo-wrap">
           <span class="hero-glow" aria-hidden="true"></span>
           <span class="hero-dots" aria-hidden="true"></span>
-          <div class="hero-photo-blob" aria-hidden="true"></div>
+          <div class="hero-photo-blob" data-blob="0" aria-hidden="true"></div>
           <button
             type="button"
             id="hero-photo-btn"
@@ -163,20 +163,6 @@ const photoVariants = [
               <Icon name="shuffle" size={14} />
             </span>
           </button>
-          <svg
-            width="0"
-            height="0"
-            aria-hidden="true"
-            style="position:absolute"
-          >
-            <defs>
-              <clipPath id="heroBlob" clipPathUnits="objectBoundingBox">
-                <path
-                  d="M0.05,0.38 C0.0,0.55 0.02,0.78 0.1,0.92 C0.22,1.04 0.48,0.98 0.65,1.0 C0.82,1.02 0.98,0.9 1.0,0.7 C1.02,0.5 0.96,0.34 0.85,0.26 C0.72,0.18 0.55,0.22 0.4,0.25 C0.22,0.29 0.1,0.24 0.05,0.38 Z"
-                ></path>
-              </clipPath>
-            </defs>
-          </svg>
           <div class="hero-card">
             <span class="hero-card-icon" aria-hidden="true">
               <Icon name="code" size={18} />
@@ -405,9 +391,29 @@ const photoVariants = [
       var(--color-accent-light) 45%,
       var(--color-accent-lighter) 100%
     );
-    clip-path: url(#heroBlob);
+    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
     filter: drop-shadow(0 18px 28px var(--color-glow));
-    transition: filter 0.4s;
+    transition:
+      filter 0.4s,
+      border-radius 0.9s cubic-bezier(0.65, 0, 0.35, 1),
+      transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  /* Fluid blob shapes — one per photo variant, morphed on click */
+  .hero-photo-blob[data-blob="0"] {
+    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+    transform: rotate(0deg);
+  }
+  .hero-photo-blob[data-blob="1"] {
+    border-radius: 42% 58% 63% 37% / 41% 57% 43% 59%;
+    transform: rotate(6deg);
+  }
+  .hero-photo-blob[data-blob="2"] {
+    border-radius: 56% 44% 34% 66% / 63% 52% 48% 37%;
+    transform: rotate(-5deg);
+  }
+  .hero-photo-blob[data-blob="3"] {
+    border-radius: 35% 65% 57% 43% / 46% 37% 63% 54%;
+    transform: rotate(4deg);
   }
   .hero-photo-frame {
     appearance: none;
@@ -586,12 +592,16 @@ const photoVariants = [
     .hero-photo {
       transition: none;
     }
+    .hero-photo-blob {
+      transition: filter 0.4s;
+    }
   }
 </style>
 
 <script>
   const btn = document.getElementById("hero-photo-btn");
   const flip = document.getElementById("hero-photo-flip");
+  const blob = document.querySelector<HTMLElement>(".hero-photo-blob");
   const photos = flip
     ? Array.from(flip.querySelectorAll<HTMLElement>(".hero-photo"))
     : [];
@@ -605,6 +615,9 @@ const photoVariants = [
   btn?.addEventListener("click", () => {
     if (!flip || animating || photos.length < 2) return;
     const next = (index + 1) % photos.length;
+
+    // Morph the fluid backdrop shape in sync with the photo.
+    if (blob) blob.dataset.blob = String(next);
 
     if (reduceMotion) {
       photos[index].classList.remove("is-active");
