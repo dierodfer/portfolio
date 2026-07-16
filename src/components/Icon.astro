@@ -10,7 +10,8 @@ interface Props {
     | "code"
     | "pin"
     | "monitor"
-    | "award";
+    | "award"
+    | "shuffle";
   size?: number;
 }
 
@@ -100,6 +101,17 @@ const { name, size = 24 } = Astro.props;
       <Fragment>
         <circle cx="12" cy="8" r="6" />
         <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+      </Fragment>
+    )
+  }
+  {
+    name === "shuffle" && (
+      <Fragment>
+        <polyline points="16 3 21 3 21 8" />
+        <line x1="4" y1="20" x2="21" y2="3" />
+        <polyline points="21 16 21 21 16 21" />
+        <line x1="15" y1="15" x2="21" y2="21" />
+        <line x1="4" y1="4" x2="9" y2="9" />
       </Fragment>
     )
   }

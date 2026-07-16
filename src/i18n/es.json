@@ -9,7 +9,12 @@
     "greeting": "Hola, soy",
     "ctaContact": "Contáctame",
     "ctaGithub": "GitHub",
-    "impact": "Enfocado en crear impacto a través del código"
+    "impact": "Enfocado en crear impacto a través del código",
+    "photoHint": "Haz clic en la foto para cambiar de estilo",
+    "photoStyleReal": "foto",
+    "photoStyleComic": "estilo cómic",
+    "photoStyleLego": "estilo LEGO",
+    "photoStyleCartoon": "estilo cartoon"
   },
   "sections": {
     "projectsTag": "Portfolio",
