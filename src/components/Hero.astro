@@ -5,6 +5,9 @@ import { personal } from "../data/personal";
 import { yearsSince } from "../lib/experience";
 import { Image } from "astro:assets";
 import diegoPhoto from "../assets/diego.png";
+import diegoComic from "../assets/diego-comic.png";
+import diegoLego from "../assets/diego-lego.png";
+import diegoCartoon from "../assets/diego-cartoon.png";
 import Icon from "./Icon.astro";
 
 interface Props {
@@ -18,6 +21,13 @@ const tagline = {
   en: personal.tagline.en.replace("{years}", String(yearsOfExperience)),
   es: personal.tagline.es.replace("{years}", String(yearsOfExperience)),
 };
+
+const photoVariants = [
+  { src: diegoPhoto, styleKey: "hero.photoStyleReal" },
+  { src: diegoComic, styleKey: "hero.photoStyleComic" },
+  { src: diegoLego, styleKey: "hero.photoStyleLego" },
+  { src: diegoCartoon, styleKey: "hero.photoStyleCartoon" },
+] as const;
 ---
 
 <section class="hero" id="top">
@@ -126,18 +136,33 @@ const tagline = {
           <span class="hero-glow" aria-hidden="true"></span>
           <span class="hero-dots" aria-hidden="true"></span>
           <div class="hero-photo-blob" aria-hidden="true"></div>
-          <div class="hero-photo-frame">
-            <Image
-              src={diegoPhoto}
-              alt={personal.name}
-              class="hero-photo"
-              widths={[280, 420, 560]}
-              sizes="(max-width: 900px) 280px, 420px"
-              format="webp"
-              quality={82}
-              loading="eager"
-            />
-          </div>
+          <button
+            type="button"
+            id="hero-photo-btn"
+            class="hero-photo-frame"
+            aria-label={t("hero.photoHint", lang)}
+            {...i18nAttr("aria-label", "hero.photoHint")}
+          >
+            <div class="hero-photo-flip" id="hero-photo-flip">
+              {
+                photoVariants.map((variant, i) => (
+                  <Image
+                    src={variant.src}
+                    alt={`${personal.name} — ${t(variant.styleKey, lang)}`}
+                    class={`hero-photo${i === 0 ? " is-active" : ""}`}
+                    widths={[280, 420, 560]}
+                    sizes="(max-width: 900px) 280px, 420px"
+                    format="webp"
+                    quality={82}
+                    loading={i === 0 ? "eager" : "lazy"}
+                  />
+                ))
+              }
+            </div>
+            <span class="hero-photo-hint" aria-hidden="true">
+              <Icon name="shuffle" size={14} />
+            </span>
+          </button>
           <svg
             width="0"
             height="0"
@@ -385,11 +410,25 @@ const tagline = {
     transition: filter 0.4s;
   }
   .hero-photo-frame {
+    appearance: none;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    text-align: inherit;
+    cursor: pointer;
     position: relative;
     z-index: 2;
+    perspective: 1200px;
     transition:
       transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
       filter 0.45s;
+  }
+  .hero-photo-frame:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 6px;
+    border-radius: 4%;
   }
   .hero-photo-wrap:hover .hero-photo-frame {
     transform: translateY(-8px);
@@ -398,13 +437,24 @@ const tagline = {
   .hero-photo-wrap:hover .hero-photo-blob {
     filter: drop-shadow(0 28px 42px var(--color-glow));
   }
+  .hero-photo-flip {
+    position: relative;
+    width: 100%;
+    display: grid;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
   .hero-photo {
     display: block;
+    grid-area: 1 / 1;
     width: 100%;
-    height: auto;
+    height: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
     object-position: center 15%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
     -webkit-mask-image: linear-gradient(
       to bottom,
       transparent 0%,
@@ -412,6 +462,28 @@ const tagline = {
       #000 100%
     );
     mask-image: linear-gradient(to bottom, transparent 0%, #000 4%, #000 100%);
+  }
+  .hero-photo.is-active {
+    opacity: 1;
+  }
+  .hero-photo-hint {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    box-shadow: 0 8px 20px -6px var(--color-glow);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .hero-photo-wrap:hover .hero-photo-hint {
+    transform: scale(1.12) rotate(15deg);
   }
   .hero-card {
     position: absolute;
@@ -508,5 +580,49 @@ const tagline = {
     .btn:hover :global(svg) {
       transform: none;
     }
+    .hero-photo-flip {
+      transition: none;
+    }
+    .hero-photo {
+      transition: none;
+    }
   }
 </style>
+
+<script>
+  const btn = document.getElementById("hero-photo-btn");
+  const flip = document.getElementById("hero-photo-flip");
+  const photos = flip
+    ? Array.from(flip.querySelectorAll<HTMLElement>(".hero-photo"))
+    : [];
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  let index = 0;
+  let animating = false;
+
+  btn?.addEventListener("click", () => {
+    if (!flip || animating || photos.length < 2) return;
+    const next = (index + 1) % photos.length;
+
+    if (reduceMotion) {
+      photos[index].classList.remove("is-active");
+      photos[next].classList.add("is-active");
+      index = next;
+      return;
+    }
+
+    animating = true;
+    flip.style.transform = "rotateY(90deg) scale(0.88)";
+    setTimeout(() => {
+      photos[index].classList.remove("is-active");
+      photos[next].classList.add("is-active");
+      index = next;
+      flip.style.transform = "rotateY(0deg) scale(1)";
+      setTimeout(() => {
+        animating = false;
+      }, 600);
+    }, 300);
+  });
+</script>
