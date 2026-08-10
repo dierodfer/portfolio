@@ -91,21 +91,12 @@ const jsonLd = {
       set:html={JSON.stringify(jsonLd)}
     />
 
-    <!-- Fonts: self-hosted, declared in global.css. Only the latin subsets are
-         preloaded — latin-ext is unicode-range gated and never fetched. -->
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      href={withBase("fonts/inter-latin.woff2")}
-      crossorigin
-    />
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      href={withBase("fonts/jetbrains-mono-latin.woff2")}
-      crossorigin
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
     />
 
     <!-- Theme init (runs before paint to avoid flash) -->

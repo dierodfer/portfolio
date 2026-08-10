@@ -17,7 +17,6 @@ npm run format:check  # CI format lint
 - **CSS nativo** — custom properties, scoped `<style>`, keyframes, scroll-snap
 - **TypeScript** — strict, type-safe i18n keys
 - **Devicon** — tech icons read from npm at build time, emitted as an SVG sprite
-- **Fonts** — Inter + JetBrains Mono self-hosted in `public/fonts/` (variable woff2)
 - **GitHub Pages** — `site: dierodfer.github.io`, `base: /portfolio`
 
 ## Architecture
