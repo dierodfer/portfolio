@@ -52,10 +52,16 @@ function namespaceIds(markup: string, prefix: string): string {
   for (const [, id] of markup.matchAll(/\sid="([^"]+)"/g)) ids.add(id);
   let out = markup;
   for (const id of ids) {
-    const escaped = id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const escaped = id.replace(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);
     out = out
-      .replace(new RegExp(`\\sid="${escaped}"`, "g"), ` id="${prefix}-${id}"`)
-      .replace(new RegExp(`url\\(#${escaped}\\)`, "g"), `url(#${prefix}-${id})`)
+      .replace(
+        new RegExp(String.raw`\sid="${escaped}"`, "g"),
+        ` id="${prefix}-${id}"`,
+      )
+      .replace(
+        new RegExp(String.raw`url\(#${escaped}\)`, "g"),
+        `url(#${prefix}-${id})`,
+      )
       .replace(
         new RegExp(`((?:xlink:)?href)="#${escaped}"`, "g"),
         `$1="#${prefix}-${id}"`,

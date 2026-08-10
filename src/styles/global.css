@@ -332,10 +332,6 @@ main:focus-visible {
   .flashable:target {
     animation: none;
   }
-  body {
-    opacity: 1;
-    transition: none;
-  }
   /* Snapping changes scroll feel — disable when motion is reduced */
   main {
     scroll-snap-type: none;
