@@ -14,8 +14,6 @@ export interface ExperienceEntry {
   company: string;
   /** Image filename in public/icons/companies/ */
   logo: string;
-  /** When true the logo tile uses a dark background (for white-on-dark logos). */
-  logoDark?: boolean;
   /** Override the rail year (defaults to first role's period year). */
   startYear?: string;
   roles: ExperienceRole[];
@@ -125,7 +123,6 @@ export const experience: ExperienceEntry[] = [
     id: "minsait",
     company: "Minsait (Grupo Indra)",
     logo: "minsait.svg",
-    logoDark: true,
     roles: [
       {
         role: { en: "Full-stack Developer", es: "Desarrollador Full-stack" },

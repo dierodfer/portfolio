@@ -1,8 +1,7 @@
 ---
 import type { Lang } from "../i18n/i18n";
 import { t, i18nText, i18nTextLoc, i18nAttr } from "../i18n/i18n";
-import { personal } from "../data/personal";
-import { yearsSince } from "../lib/experience";
+import { personal, resolvedTagline } from "../data/personal";
 import { Image } from "astro:assets";
 import diegoPhoto from "../assets/diego.png";
 import diegoComic from "../assets/diego-comic.png";
@@ -16,11 +15,7 @@ interface Props {
 
 const { lang } = Astro.props;
 
-const yearsOfExperience = yearsSince(personal.careerStartDate);
-const tagline = {
-  en: personal.tagline.en.replace("{years}", String(yearsOfExperience)),
-  es: personal.tagline.es.replace("{years}", String(yearsOfExperience)),
-};
+const tagline = resolvedTagline();
 
 const photoVariants = [
   { src: diegoPhoto, styleKey: "hero.photoStyleReal" },
@@ -57,19 +52,7 @@ const photoVariants = [
         </p>
 
         <p class="hero-location hero-anim" style="animation-delay:0.5s">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-            ><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"
-            ></path><circle cx="12" cy="10" r="3"></circle></svg
-          >
+          <Icon name="pin" size={14} />
           {personal.location}
         </p>
 
@@ -354,15 +337,15 @@ const photoVariants = [
     border-radius: 50%;
     animation: glowBreathe 9s ease-in-out infinite;
   }
+  /* Opacity only: scaling a layer with a 55px blur re-rasterizes the blur on
+     every frame, whereas opacity stays on the compositor. */
   @keyframes glowBreathe {
     0%,
     100% {
       opacity: 0.18;
-      transform: scale(1);
     }
     50% {
       opacity: 0.28;
-      transform: scale(1.06);
     }
   }
   .hero-dots {
@@ -511,16 +494,9 @@ const photoVariants = [
     font-weight: 500;
     line-height: 1.35;
     color: var(--color-text);
-    animation: cardFloat 6s ease-in-out 1.5s infinite;
-  }
-  @keyframes cardFloat {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-7px);
-    }
+    /* Deliberately not animated: moving an element that carries a
+       backdrop-filter makes the compositor re-snapshot and re-blur everything
+       behind it on every frame, for the lifetime of the page. */
   }
   .hero-card-icon {
     display: inline-flex;
@@ -576,8 +552,7 @@ const photoVariants = [
       animation: none;
     }
     .greeting-dot::after,
-    .hero-glow,
-    .hero-card {
+    .hero-glow {
       animation: none;
     }
     .btn :global(svg) {

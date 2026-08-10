@@ -25,9 +25,8 @@
 
   if (canvas) {
     const ctx = canvas.getContext("2d")!;
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let reduceMotion = motionQuery.matches;
 
     let rgb = "148,163,184";
     const hexToRgb = (hex: string): string | null => {
@@ -120,22 +119,43 @@
 
     const start = () => {
       cancelAnimationFrame(raf);
-      if (reduceMotion) {
+      if (reduceMotion || document.hidden) {
         draw();
         return;
       }
       raf = requestAnimationFrame(frame);
     };
 
+    const stop = () => cancelAnimationFrame(raf);
+
+    // Rebuilding reallocates the canvas backing store and every particle, so
+    // debounce it: orientation changes and the mobile virtual keyboard fire
+    // resize in bursts.
+    let resizeTimer = 0;
     window.addEventListener(
       "resize",
       () => {
-        resize();
-        build();
-        start();
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(() => {
+          resize();
+          build();
+          start();
+        }, 150);
       },
       { passive: true },
     );
+
+    // A hidden tab still runs this loop on some platforms, and it is pure
+    // decoration — drop it entirely while the page is not visible.
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stop();
+      else start();
+    });
+
+    motionQuery.addEventListener("change", (e) => {
+      reduceMotion = e.matches;
+      start();
+    });
 
     new MutationObserver(readColor).observe(document.documentElement, {
       attributes: true,

@@ -3,7 +3,6 @@ import es from "./es.json";
 
 export type Lang = "en" | "es";
 
-export const languages: Lang[] = ["en", "es"];
 export const defaultLang: Lang = "en";
 
 const dictionaries = { en, es } as const;

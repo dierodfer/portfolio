@@ -102,14 +102,21 @@ export const technologies: TechCategory[] = [
         name: "GitHub Actions",
         devicon: "githubactions/githubactions-original",
       },
-      { id: "linux", name: "Linux", devicon: "linux/linux-original" },
+      // linux-plain, not linux-original: the "original" Tux is a 190 KB
+      // gradient mesh. The plain variant declares no fill, so it renders
+      // black and needs the same invert as the other monochrome icons.
+      {
+        id: "linux",
+        name: "Linux",
+        devicon: "linux/linux-plain",
+        darkInvert: true,
+      },
     ],
   },
 ];
 
 export const extraTech: TechItem[] = [
   // Not shown in the skills grid, but still used by experience/project chips.
-  { id: "git", name: "Git", devicon: "git/git-original" },
   { id: "wails", name: "Wails", icon: "wails.svg" },
   { id: "boltdb", name: "BoltDB", icon: "boltdb.svg" },
   { id: "pwa", name: "PWA", icon: "pwa.svg" },
@@ -131,10 +138,6 @@ export const extraTech: TechItem[] = [
     devicon: "tailwindcss/tailwindcss-original",
   },
   { id: "vite", name: "Vite", devicon: "vite/vite-original" },
-  { id: "html", name: "HTML5", devicon: "html5/html5-original" },
-  { id: "css", name: "CSS3", devicon: "css3/css3-original" },
-  { id: "nodejs", name: "Node.js", devicon: "nodejs/nodejs-original" },
-  { id: "python", name: "Python", devicon: "python/python-original" },
 ];
 
 /** Flat lookup of every tech by id, for rendering icons in projects/experience. */

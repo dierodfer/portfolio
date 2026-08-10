@@ -16,7 +16,8 @@ npm run format:check  # CI format lint
 - **Astro 6** — static output, zero JS by default, Vite 7/Rolldown
 - **CSS nativo** — custom properties, scoped `<style>`, keyframes, scroll-snap
 - **TypeScript** — strict, type-safe i18n keys
-- **Devicon** — tech icons read from npm at build time, inlined as SVG
+- **Devicon** — tech icons read from npm at build time, emitted as an SVG sprite
+- **Fonts** — Inter + JetBrains Mono self-hosted in `public/fonts/` (variable woff2)
 - **GitHub Pages** — `site: dierodfer.github.io`, `base: /portfolio`
 
 ## Architecture
@@ -39,15 +40,21 @@ Icons come from two sources, resolved in `src/lib/icons.ts`:
 - **Devicon** (`TechItem.devicon`): read from `node_modules/devicon/icons/{path}.svg`
 - **Custom** (`TechItem.icon`): read from `public/icons/tech/{file}`
 
-Both are inlined as SVG at build time. Icons with `darkInvert: true` (Kafka, Apple) get a CSS `filter: invert(0.85)` in dark mode.
+They ship as a **sprite**, not inlined per usage. `src/lib/techSprite.ts` emits one `<symbol>` per icon into a single hidden `<svg>` in `Layout.astro`; call sites render `<svg><use href="#tech-{id}">`. Inlining each icon at every usage site previously shipped the same SVG up to 5 times (the page was 1.4 MB, 93% inline SVG). Internal ids are prefixed per icon — devicon files use generic names like `id="a"`, and `url(#a)` resolves document-wide.
+
+`usedTechIds()` derives the sprite from the grid plus every id referenced by projects and experience, so an `extraTech` entry nothing references is never shipped.
+
+Icons with `darkInvert: true` (Kafka, Apple, Linux) get a CSS `filter: invert(0.85)` in dark mode — needed for any icon that declares no `fill` and would otherwise render black.
+
+Prefer devicon's `-plain` variants over `-original` when one exists: `linux-original.svg` is a 190 KB gradient mesh, `linux-plain.svg` is 2.8 KB.
 
 To add a new technology: add entry to `technologies.ts` (grid) or `extraTech` (project-only), set `devicon` or `icon`. Run `npm run check` — `assertTechIds()` warns on unknown IDs in dev.
 
 ### Components
 
-- `Section.astro` — shared wrapper (tag, title, hint, narrow)
-- `Icon.astro` — 6 UI SVGs: github, linkedin, mail, external, briefcase, grid
-- `TechIcon.astro` — renders tech icon by ID (inline SVG)
+- `Section.astro` — shared wrapper (tag, title, hint)
+- `Icon.astro` — 10 UI SVGs: github, linkedin, mail, external, briefcase, grid, code, pin, award, shuffle
+- `TechIcon.astro` — renders tech icon by ID via `<use>` into the sprite
 - `FloatingControls.astro` — fixed top-right pill: LangToggle + ThemeToggle
 - `SectionNav.astro` — dot navigation, IntersectionObserver active tracking
 - `TechFilter.astro` — click skill → popover with related projects/experience
@@ -60,9 +67,17 @@ To add a new technology: add entry to `technologies.ts` (grid) or `extraTech` (p
 
 CSS custom properties in `:root` / `.dark`. Theme script in `<head>` reads localStorage before first paint. Default: dark.
 
+### Page reveal
+
+`body` fades in via a pure-CSS `bodyFadeIn` animation in `global.css`. Keep it that way — it used to start at `opacity: 0` and wait for a deferred module script to add `.loaded`, which meant nothing painted until the whole document parsed, and any script error left the page permanently blank.
+
+The reveal-on-scroll `IntersectionObserver` in `Layout.astro` is one-shot (`unobserve` after adding `.visible`). Re-hiding on exit made scroll-snap replay all 24 staggered transitions on every pass.
+
 ### Background Particles
 
-`Particles.astro` is a fixed full-viewport `<canvas>` (`z-index: -1`) mounted once in `Layout.astro`, behind all content. Vanilla zero-dependency engine reads `--color-accent` (recoloured on theme toggle via a `MutationObserver`) and honors `prefers-reduced-motion` (static single frame). Modes: `dots`, `constellation`, `aurora`, `off`, persisted in `localStorage["particles-mode"]`. A temporary floating `#particles-switch` pill cycles the modes for picking a style — remove that button (markup + styles + the `TEMP` switcher block in the script) once a final mode is locked.
+`Particles.astro` is a fixed full-viewport `<canvas>` (`z-index: -1`) mounted once in `Layout.astro`, behind all content. Vanilla zero-dependency engine drawing a single "constellation" mode: drifting points joined by lines when near. It reads `--color-accent` (recoloured on theme toggle via a `MutationObserver` scoped to `attributeFilter: ["class"]`).
+
+Because it repaints the whole viewport every frame, the cost controls matter: DPR is capped at 2, particle count scales with viewport (28 on mobile, 80 max), `prefers-reduced-motion` draws a single static frame and is re-checked on change, the loop stops on `visibilitychange`, and resize is debounced 150ms (it reallocates the canvas backing store and every particle).
 
 ## Code Conventions
 
