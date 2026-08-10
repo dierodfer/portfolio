@@ -31,8 +31,9 @@ if (import.meta.env.DEV) {
         ? flatKeys(v as Record<string, unknown>, key)
         : [key];
     });
-  const enKeys = flatKeys(en).sort().join(",");
-  const esKeys = flatKeys(es).sort().join(",");
+  const byName = (a: string, b: string) => a.localeCompare(b);
+  const enKeys = flatKeys(en).sort(byName).join(",");
+  const esKeys = flatKeys(es).sort(byName).join(",");
   if (enKeys !== esKeys) {
     const enSet = new Set(flatKeys(en));
     const esSet = new Set(flatKeys(es));
