@@ -71,6 +71,17 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/dierodfer/simple-bot",
   },
   {
+    id: "clione",
+    title: { en: "CLIOne", es: "CLIOne" },
+    description: {
+      en: "Cross-platform TUI that shows installed developer tools by category and updates them with their own native mechanisms.",
+      es: "TUI multiplataforma que muestra las herramientas de desarrollo instaladas por categoría y las actualiza con sus propios mecanismos nativos.",
+    },
+    technologies: ["go", "yaml"],
+    platforms: ["linux", "macos"],
+    githubUrl: "https://github.com/dierodfer/cliOne",
+  },
+  {
     id: "agentcolony",
     title: { en: "AgentColony", es: "AgentColony" },
     description: {
