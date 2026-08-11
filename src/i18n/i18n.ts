@@ -3,7 +3,6 @@ import es from "./es.json";
 
 export type Lang = "en" | "es";
 
-export const languages: Lang[] = ["en", "es"];
 export const defaultLang: Lang = "en";
 
 const dictionaries = { en, es } as const;
@@ -31,8 +30,9 @@ if (import.meta.env.DEV) {
         ? flatKeys(v as Record<string, unknown>, key)
         : [key];
     });
-  const enKeys = flatKeys(en).sort().join(",");
-  const esKeys = flatKeys(es).sort().join(",");
+  const byName = (a: string, b: string) => a.localeCompare(b);
+  const enKeys = flatKeys(en).sort(byName).join(",");
+  const esKeys = flatKeys(es).sort(byName).join(",");
   if (enKeys !== esKeys) {
     const enSet = new Set(flatKeys(en));
     const esSet = new Set(flatKeys(es));

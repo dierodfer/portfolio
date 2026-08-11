@@ -10,7 +10,7 @@
     top: 0;
     left: 0;
     height: 2px;
-    width: 0%;
+    width: 100%;
     z-index: 60;
     background: linear-gradient(
       90deg,
@@ -18,7 +18,11 @@
       var(--color-accent-light)
     );
     box-shadow: 0 0 8px var(--color-glow);
-    transition: width 0.1s linear;
+    /* scaleX rather than width: composited, so the bar updates without
+       triggering layout + paint on every scroll frame. */
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.1s linear;
   }
 </style>
 
@@ -27,12 +31,17 @@
   // <main> is the scroll container, so read progress from it (not the document).
   const scroller = document.querySelector("main");
   let ticking = false;
+  // Scrollable distance is constant except on resize. Measuring it inside the
+  // rAF callback forced a synchronous layout on every scroll frame.
+  let scrollable = 0;
+  const measure = () => {
+    if (!scroller) return;
+    scrollable = scroller.scrollHeight - scroller.clientHeight;
+  };
   const update = () => {
     if (!bar || !scroller) return;
-    const top = scroller.scrollTop;
-    const height = scroller.scrollHeight - scroller.clientHeight;
-    const pct = height > 0 ? (top / height) * 100 : 0;
-    bar.style.width = pct + "%";
+    const ratio = scrollable > 0 ? scroller.scrollTop / scrollable : 0;
+    bar.style.transform = `scaleX(${ratio})`;
     ticking = false;
   };
   const onScroll = () => {
@@ -42,5 +51,14 @@
     }
   };
   scroller?.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener(
+    "resize",
+    () => {
+      measure();
+      update();
+    },
+    { passive: true },
+  );
+  measure();
   update();
 </script>

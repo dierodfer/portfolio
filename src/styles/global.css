@@ -110,13 +110,18 @@ body {
   /* Document itself does not scroll — only <main> does. */
   height: 100dvh;
   overflow: hidden;
-  /* Load transition: starts hidden, .loaded fades it in */
-  opacity: 0;
-  transition: opacity 0.3s ease-in;
+  /* Load transition. Driven by CSS, not JS: gating the reveal on a deferred
+     module script meant a script error left the page permanently blank. */
+  animation: bodyFadeIn 0.3s ease-in both;
 }
 
-body.loaded {
-  opacity: 1;
+@keyframes bodyFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 section[id] {
@@ -305,6 +310,9 @@ main:focus-visible {
   html {
     scroll-behavior: auto;
   }
+  body {
+    animation: none;
+  }
   .animate-on-scroll {
     opacity: 1;
     transform: none;
@@ -323,10 +331,6 @@ main:focus-visible {
   }
   .flashable:target {
     animation: none;
-  }
-  body {
-    opacity: 1;
-    transition: none;
   }
   /* Snapping changes scroll feel — disable when motion is reduced */
   main {

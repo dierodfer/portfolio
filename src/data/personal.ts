@@ -1,3 +1,5 @@
+import { yearsSince } from "../lib/experience";
+
 export type Localized = { en: string; es: string };
 
 export interface PersonalInfo {
@@ -31,3 +33,15 @@ export const personal: PersonalInfo = {
   linkedin: "https://www.linkedin.com/in/diegorodfer",
   credly: "https://www.credly.com/users/diego-rod/badges",
 };
+
+/**
+ * The tagline with "{years}" resolved. Always use this rather than reading
+ * `personal.tagline` directly — the raw value still carries the placeholder.
+ */
+export function resolvedTagline(): Localized {
+  const years = String(yearsSince(personal.careerStartDate));
+  return {
+    en: personal.tagline.en.replace("{years}", years),
+    es: personal.tagline.es.replace("{years}", years),
+  };
+}

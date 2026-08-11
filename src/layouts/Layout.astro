@@ -2,9 +2,10 @@
 import "../styles/global.css";
 import type { Lang } from "../i18n/i18n";
 import { langPath, defaultLang } from "../i18n/i18n";
-import { personal } from "../data/personal";
+import { personal, resolvedTagline } from "../data/personal";
 import { withBase } from "../lib/paths";
 import Particles from "../components/Particles.astro";
+import { buildTechSprite } from "../lib/techSprite";
 
 interface Props {
   lang: Lang;
@@ -13,22 +14,24 @@ interface Props {
 }
 
 const { lang, title, description } = Astro.props;
+const tagline = resolvedTagline();
 const pageTitle = title ?? `${personal.name} — ${personal.role[lang]}`;
-const pageDesc = description ?? personal.tagline[lang];
+const pageDesc = description ?? tagline[lang];
 
 // Both languages' <title>/description so the client runtime can swap them
 // without a reload.
 const i18nMeta = {
   en: {
     title: title ?? `${personal.name} — ${personal.role.en}`,
-    desc: description ?? personal.tagline.en,
+    desc: description ?? tagline.en,
   },
   es: {
     title: title ?? `${personal.name} — ${personal.role.es}`,
-    desc: description ?? personal.tagline.es,
+    desc: description ?? tagline.es,
   },
 };
 
+const techSprite = buildTechSprite();
 const base = import.meta.env.BASE_URL;
 const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "";
 const canonicalPath = langPath(lang, base);
@@ -108,6 +111,7 @@ const jsonLd = {
   </head>
   <body class="grain">
     <Particles />
+    <Fragment set:html={techSprite} />
     <slot />
 
     <!-- Instant language switch (no reload): swaps text/attributes, updates
@@ -165,7 +169,17 @@ const jsonLd = {
         try {
           saved = localStorage.getItem(KEY);
         } catch (e) {}
-        apply(saved || document.documentElement.lang || defaultLang);
+        const initial = saved || document.documentElement.lang || defaultLang;
+        if (initial === document.documentElement.lang) {
+          // The server already rendered this language, so apply() would walk
+          // ~150 nodes writing values identical to the ones already there —
+          // invalidating layout right before first paint. Just persist.
+          try {
+            localStorage.setItem(KEY, initial);
+          } catch (e) {}
+        } else {
+          apply(initial);
+        }
 
         document.addEventListener("click", function (e) {
           const btn = e.target.closest("[data-lang-toggle]");
@@ -178,19 +192,17 @@ const jsonLd = {
 
     <!-- Reveal body + scroll animations -->
     <script>
-      requestAnimationFrame(() => document.body.classList.add("loaded"));
-
       // <main> is the scroll container, so reveal animations must observe
       // against it rather than the document viewport.
+      // Reveal is one-shot: with scroll-snap, re-hiding on exit replayed all
+      // 24 staggered transitions on every pass over a section.
       const scroller = document.querySelector("main");
       const reveal = new IntersectionObserver(
-        (entries) => {
+        (entries, observer) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-            } else {
-              entry.target.classList.remove("visible");
-            }
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
           });
         },
         { root: scroller, threshold: 0.1, rootMargin: "0px 0px -50px 0px" },

@@ -30,11 +30,9 @@
     "sourceCode": "Source code"
   },
   "skills": {
-    "project": "Project",
-    "experience": "Experience"
+    "project": "Project"
   },
   "contact": {
-    "emailLabel": "Email",
     "githubLabel": "GitHub",
     "linkedinLabel": "LinkedIn",
     "credlyLabel": "Credly"

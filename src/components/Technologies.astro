@@ -5,7 +5,7 @@ import { technologies } from "../data/technologies";
 import { projects } from "../data/projects";
 import { experience } from "../data/experience";
 import { withBase } from "../lib/paths";
-import { readTechSvg } from "../lib/icons";
+import { symbolId } from "../lib/techSprite";
 import Section from "./Section.astro";
 import Icon from "./Icon.astro";
 
@@ -63,8 +63,11 @@ function relatedFor(id: string) {
                         "skill-svg",
                         item.darkInvert && "tech-dark-invert",
                       ]}
-                      set:html={readTechSvg(item)}
-                    />
+                    >
+                      <svg aria-hidden="true" focusable="false">
+                        <use href={`#${symbolId(item.id)}`} />
+                      </svg>
+                    </span>
                     {linked && <span class="skill-dot" aria-hidden="true" />}
                   </button>
 
@@ -76,8 +79,11 @@ function relatedFor(id: string) {
                             "pop-head-icon",
                             item.darkInvert && "tech-dark-invert",
                           ]}
-                          set:html={readTechSvg(item)}
-                        />
+                        >
+                          <svg aria-hidden="true" focusable="false">
+                            <use href={`#${symbolId(item.id)}`} />
+                          </svg>
+                        </span>
                         <span class="pop-head-name">{item.name}</span>
                         <span class="pop-count">{count}</span>
                       </div>
@@ -95,6 +101,8 @@ function relatedFor(id: string) {
                                   alt=""
                                   width="28"
                                   height="28"
+                                  loading="lazy"
+                                  decoding="async"
                                 />
                               ) : (
                                 <Icon name="grid" size={18} />
