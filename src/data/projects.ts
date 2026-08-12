@@ -28,8 +28,8 @@ export const projects: Project[] = [
     id: "arenaquiz",
     title: { en: "ArenaQuiz", es: "ArenaQuiz" },
     description: {
-      en: "Competitive quiz platform with multiple categories and a fast-paced arena mode.",
-      es: "Plataforma de quiz competitivo con múltiples categorías y un modo arena trepidante.",
+      en: "Kahoot-style quiz app for real-time group play — join instantly via a room link, no installation needed.",
+      es: "App de quiz estilo Kahoot para jugar en grupo en tiempo real: te unes al instante con un enlace de sala, sin instalación.",
     },
     technologies: ["react", "javascript", "supabase", "tailwindcss", "vite"],
     githubUrl: "https://github.com/dierodfer/ArenaQuiz",
@@ -64,8 +64,8 @@ export const projects: Project[] = [
     id: "simplebot",
     title: { en: "Simple Bot", es: "Simple Bot" },
     description: {
-      en: "Modern Go CLI application with a clean, idiomatic architecture.",
-      es: "Aplicación CLI moderna en Go con una arquitectura limpia e idiomática.",
+      en: "Go CLI that scans a live MMO market, flags profitable items, and executes purchases automatically.",
+      es: "CLI en Go que analiza el mercado en vivo de un MMO, detecta artículos rentables y ejecuta compras automáticamente.",
     },
     technologies: ["go", "boltdb"],
     githubUrl: "https://github.com/dierodfer/simple-bot",
@@ -85,8 +85,8 @@ export const projects: Project[] = [
     id: "agentcolony",
     title: { en: "AgentColony", es: "AgentColony" },
     description: {
-      en: "Local application that runs up to 8 CLI agents (Copilot, Claude Code, opencode) in parallel, answering questions while offering an interactive agent map.",
-      es: "Aplicación local que ejecuta hasta 8 agentes CLI (Copilot, Claude Code, opencode) en paralelo, respondiendo preguntas ofreciendo mapa interactivo de agentes.",
+      en: "Local application that runs up to 8 CLI agents (Copilot, Claude Code, opencode) in parallel, answering questions and offering an interactive agent map.",
+      es: "Aplicación local que ejecuta hasta 8 agentes CLI (Copilot, Claude Code, opencode) en paralelo, respondiendo preguntas y ofreciendo un mapa interactivo de agentes.",
     },
     technologies: ["react", "typescript", "tailwindcss", "vite"],
     githubUrl: "https://github.com/dierodfer/AgentColony",
@@ -99,8 +99,8 @@ export const projects: Project[] = [
       es: "Planificador Agrónomo",
     },
     description: {
-      en: "Task planner tailored for agronomy management and field scheduling.",
-      es: "Planificador de tareas para gestión agrónoma y programación de campo.",
+      en: "Agronomy task planner with offline support, background alerts, and geolocation for field work.",
+      es: "Planificador agrónomo con soporte offline, alertas en segundo plano y geolocalización para el trabajo de campo.",
     },
     technologies: ["angular", "typescript", "firebase", "pwa", "openlayers"],
     githubUrl: "https://github.com/dierodfer/planificador-tareas-agronomo",
