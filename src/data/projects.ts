@@ -74,8 +74,8 @@ export const projects: Project[] = [
     id: "clione",
     title: { en: "CLIOne", es: "CLIOne" },
     description: {
-      en: "Cross-platform TUI that shows installed developer tools by category and updates them with their own native mechanisms.",
-      es: "TUI multiplataforma que muestra las herramientas de desarrollo instaladas por categoría y las actualiza con sus propios mecanismos nativos.",
+      en: "Checks the main libraries and technologies installed on your machine and updates them natively.",
+      es: "Comprueba las principales librerías y tecnologías instaladas en tu máquina y las actualiza de forma nativa.",
     },
     technologies: ["go"],
     platforms: ["linux", "macos"],
