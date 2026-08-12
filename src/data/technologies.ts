@@ -138,7 +138,6 @@ export const extraTech: TechItem[] = [
     devicon: "tailwindcss/tailwindcss-original",
   },
   { id: "vite", name: "Vite", devicon: "vite/vite-original" },
-  { id: "yaml", name: "YAML", devicon: "yaml/yaml-original" },
 ];
 
 /** Flat lookup of every tech by id, for rendering icons in projects/experience. */

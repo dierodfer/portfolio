@@ -77,7 +77,7 @@ export const projects: Project[] = [
       en: "Cross-platform TUI that shows installed developer tools by category and updates them with their own native mechanisms.",
       es: "TUI multiplataforma que muestra las herramientas de desarrollo instaladas por categoría y las actualiza con sus propios mecanismos nativos.",
     },
-    technologies: ["go", "yaml"],
+    technologies: ["go"],
     platforms: ["linux", "macos"],
     githubUrl: "https://github.com/dierodfer/cliOne",
   },
