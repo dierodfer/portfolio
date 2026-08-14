@@ -112,5 +112,6 @@ export const projects: Project[] = [
     technologies: ["angular", "typescript", "firebase", "pwa", "openlayers"],
     githubUrl: "https://github.com/dierodfer/planificador-tareas-agronomo",
     liveUrl: "https://angular-222712.web.app",
+    icon: "planificador.png",
   },
 ];
