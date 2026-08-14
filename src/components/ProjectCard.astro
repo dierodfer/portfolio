@@ -14,6 +14,7 @@ interface Props {
 
 const { project, lang, stagger } = Astro.props;
 const hasIcon = !!project.icon;
+const hasThemedIcon = !!(project.iconDark && project.iconLight);
 const hasPlatforms = !!project.platforms?.length;
 const hasLive = !!project.liveUrl;
 const hasGithub = !!project.githubUrl;
@@ -38,6 +39,28 @@ const hasGithub = !!project.githubUrl;
         loading="lazy"
         decoding="async"
       />
+    )
+  }
+  {
+    hasThemedIcon && (
+      <>
+        <img
+          src={withBase(`icons/projects/${project.iconDark}`)}
+          alt=""
+          class="card-bg-icon card-bg-icon-dark"
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+        <img
+          src={withBase(`icons/projects/${project.iconLight}`)}
+          alt=""
+          class="card-bg-icon card-bg-icon-light"
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+      </>
     )
   }
 
@@ -154,6 +177,21 @@ const hasGithub = !!project.githubUrl;
   .project-card:hover .card-bg-icon {
     opacity: 0.3;
     transform: translateY(-50%) rotate(-3deg) scale(1.05);
+  }
+
+  /* A themed pair (e.g. a wordmark logo with ink tuned per background) shows
+     one variant at a time, same swap as ThemeToggle's icon-sun/icon-moon. */
+  .card-bg-icon-dark {
+    display: none;
+  }
+  .card-bg-icon-light {
+    display: block;
+  }
+  :global(.dark) .card-bg-icon-dark {
+    display: block;
+  }
+  :global(.dark) .card-bg-icon-light {
+    display: none;
   }
 
   /* ===== Card body ===== */

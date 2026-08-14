@@ -8,7 +8,12 @@ export interface Project {
   platforms?: string[]; // platform tech ids shown as badges (e.g. windows, macos, linux)
   githubUrl?: string;
   liveUrl?: string;
-  icon?: string; // filename in public/icons/projects/
+  icon?: string; // filename in public/icons/projects/, theme-agnostic
+  // For a logo whose ink color is tuned per background (e.g. a wordmark with
+  // light ink for dark cards): supply both instead of `icon`. Swapped by CSS,
+  // same pattern as ThemeToggle's icon-sun/icon-moon.
+  iconDark?: string; // shown when the site is in dark mode
+  iconLight?: string; // shown when the site is in light mode
 }
 
 export const projects: Project[] = [
@@ -80,6 +85,8 @@ export const projects: Project[] = [
     technologies: ["go"],
     platforms: ["linux", "macos"],
     githubUrl: "https://github.com/dierodfer/cliOne",
+    iconDark: "clione-logo-dark.svg",
+    iconLight: "clione-logo-light.svg",
   },
   {
     id: "agentcolony",
