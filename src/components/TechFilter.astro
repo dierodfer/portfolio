@@ -50,20 +50,17 @@
       }
     });
 
-    // Selecting a related item closes the popover; the href handles navigation.
     skill.querySelectorAll<HTMLAnchorElement>(".pop-item").forEach((item) => {
       item.addEventListener("click", () => close(skill));
     });
   });
 
-  // Click outside closes the open popover.
   document.addEventListener("click", (e) => {
     if (openSkill && !openSkill.contains(e.target as Node)) {
       close(openSkill);
     }
   });
 
-  // Escape closes and returns focus to the chip.
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && openSkill) {
       const chip = openSkill.querySelector<HTMLButtonElement>(".skill-chip");

@@ -29,7 +29,6 @@ const photoVariants = [
   <div class="hero-bg"></div>
   <div class="hero-content">
     <div class="hero-grid">
-      <!-- Text column -->
       <div class="hero-text">
         <div
           class="hero-greeting font-mono hero-anim"
@@ -113,7 +112,6 @@ const photoVariants = [
         </div>
       </div>
 
-      <!-- Visual column -->
       <div class="hero-visual hero-anim" style="animation-delay:0.45s">
         <div class="hero-photo-wrap">
           <span class="hero-glow" aria-hidden="true"></span>
@@ -426,20 +424,16 @@ const photoVariants = [
   .hero-photo-wrap:hover .hero-photo-blob {
     filter: drop-shadow(0 28px 42px var(--color-glow));
   }
-  /* Bottom containment: every cut-out PNG ends in a hard straight edge at the
-     frame's bottom, which used to hang below the blob's curve — the torso just
-     stopped in mid-air. Each ellipse below is offset upwards so its lower arc
-     traces that specific blob variant's base, clipping the torso to the shape
-     it's actually sitting on. The stop band is kept just wide enough to
-     anti-alias the curve — a crisp cut, not a dissolve.
-     `data-blob` on this element is kept in sync with the color blob's by the
-     click handler below, so the clip re-fits the new silhouette instead of
-     keeping the outgoing one applied.
-     Masks live on the flip wrapper, not on .hero-photo: the photo already
-     carries its own mask, and parent/child masks multiply, so no
-     mask-composite is needed. Masking flattens this element's preserve-3d,
-     which is harmless — the images are 2D and the flip's rotateY still reads
-     through .hero-photo-frame's perspective. */
+  /* Every cut-out PNG ends in a hard straight edge at the frame's bottom, which
+     hung below the blob's curve — the torso just stopped in mid-air. Each
+     ellipse below is offset upwards so its lower arc traces that variant's
+     blob, and the 98%/100% stops only anti-alias the curve: a crisp cut, not a
+     dissolve. Hence one per variant, keyed off the same data-blob as the blob
+     itself — a single shared ellipse leaves the outgoing shape's clip applied.
+     On the flip wrapper rather than .hero-photo because that already carries
+     its own mask and parent/child masks multiply, so no mask-composite. This
+     flattens preserve-3d, which is harmless: the images are 2D and rotateY
+     still reads through .hero-photo-frame's perspective. */
   .hero-photo-flip {
     position: relative;
     width: 100%;
@@ -637,8 +631,7 @@ const photoVariants = [
     if (!flip || animating || photos.length < 2) return;
     const next = (index + 1) % photos.length;
 
-    // Morph the fluid backdrop shape in sync with the photo, and re-fit the
-    // photo's own clip to that shape's silhouette (see .hero-photo-flip below).
+    // Both: the backdrop shape morphs, and the photo's clip re-fits to it.
     if (blob) blob.dataset.blob = String(next);
     flip.dataset.blob = String(next);
 
