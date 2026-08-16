@@ -426,12 +426,30 @@ const photoVariants = [
   .hero-photo-wrap:hover .hero-photo-blob {
     filter: drop-shadow(0 28px 42px var(--color-glow));
   }
+  /* Bottom containment: every cut-out PNG ends in a hard straight edge at the
+     frame's bottom, which used to hang below the blob's curve — the torso just
+     stopped in mid-air. This ellipse is offset upwards so its lower arc traces
+     the blob's base (checked against every variant's border-radius across the
+     width), tucking the torso into the shape instead. Its soft band both keeps
+     the cut from reading as a second hard edge and absorbs the few degrees each
+     variant rotates by, so the rotations don't have to be replicated here.
+     It lives on the flip wrapper, not on .hero-photo: the photo already carries
+     its own mask, and parent/child masks multiply, so no mask-composite is
+     needed. Masking flattens this element's preserve-3d, which is harmless —
+     the images are 2D and the flip's rotateY still reads through
+     .hero-photo-frame's perspective. */
   .hero-photo-flip {
     position: relative;
     width: 100%;
     display: grid;
     transform-style: preserve-3d;
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    -webkit-mask-image: radial-gradient(
+      56% 70% at 46% 29%,
+      #000 84%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(56% 70% at 46% 29%, #000 84%, transparent 100%);
   }
   .hero-photo {
     display: block;
