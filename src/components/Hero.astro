@@ -430,9 +430,10 @@ const photoVariants = [
      frame's bottom, which used to hang below the blob's curve — the torso just
      stopped in mid-air. This ellipse is offset upwards so its lower arc traces
      the blob's base (checked against every variant's border-radius across the
-     width), tucking the torso into the shape instead. Its soft band both keeps
-     the cut from reading as a second hard edge and absorbs the few degrees each
-     variant rotates by, so the rotations don't have to be replicated here.
+     width), clipping the torso to the shape instead. The stop band is kept
+     just wide enough to anti-alias the curve and absorb the few degrees each
+     variant rotates by — a crisp cut, not a dissolve — so the rotations don't
+     have to be replicated here.
      It lives on the flip wrapper, not on .hero-photo: the photo already carries
      its own mask, and parent/child masks multiply, so no mask-composite is
      needed. Masking flattens this element's preserve-3d, which is harmless —
@@ -446,10 +447,10 @@ const photoVariants = [
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     -webkit-mask-image: radial-gradient(
       56% 70% at 46% 29%,
-      #000 84%,
+      #000 98%,
       transparent 100%
     );
-    mask-image: radial-gradient(56% 70% at 46% 29%, #000 84%, transparent 100%);
+    mask-image: radial-gradient(56% 70% at 46% 29%, #000 98%, transparent 100%);
   }
   .hero-photo {
     display: block;
