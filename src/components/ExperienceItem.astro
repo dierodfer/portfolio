@@ -464,6 +464,12 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
   .exp-chip:hover {
     transform: translateY(-2px);
   }
+  .exp-chip :global(.tech-icon) {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .exp-chip:hover :global(.tech-icon) {
+    transform: scale(1.12);
+  }
   .exp-chip :global(.tech-dark-invert svg) {
     filter: none;
   }
@@ -489,6 +495,12 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
     }
     .timeline-item:hover .exp-dot {
       transform: translateX(-50%);
+    }
+    .exp-chip :global(.tech-icon) {
+      transition: none;
+    }
+    .exp-chip:hover :global(.tech-icon) {
+      transform: none;
     }
   }
 
