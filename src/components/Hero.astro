@@ -29,7 +29,6 @@ const photoVariants = [
   <div class="hero-bg"></div>
   <div class="hero-content">
     <div class="hero-grid">
-      <!-- Text column -->
       <div class="hero-text">
         <div
           class="hero-greeting font-mono hero-anim"
@@ -113,12 +112,11 @@ const photoVariants = [
         </div>
       </div>
 
-      <!-- Visual column -->
       <div class="hero-visual hero-anim" style="animation-delay:0.45s">
-        <div class="hero-photo-wrap">
+        <div class="hero-photo-wrap" id="hero-photo-wrap" data-blob="0">
           <span class="hero-glow" aria-hidden="true"></span>
           <span class="hero-dots" aria-hidden="true"></span>
-          <div class="hero-photo-blob" data-blob="0" aria-hidden="true"></div>
+          <div class="hero-photo-blob" aria-hidden="true"></div>
           <button
             type="button"
             id="hero-photo-btn"
@@ -127,20 +125,22 @@ const photoVariants = [
             {...i18nAttr("aria-label", "hero.photoHint")}
           >
             <div class="hero-photo-flip" id="hero-photo-flip">
-              {
-                photoVariants.map((variant, i) => (
-                  <Image
-                    src={variant.src}
-                    alt={`${personal.name} — ${t(variant.styleKey, lang)}`}
-                    class={`hero-photo${i === 0 ? " is-active" : ""}`}
-                    widths={[280, 420, 560]}
-                    sizes="(max-width: 900px) 280px, 420px"
-                    format="webp"
-                    quality={82}
-                    loading={i === 0 ? "eager" : "lazy"}
-                  />
-                ))
-              }
+              <div class="hero-photo-clip">
+                {
+                  photoVariants.map((variant, i) => (
+                    <Image
+                      src={variant.src}
+                      alt={`${personal.name} — ${t(variant.styleKey, lang)}`}
+                      class={`hero-photo${i === 0 ? " is-active" : ""}`}
+                      widths={[280, 420, 560]}
+                      sizes="(max-width: 900px) 280px, 420px"
+                      format="webp"
+                      quality={82}
+                      loading={i === 0 ? "eager" : "lazy"}
+                    />
+                  ))
+                }
+              </div>
             </div>
             <span class="hero-photo-hint" aria-hidden="true">
               <Icon name="shuffle" size={14} />
@@ -374,29 +374,33 @@ const photoVariants = [
       var(--color-accent-light) 45%,
       var(--color-accent-lighter) 100%
     );
-    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+    border-radius: var(--blob-radius);
+    transform: rotate(var(--blob-rot));
     filter: drop-shadow(0 18px 28px var(--color-glow));
     transition:
       filter 0.4s,
       border-radius 0.9s cubic-bezier(0.65, 0, 0.35, 1),
       transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
   }
-  /* Fluid blob shapes — one per photo variant, morphed on click */
-  .hero-photo-blob[data-blob="0"] {
-    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
-    transform: rotate(0deg);
+  /* Fluid blob shapes — one per photo variant, morphed on click. Declared on
+     the wrapper rather than on the blob because .hero-photo-clip clips the
+     photo to this same silhouette: one source of truth, so the shape and its
+     clip cannot drift apart. */
+  .hero-photo-wrap[data-blob="0"] {
+    --blob-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+    --blob-rot: 0deg;
   }
-  .hero-photo-blob[data-blob="1"] {
-    border-radius: 42% 58% 63% 37% / 41% 57% 43% 59%;
-    transform: rotate(6deg);
+  .hero-photo-wrap[data-blob="1"] {
+    --blob-radius: 42% 58% 63% 37% / 41% 57% 43% 59%;
+    --blob-rot: 6deg;
   }
-  .hero-photo-blob[data-blob="2"] {
-    border-radius: 56% 44% 34% 66% / 63% 52% 48% 37%;
-    transform: rotate(-5deg);
+  .hero-photo-wrap[data-blob="2"] {
+    --blob-radius: 56% 44% 34% 66% / 63% 52% 48% 37%;
+    --blob-rot: -5deg;
   }
-  .hero-photo-blob[data-blob="3"] {
-    border-radius: 35% 65% 57% 43% / 46% 37% 63% 54%;
-    transform: rotate(4deg);
+  .hero-photo-wrap[data-blob="3"] {
+    --blob-radius: 35% 65% 57% 43% / 46% 37% 63% 54%;
+    --blob-rot: 4deg;
   }
   .hero-photo-frame {
     appearance: none;
@@ -429,9 +433,27 @@ const photoVariants = [
   .hero-photo-flip {
     position: relative;
     width: 100%;
-    display: grid;
     transform-style: preserve-3d;
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* Every cut-out PNG ends in a hard straight edge at the frame's bottom, which
+     hung below the blob's curve — the torso just stopped in mid-air. Clip the
+     photo to the blob's own silhouette instead: same --blob-radius, same
+     --blob-rot, so the edge is the shape itself rather than an approximation of
+     it. The rotation is undone on .hero-photo below to keep the face upright.
+     Not a mask: a gradient would fade the edge, and this has to be a hard cut.
+     The 4% bottom inset is what keeps it a clean cut: the blob's bottom curve
+     is tangent to the box's bottom edge, so a flush clip exposes the photo's
+     own raw edge right at that point (clearest on the lego variant, whose dark
+     baseplate runs to the last pixel row). */
+  .hero-photo-clip {
+    display: grid;
+    width: 100%;
+    clip-path: inset(0 0 4% 0 round var(--blob-radius));
+    transform: rotate(var(--blob-rot));
+    transition:
+      clip-path 0.9s cubic-bezier(0.65, 0, 0.35, 1),
+      transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
   }
   .hero-photo {
     display: block;
@@ -443,14 +465,10 @@ const photoVariants = [
     object-position: center 15%;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s;
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      transparent 0%,
-      #000 4%,
-      #000 100%
-    );
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 4%, #000 100%);
+    transform: rotate(calc(-1 * var(--blob-rot)));
+    transition:
+      opacity 0.2s,
+      transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
   }
   .hero-photo.is-active {
     opacity: 1;
@@ -567,6 +585,9 @@ const photoVariants = [
     .hero-photo {
       transition: none;
     }
+    .hero-photo-clip {
+      transition: none;
+    }
     .hero-photo-blob {
       transition: filter 0.4s;
     }
@@ -576,7 +597,7 @@ const photoVariants = [
 <script>
   const btn = document.getElementById("hero-photo-btn");
   const flip = document.getElementById("hero-photo-flip");
-  const blob = document.querySelector<HTMLElement>(".hero-photo-blob");
+  const wrap = document.getElementById("hero-photo-wrap");
   const photos = flip
     ? Array.from(flip.querySelectorAll<HTMLElement>(".hero-photo"))
     : [];
@@ -591,8 +612,9 @@ const photoVariants = [
     if (!flip || animating || photos.length < 2) return;
     const next = (index + 1) % photos.length;
 
-    // Morph the fluid backdrop shape in sync with the photo.
-    if (blob) blob.dataset.blob = String(next);
+    // Drives both the backdrop shape and the photo's clip, which read the same
+    // --blob-radius / --blob-rot off this element.
+    if (wrap) wrap.dataset.blob = String(next);
 
     if (reduceMotion) {
       photos[index].classList.remove("is-active");
