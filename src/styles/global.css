@@ -226,6 +226,19 @@ main:focus-visible {
   animation: fadeInUp 0.6s ease-out forwards;
 }
 
+/* ===== Skill filter ===== */
+/* Cards the active skill filter excludes. Hidden rather than dimmed so the
+   filtered section reads as a short list, not a mostly-greyed one. */
+.filtered-out {
+  display: none !important;
+}
+
+.filter-empty {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
 /* ===== Skill → target navigation highlight ===== */
 .flashable {
   scroll-margin-top: 6rem;

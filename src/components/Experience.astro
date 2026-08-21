@@ -1,8 +1,10 @@
 ---
 import type { Lang } from "../i18n/i18n";
+import { t, i18nText } from "../i18n/i18n";
 import { experience } from "../data/experience";
 import Section from "./Section.astro";
 import ExperienceItem from "./ExperienceItem.astro";
+import TechFilterBar from "./TechFilterBar.astro";
 
 interface Props {
   lang: Lang;
@@ -17,6 +19,7 @@ const { lang } = Astro.props;
   tagKey="sections.experienceTag"
   titleKey="sections.experienceTitle"
 >
+  <TechFilterBar lang={lang} scope="experience" total={experience.length} />
   <div class="timeline">
     {
       experience.map((entry, i) => (
@@ -24,6 +27,14 @@ const { lang } = Astro.props;
       ))
     }
   </div>
+  <p
+    class="filter-empty"
+    data-filter-empty
+    hidden
+    {...i18nText("filter.empty")}
+  >
+    {t("filter.empty", lang)}
+  </p>
 </Section>
 
 <style>

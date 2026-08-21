@@ -1,8 +1,10 @@
 ---
 import type { Lang } from "../i18n/i18n";
+import { t, i18nText } from "../i18n/i18n";
 import { projects } from "../data/projects";
 import Section from "./Section.astro";
 import ProjectCard from "./ProjectCard.astro";
+import TechFilterBar from "./TechFilterBar.astro";
 
 interface Props {
   lang: Lang;
@@ -17,6 +19,7 @@ const { lang } = Astro.props;
   tagKey="sections.projectsTag"
   titleKey="sections.projectsTitle"
 >
+  <TechFilterBar lang={lang} scope="projects" total={projects.length} />
   <div class="bento-grid">
     {
       projects.map((project, i) => (
@@ -24,6 +27,14 @@ const { lang } = Astro.props;
       ))
     }
   </div>
+  <p
+    class="filter-empty"
+    data-filter-empty
+    hidden
+    {...i18nText("filter.empty")}
+  >
+    {t("filter.empty", lang)}
+  </p>
 </Section>
 
 <style>

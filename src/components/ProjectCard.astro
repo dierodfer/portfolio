@@ -5,6 +5,7 @@ import type { Project } from "../data/projects";
 import TechIcon from "./TechIcon.astro";
 import Icon from "./Icon.astro";
 import { withBase } from "../lib/paths";
+import { projectTechIds } from "../lib/techFilter";
 
 interface Props {
   project: Project;
@@ -18,6 +19,8 @@ const hasThemedIcon = !!(project.iconDark && project.iconLight);
 const hasPlatforms = !!project.platforms?.length;
 const hasLive = !!project.liveUrl;
 const hasGithub = !!project.githubUrl;
+// Stack + platforms: both render as tech icons, so both are filterable.
+const techIds = projectTechIds(project).join(" ");
 ---
 
 <article
@@ -28,6 +31,7 @@ const hasGithub = !!project.githubUrl;
     "animate-on-scroll",
     `stagger-${stagger}`,
   ]}
+  data-tech={techIds}
 >
   {
     hasIcon && (

@@ -1,71 +1,141 @@
 ---
-// Skills popover controller: clicking a skill chip opens a panel listing the
-// projects and experience entries that use it; selecting one scrolls to it.
-// One popover open at a time; closes on outside click, Escape, or selection.
+// Skill filter controller. Mounted once per page; drives every TechFilterBar
+// instance and every `[data-tech]` card from one shared selection.
+// Selection is OR: a card survives if it uses ANY of the selected skills.
 ---
 
 <script>
-  const skills = Array.from(
-    document.querySelectorAll<HTMLElement>(".skill.is-linked"),
+  const bars = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-filter-bar]"),
   );
+  const cards = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-tech]"),
+  );
+  const active = new Set<string>();
+  let openBar: HTMLElement | null = null;
 
-  let openSkill: HTMLElement | null = null;
-
-  function close(skill: HTMLElement | null) {
-    if (!skill) return;
-    skill.classList.remove("open", "flip-right");
-    skill
-      .querySelector<HTMLButtonElement>(".skill-chip")
+  function closePanel(bar: HTMLElement | null) {
+    if (!bar) return;
+    bar.classList.remove("open");
+    bar
+      .querySelector<HTMLElement>("[data-filter-panel]")
+      ?.setAttribute("hidden", "");
+    bar
+      .querySelector<HTMLButtonElement>("[data-filter-toggle]")
       ?.setAttribute("aria-expanded", "false");
-    if (openSkill === skill) openSkill = null;
+    if (openBar === bar) openBar = null;
   }
 
-  function open(skill: HTMLElement) {
-    if (openSkill && openSkill !== skill) close(openSkill);
-    skill.classList.add("open");
-    skill
-      .querySelector<HTMLButtonElement>(".skill-chip")
+  function openPanel(bar: HTMLElement) {
+    if (openBar && openBar !== bar) closePanel(openBar);
+    bar.classList.add("open");
+    bar
+      .querySelector<HTMLElement>("[data-filter-panel]")
+      ?.removeAttribute("hidden");
+    bar
+      .querySelector<HTMLButtonElement>("[data-filter-toggle]")
       ?.setAttribute("aria-expanded", "true");
-    openSkill = skill;
-
-    // Flip the panel to the right edge if it would overflow the viewport.
-    const pop = skill.querySelector<HTMLElement>(".skill-pop");
-    if (pop) {
-      skill.classList.remove("flip-right");
-      const rect = pop.getBoundingClientRect();
-      if (rect.right > window.innerWidth - 12) {
-        skill.classList.add("flip-right");
-      }
-    }
+    openBar = bar;
   }
 
-  skills.forEach((skill) => {
-    const chip = skill.querySelector<HTMLButtonElement>(".skill-chip");
-    chip?.addEventListener("click", (e) => {
+  function syncBar(bar: HTMLElement) {
+    bar.querySelectorAll<HTMLElement>("[data-tech-id]").forEach((chip) => {
+      chip.setAttribute(
+        "aria-checked",
+        String(active.has(chip.dataset.techId ?? "")),
+      );
+    });
+    bar.querySelectorAll<HTMLElement>("[data-active-chip]").forEach((chip) => {
+      chip.hidden = !active.has(chip.dataset.activeChip ?? "");
+    });
+
+    const badge = bar.querySelector<HTMLElement>("[data-filter-badge]");
+    if (badge) {
+      badge.hidden = active.size === 0;
+      badge.textContent = String(active.size);
+    }
+    const clear = bar.querySelector<HTMLElement>("[data-filter-clear]");
+    if (clear) clear.hidden = active.size === 0;
+
+    // The counter and the empty-state message belong to the section this bar
+    // sits in, so both are read from that subtree.
+    const section = bar.closest("section");
+    if (!section) return;
+    const own = Array.from(
+      section.querySelectorAll<HTMLElement>("[data-tech]"),
+    );
+    const visible = own.filter(
+      (card) => !card.classList.contains("filtered-out"),
+    ).length;
+
+    const count = bar.querySelector<HTMLElement>("[data-filter-count]");
+    if (count) count.textContent = `${visible}/${count.dataset.filterTotal}`;
+
+    const empty = section.querySelector<HTMLElement>("[data-filter-empty]");
+    if (empty) empty.hidden = visible > 0;
+  }
+
+  function apply() {
+    cards.forEach((card) => {
+      const ids = (card.dataset.tech ?? "").split(" ").filter(Boolean);
+      const matches = active.size === 0 || ids.some((id) => active.has(id));
+      card.classList.toggle("filtered-out", !matches);
+    });
+    bars.forEach(syncBar);
+  }
+
+  function toggleTech(id: string) {
+    if (active.has(id)) {
+      active.delete(id);
+    } else {
+      active.add(id);
+    }
+    apply();
+  }
+
+  bars.forEach((bar) => {
+    const toggle = bar.querySelector<HTMLButtonElement>("[data-filter-toggle]");
+    toggle?.addEventListener("click", (e) => {
       e.stopPropagation();
-      if (skill.classList.contains("open")) {
-        close(skill);
+      if (bar.classList.contains("open")) {
+        closePanel(bar);
       } else {
-        open(skill);
+        openPanel(bar);
       }
     });
 
-    skill.querySelectorAll<HTMLAnchorElement>(".pop-item").forEach((item) => {
-      item.addEventListener("click", () => close(skill));
-    });
+    bar
+      .querySelectorAll<HTMLButtonElement>("[data-tech-id]")
+      .forEach((chip) => {
+        chip.addEventListener("click", () => toggleTech(chip.dataset.techId!));
+      });
+
+    bar
+      .querySelectorAll<HTMLButtonElement>("[data-active-chip]")
+      .forEach((chip) => {
+        chip.addEventListener("click", () =>
+          toggleTech(chip.dataset.activeChip!),
+        );
+      });
+
+    bar
+      .querySelector<HTMLButtonElement>("[data-filter-clear]")
+      ?.addEventListener("click", () => {
+        active.clear();
+        apply();
+      });
   });
 
   document.addEventListener("click", (e) => {
-    if (openSkill && !openSkill.contains(e.target as Node)) {
-      close(openSkill);
-    }
+    if (openBar && !openBar.contains(e.target as Node)) closePanel(openBar);
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && openSkill) {
-      const chip = openSkill.querySelector<HTMLButtonElement>(".skill-chip");
-      close(openSkill);
-      chip?.focus();
-    }
+    if (e.key !== "Escape" || !openBar) return;
+    const toggle = openBar.querySelector<HTMLButtonElement>(
+      "[data-filter-toggle]",
+    );
+    closePanel(openBar);
+    toggle?.focus();
   });
 </script>

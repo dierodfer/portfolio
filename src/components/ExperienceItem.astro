@@ -2,6 +2,8 @@
 import type { Lang } from "../i18n/i18n";
 import { i18nTextLoc } from "../i18n/i18n";
 import type { ExperienceEntry, ExperienceRole } from "../data/experience";
+import { techById } from "../data/technologies";
+import { experienceTechIds } from "../lib/techFilter";
 import TechIcon from "./TechIcon.astro";
 import Icon from "./Icon.astro";
 import { withBase } from "../lib/paths";
@@ -19,9 +21,14 @@ const extraRoles = entry.roles.slice(1);
 const multiRole = extraRoles.length > 0;
 const railYear = entry.startYear ?? primary.period.en;
 const logoSrc = withBase(`icons/companies/${entry.logo}`);
+// Every tech across the entry's roles, so the skill filter can match the card.
+const techIds = experienceTechIds(entry).join(" ");
 ---
 
-<div class:list={["timeline-item", "animate-on-scroll", `stagger-${stagger}`]}>
+<div
+  class:list={["timeline-item", "animate-on-scroll", `stagger-${stagger}`]}
+  data-tech={techIds}
+>
   <div class="exp-rail">
     <span class="exp-year">{railYear}</span>
   </div>
@@ -128,7 +135,7 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
                 </ul>
                 <div class="exp-tech">
                   {role.technologies.map((id) => (
-                    <span class="exp-chip">
+                    <span class="exp-chip" title={techById[id]?.name}>
                       <TechIcon id={id} size={22} />
                     </span>
                   ))}
@@ -145,7 +152,7 @@ const logoSrc = withBase(`icons/companies/${entry.logo}`);
               </ul>
               <div class="exp-tech">
                 {primary.technologies.map((id) => (
-                  <span class="exp-chip">
+                  <span class="exp-chip" title={techById[id]?.name}>
                     <TechIcon id={id} size={22} />
                   </span>
                 ))}
