@@ -2,7 +2,6 @@
   "nav": {
     "home": "Home",
     "experience": "Experience",
-    "technologies": "Skills",
     "projects": "Projects"
   },
   "hero": {
@@ -19,18 +18,21 @@
   "sections": {
     "projectsTag": "Portfolio",
     "projectsTitle": "Featured projects",
-    "technologiesTag": "Toolbox",
-    "technologiesTitle": "Skills",
-    "technologiesHint": "Tap a skill to see where I've used it",
     "experienceTag": "Career",
     "experienceTitle": "Experience"
+  },
+  "filter": {
+    "button": "Filter by skill",
+    "clear": "Clear",
+    "empty": "Nothing here matches the selected skills.",
+    "results": "Visible results",
+    "panelLabel": "Skills",
+    "active": "Active filters",
+    "remove": "Remove filter"
   },
   "projects": {
     "liveDemo": "Live demo",
     "sourceCode": "Source code"
-  },
-  "skills": {
-    "project": "Project"
   },
   "contact": {
     "githubLabel": "GitHub",

@@ -2,7 +2,6 @@
   "nav": {
     "home": "Inicio",
     "experience": "Experiencia",
-    "technologies": "Habilidades",
     "projects": "Proyectos"
   },
   "hero": {
@@ -19,18 +18,21 @@
   "sections": {
     "projectsTag": "Portfolio",
     "projectsTitle": "Proyectos destacados",
-    "technologiesTag": "Herramientas",
-    "technologiesTitle": "Habilidades",
-    "technologiesHint": "Pulsa una habilidad para ver dónde la he usado",
     "experienceTag": "Trayectoria",
     "experienceTitle": "Experiencia"
+  },
+  "filter": {
+    "button": "Filtrar por skill",
+    "clear": "Limpiar",
+    "empty": "Nada de aquí coincide con las skills seleccionadas.",
+    "results": "Resultados visibles",
+    "panelLabel": "Habilidades",
+    "active": "Filtros activos",
+    "remove": "Quitar filtro"
   },
   "projects": {
     "liveDemo": "Ver app",
     "sourceCode": "Código fuente"
-  },
-  "skills": {
-    "project": "Proyecto"
   },
   "contact": {
     "githubLabel": "GitHub",

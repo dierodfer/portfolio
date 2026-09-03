@@ -1,0 +1,404 @@
+---
+// Reserved filter zone: a sticky strip at the top of a filterable section with
+// the "filter by skill" button, the active-filter chips and a result counter.
+// One instance per section; a single controller (TechFilter.astro) keeps every
+// instance and every `[data-tech]` card in sync.
+import type { Lang } from "../i18n/i18n";
+import { t, i18nText, i18nAttr, i18nTextLoc } from "../i18n/i18n";
+import { filterGroups } from "../lib/techFilter";
+import { symbolId } from "../lib/techSprite";
+import Icon from "./Icon.astro";
+
+interface Props {
+  lang: Lang;
+  /** Scopes the panel id so both bars stay unique in the document. */
+  scope: string;
+  /** How many cards the section renders unfiltered. */
+  total: number;
+}
+
+const { lang, scope, total } = Astro.props;
+const groups = filterGroups();
+const panelId = `filter-panel-${scope}`;
+// One chip per selectable skill, pre-rendered hidden: the controller only
+// flips `hidden`, so it never has to build SVG markup at runtime.
+const allOptions = groups.flatMap((group) => group.options);
+---
+
+<div class="filter-bar" data-filter-bar>
+  <button
+    type="button"
+    class="filter-btn"
+    aria-expanded="false"
+    aria-controls={panelId}
+    data-filter-toggle
+  >
+    <Icon name="filter" size={14} />
+    <span {...i18nText("filter.button")}>{t("filter.button", lang)}</span>
+    <span class="filter-badge" data-filter-badge hidden>0</span>
+  </button>
+
+  <div
+    class="filter-active"
+    data-filter-active
+    aria-label={t("filter.active", lang)}
+    {...i18nAttr("aria-label", "filter.active")}
+  >
+    {
+      allOptions
+        .filter((option) => option.count > 0)
+        .map(({ item }) => (
+          <button
+            type="button"
+            class:list={["active-chip", item.darkInvert && "tech-dark-invert"]}
+            data-active-chip={item.id}
+            title={item.name}
+            aria-label={`${t("filter.remove", lang)}: ${item.name}`}
+            hidden
+          >
+            <svg aria-hidden="true" focusable="false">
+              <use href={`#${symbolId(item.id)}`} />
+            </svg>
+            <span class="active-chip-x" aria-hidden="true">
+              ×
+            </span>
+          </button>
+        ))
+    }
+  </div>
+
+  <button type="button" class="filter-clear" data-filter-clear hidden>
+    <span {...i18nText("filter.clear")}>{t("filter.clear", lang)}</span>
+  </button>
+
+  <span
+    class="filter-count font-mono"
+    data-filter-count
+    data-filter-total={total}
+    aria-live="polite"
+    aria-label={t("filter.results", lang)}
+    {...i18nAttr("aria-label", "filter.results")}
+  >
+    {`${total}/${total}`}
+  </span>
+
+  <div
+    class="filter-panel"
+    id={panelId}
+    data-filter-panel
+    role="group"
+    aria-label={t("filter.panelLabel", lang)}
+    {...i18nAttr("aria-label", "filter.panelLabel")}
+    hidden
+  >
+    {
+      groups.map((group) => (
+        <div class="filter-group">
+          <h3 class="filter-group-title font-mono" {...i18nTextLoc(group.name)}>
+            {group.name[lang]}
+          </h3>
+          <div class="filter-group-items">
+            {group.options.map(({ item, count }) => (
+              <button
+                type="button"
+                class="skill-chip"
+                role="checkbox"
+                aria-checked="false"
+                data-tech-id={item.id}
+                title={item.name}
+                aria-label={item.name}
+                disabled={count === 0}
+              >
+                <span
+                  class:list={[
+                    "skill-svg",
+                    item.darkInvert && "tech-dark-invert",
+                  ]}
+                >
+                  <svg aria-hidden="true" focusable="false">
+                    <use href={`#${symbolId(item.id)}`} />
+                  </svg>
+                </span>
+                {count > 0 && <span class="skill-dot" aria-hidden="true" />}
+              </button>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .filter-bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: -0.5rem 0 1.75rem;
+    padding: 0.5rem 0;
+    /* Opaque: the bar stays pinned while the section's cards scroll under it. */
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* ===== Trigger ===== */
+  .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    height: 36px;
+    padding: 0 0.85rem;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      color 0.3s,
+      border-color 0.3s,
+      box-shadow 0.3s;
+  }
+  .filter-btn:hover,
+  .filter-bar.open .filter-btn {
+    color: var(--color-text);
+    border-color: var(--color-accent-light);
+  }
+  .filter-bar.open .filter-btn {
+    box-shadow: 0 0 0 3px var(--color-glow);
+  }
+  .filter-badge[hidden],
+  .active-chip[hidden],
+  .filter-clear[hidden] {
+    display: none;
+  }
+  .filter-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 0.3rem;
+    border-radius: 999px;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-size: 0.65rem;
+    font-weight: 700;
+  }
+
+  /* ===== Active filter chips ===== */
+  .filter-active {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .active-chip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    border-radius: 8px;
+    border: 1px solid var(--color-accent-light);
+    background: var(--color-bg-card);
+    cursor: pointer;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .active-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px -10px var(--color-glow);
+  }
+  .active-chip svg {
+    width: 100%;
+    height: 100%;
+  }
+  .active-chip-x {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-size: 0.7rem;
+    line-height: 1;
+  }
+
+  .filter-clear {
+    height: 30px;
+    padding: 0 0.6rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      color 0.3s,
+      border-color 0.3s;
+  }
+  .filter-clear:hover {
+    color: var(--color-text);
+    border-color: var(--color-border);
+  }
+
+  .filter-count {
+    margin-left: auto;
+    font-size: 0.72rem;
+    color: var(--color-text-secondary);
+    opacity: 0.8;
+  }
+
+  /* ===== Panel ===== */
+  .filter-panel {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: min(720px, 100%);
+    max-height: min(56vh, 420px);
+    overflow-y: auto;
+    padding: 1rem 1.1rem;
+    border-radius: 14px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    box-shadow: 0 24px 60px -18px rgba(0, 0, 0, 0.45);
+    /* Multi-column rather than grid: groups have uneven heights, and a grid
+       row would size every group to the tallest one in it. */
+    columns: 3 170px;
+    column-gap: 1.5rem;
+    z-index: 31;
+  }
+  .filter-panel[hidden] {
+    display: none;
+  }
+  .filter-group {
+    break-inside: avoid;
+    margin-bottom: 1.15rem;
+  }
+  .filter-group:last-child {
+    margin-bottom: 0;
+  }
+  .filter-group-title {
+    font-size: 0.65rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    margin-bottom: 0.7rem;
+  }
+  .filter-group-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Same chip language as the old skills grid, one size down. */
+  .skill-chip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 7px;
+    border-radius: 11px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+    cursor: pointer;
+    transition:
+      transform 0.3s,
+      border-color 0.3s,
+      box-shadow 0.3s;
+  }
+  .skill-chip:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-accent-light);
+    box-shadow: 0 10px 24px -12px var(--color-glow);
+  }
+  .skill-chip[aria-checked="true"] {
+    border-color: var(--color-accent-light);
+    box-shadow: 0 0 0 2px var(--color-glow);
+  }
+  .skill-chip:disabled {
+    opacity: 0.4;
+    cursor: default;
+    transform: none;
+    box-shadow: none;
+    border-color: var(--color-border);
+  }
+  .skill-svg {
+    display: inline-flex;
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .skill-chip:hover .skill-svg,
+  .skill-chip[aria-checked="true"] .skill-svg {
+    transform: scale(1.12);
+  }
+  .skill-svg :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  :global(.dark) .tech-dark-invert :global(svg) {
+    filter: invert(0.85);
+  }
+  .skill-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-accent-light);
+    opacity: 0.55;
+    transition:
+      opacity 0.3s,
+      transform 0.3s;
+  }
+  .skill-chip[aria-checked="true"] .skill-dot {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  @media (max-width: 600px) {
+    .filter-count {
+      margin-left: 0;
+    }
+    .filter-panel {
+      width: 100%;
+      columns: 2 130px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skill-chip,
+    .skill-svg,
+    .active-chip {
+      transition: none;
+    }
+    .skill-chip:hover,
+    .active-chip:hover {
+      transform: none;
+    }
+    .skill-chip:hover .skill-svg,
+    .skill-chip[aria-checked="true"] .skill-svg {
+      transform: none;
+    }
+  }
+</style>

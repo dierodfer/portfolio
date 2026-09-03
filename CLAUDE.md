@@ -52,11 +52,32 @@ To add a new technology: add entry to `technologies.ts` (grid) or `extraTech` (p
 ### Components
 
 - `Section.astro` — shared wrapper (tag, title, hint)
-- `Icon.astro` — 10 UI SVGs: github, linkedin, mail, external, briefcase, grid, code, pin, award, shuffle
+- `Icon.astro` — 11 UI SVGs: github, linkedin, mail, external, briefcase, grid, code, pin, award, shuffle, filter
 - `TechIcon.astro` — renders tech icon by ID via `<use>` into the sprite
 - `FloatingControls.astro` — fixed top-right pill: LangToggle + ThemeToggle
 - `SectionNav.astro` — dot navigation, IntersectionObserver active tracking
-- `TechFilter.astro` — click skill → popover with related projects/experience
+- `TechFilterBar.astro` — reserved filter zone rendered per filterable section
+- `TechFilter.astro` — script-only controller driving every filter bar
+
+### Skill Filter
+
+There is no Skills section. The tech grid lives inside a filter panel instead: `TechFilterBar.astro`
+renders a sticky toolbar at the top of Experience and Projects with a "filter by skill" button, the
+active-filter chips, a clear button and a `visible/total` counter. The panel groups skills by the
+same categories as `technologies.ts`.
+
+Selection is **OR** — a card survives if it uses *any* selected skill — and it is shared: both bars
+show the same state and filter both sections at once. `TechFilter.astro` is the single controller
+(mounted once in `Portfolio.astro`, outside `<main>`); it keeps one `Set` of ids and, on every
+change, walks `[data-tech]` and toggles `.filtered-out` (`display: none`). `ExperienceItem` and
+`ProjectCard` stamp that attribute from `projectTechIds()` / `experienceTechIds()` in
+`src/lib/techFilter.ts`, which also computes the per-skill match counts used to disable options
+nothing references.
+
+Two gotchas: `hidden` is only a UA-level `display: none`, so any element the controller hides needs
+an explicit `[hidden] { display: none }` rule to beat its own `display`; and every string in the
+panel needs `i18nText`/`i18nTextLoc`, since the language switch is a client-side text swap with no
+reload.
 
 ### Scroll Snap
 
