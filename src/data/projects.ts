@@ -130,7 +130,7 @@ export const projects: Project[] = [
       "typescript",
       "tailwindcss",
       "vite",
-      "google",
+      "googledrive",
       "pwa",
     ],
     githubUrl: "https://github.com/dierodfer/ACoupleLife",
