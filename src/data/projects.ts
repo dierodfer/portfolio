@@ -100,6 +100,44 @@ export const projects: Project[] = [
     icon: "agentcolony.png",
   },
   {
+    id: "timeoffmanager",
+    title: { en: "Time Off Manager", es: "Time Off Manager" },
+    description: {
+      en: "Team vacation manager with a shared calendar, working-day estimates and approval workflow. Client-only, data stored in IndexedDB.",
+      es: "Gestor de vacaciones de equipo con calendario compartido, cálculo de días laborables y flujo de aprobación. Solo cliente, datos en IndexedDB.",
+    },
+    technologies: [
+      "react",
+      "typescript",
+      "tailwindcss",
+      "vite",
+      "supabase",
+      "pwa",
+    ],
+    githubUrl: "https://github.com/dierodfer/timeoff-manager",
+    liveUrl: "https://dierodfer.github.io/timeoff-manager/",
+    icon: "timeoffmanager.svg",
+  },
+  {
+    id: "acouplelife",
+    title: { en: "ACoupleLife", es: "ACoupleLife" },
+    description: {
+      en: "Helps a couple work out how much each person still needs to transfer each month to hit their shared savings goal. No backend — data lives in a JSON file on the couple's Google Drive.",
+      es: "Calcula cuánto le queda por transferir a cada uno cada mes para llegar a su objetivo de ahorro conjunto. Sin backend: los datos viven en un JSON del Google Drive de la pareja.",
+    },
+    technologies: [
+      "react",
+      "typescript",
+      "tailwindcss",
+      "vite",
+      "googledrive",
+      "pwa",
+    ],
+    githubUrl: "https://github.com/dierodfer/ACoupleLife",
+    liveUrl: "https://dierodfer.github.io/ACoupleLife/",
+    icon: "acouplelife.svg",
+  },
+  {
     id: "planificador",
     title: {
       en: "Agronomist Task Planner",
