@@ -112,6 +112,25 @@ export const projects: Project[] = [
     icon: "timeoffmanager.svg",
   },
   {
+    id: "acouplelife",
+    title: { en: "ACoupleLife", es: "ACoupleLife" },
+    description: {
+      en: "Helps a couple work out how much each person still needs to transfer each month to hit their shared savings goal. No backend — data lives in a JSON file on the couple's Google Drive.",
+      es: "Calcula cuánto le queda por transferir a cada uno cada mes para llegar a su objetivo de ahorro conjunto. Sin backend: los datos viven en un JSON del Google Drive de la pareja.",
+    },
+    technologies: [
+      "react",
+      "typescript",
+      "tailwindcss",
+      "vite",
+      "google",
+      "pwa",
+    ],
+    githubUrl: "https://github.com/dierodfer/ACoupleLife",
+    liveUrl: "https://dierodfer.github.io/ACoupleLife/",
+    icon: "acouplelife.svg",
+  },
+  {
     id: "planificador",
     title: {
       en: "Agronomist Task Planner",

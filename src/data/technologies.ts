@@ -121,6 +121,7 @@ export const extraTech: TechItem[] = [
   { id: "boltdb", name: "BoltDB", icon: "boltdb.svg" },
   { id: "pwa", name: "PWA", icon: "pwa.svg" },
   { id: "openlayers", name: "OpenLayers", icon: "openlayers.svg" },
+  { id: "google", name: "Google", devicon: "google/google-original" },
   {
     id: "windows",
     name: "Windows",
