@@ -100,6 +100,18 @@ export const projects: Project[] = [
     icon: "agentcolony.png",
   },
   {
+    id: "timeoffmanager",
+    title: { en: "Time Off Manager", es: "Time Off Manager" },
+    description: {
+      en: "Team vacation manager with a shared calendar, working-day estimates and approval workflow. Client-only, data stored in IndexedDB.",
+      es: "Gestor de vacaciones de equipo con calendario compartido, cálculo de días laborables y flujo de aprobación. Solo cliente, datos en IndexedDB.",
+    },
+    technologies: ["react", "typescript", "tailwindcss", "vite", "supabase"],
+    githubUrl: "https://github.com/dierodfer/timeoff-manager",
+    liveUrl: "https://dierodfer.github.io/timeoff-manager/",
+    icon: "timeoffmanager.svg",
+  },
+  {
     id: "planificador",
     title: {
       en: "Agronomist Task Planner",
